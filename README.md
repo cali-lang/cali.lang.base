@@ -1,4 +1,4 @@
-![alt tag](docs/img/logo.png)
+![alt tag](cali.lang.base/docs/img/logo.png)
 
 This is a base interpreter implementation of the Cali language. You can run the interpreter from the command line, but this package was built to be embedded.
 
