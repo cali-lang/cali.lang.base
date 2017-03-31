@@ -237,28 +237,40 @@ public class astFunctDef extends astNode implements astNodeInt {
 				CaliType tmp = this.callExternEnv(env, args);
 				if(tmp != null) ret = tmp;
 				
-				if(tmp == null)
-					throw new caliException(this, "External call, no such method '" + this.getName() + "'.", env.stackTraceToString());
+				if(tmp == null){
+					CaliException ex = new CaliException(exType.exRuntime);
+					ex.setException(this.getLineNum(), "EXTERN_NO_SUCH_METHOD", "External call, no such method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+					return ex;
+				}
 			} catch (SecurityException e) {
-				throw new caliException(this, "External call, security exception for method '" + this.getName() + "'.", env.stackTraceToString());
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_SECURITY_EXCEPTION", "External call, security exception for method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+				return ex;
 			} catch (IllegalAccessException e) {
-				throw new caliException(this, "External call, illegal access exception for method '" + this.getName() + "'.", env.stackTraceToString());
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_ILLEGAL_ACCESS", "External call, illegal access exception for method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+				return ex;
 			} catch (IllegalArgumentException e) {
-				throw new caliException(this, "External call, illegal argument exception for method '" + this.getName() + "'.", env.stackTraceToString());
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_ILLEGAL_ARGUMENT", "External call, illegal argument exception for method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+				return ex;
 			} catch(StackOverflowError e) {
-				throw new caliException(this, "External call, stack overflow exception for method '" + this.getName() + "'. Infinite recursion perhaps?", env.stackTraceToString());
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_STACK_OVERFLOW", "External call, stack overflow exception for method '" + this.getName() + "'. Infinite recursion perhaps?", env.getCallStack().getStackTrace());
+				return ex;
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				throw new caliException(this, "External call, invocation target exception for method '" + this.getName() + "', the external method threw an uncaught exception.", env.stackTraceToString());
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_INVOCATION_TARGET_EXCEPTION", "External call, invocation target exception for method '" + this.getName() + "', the external method threw an uncaught exception: " + e.getTargetException().toString(), env.getCallStack().getStackTrace());
+				return ex;
+			} catch (caliException e) {
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_EXCEPTION", e.getMessage(), env.getCallStack().getStackTrace());
+				return ex;
 			}
 		} else {
-			throw new caliException(this, "External object not found when calling '" + this.getName() + "'.", env.stackTraceToString());
-		}
-		
-		if(ret.getType() == cType.cException) {
-			CaliException ae = (CaliException)ret;
-			ret = new CaliNull();
-			throw new caliException(this, ae.getText(), env.stackTraceToString());
+			CaliException ex = new CaliException(exType.exRuntime);
+			ex.setException(this.getLineNum(), "EXTERN_OBJECT_NOT_FOUND", "External object not found when calling '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+			return ex;
 		}
 		
 		return ret;

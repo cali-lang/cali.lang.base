@@ -102,9 +102,9 @@ public class Engine {
 	 * Default constructor. When called this gets an instance of the Universe object 
 	 * and initializes it if not already done. It loads universe classes and instantiates 
 	 * static classes. Finally it sets the initComplete flag to true.
-	 * @throws caliException
+	 * @throws Exception 
 	 */
-	public Engine () throws caliException {
+	public Engine () throws Exception {
 		Universe u = Universe.get();
 		u.init(this);
 		

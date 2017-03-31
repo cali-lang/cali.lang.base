@@ -224,7 +224,7 @@ public class astClass extends astNode implements astNodeInt {
 			}
 		} else {
 			CaliException ce = new CaliException(exType.exRuntime);
-			ce.setText("Object '" + this.getName() + "' doesn't have function '" + functName + "'.");
+			ce.setException(this.getLineNum(), "FUNCT_NOT_FOUND", "Object '" + this.getName() + "' doesn't have function '" + functName + "'.", env.getCallStack().getStackTrace());
 			ret = ce;
 		}
 		
@@ -302,36 +302,29 @@ public class astClass extends astNode implements astNodeInt {
 			try {
 		        obj.setExternObject(this.externClass.newInstance());
 		    } catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new caliException("Instantiate extern security exception: " + e.getMessage());
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new caliException("Instantiate extern instantiation exception: " + e.getMessage());
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new caliException("Instantiate extern illegal access exception: " + e.getMessage());
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new caliException("Instantiate extern illegal argument exception: " + e.getMessage());
 			}
 		}
 		
 		return obj;
 	}
 	
-	private void loadExternClass() {
+	private void loadExternClass() throws caliException {
 		ClassLoader cl = Engine.class.getClassLoader();
 	    try {
 	        this.externClass = cl.loadClass(this.externClassName);
 	    } catch (ClassNotFoundException e) {
-	    	// TODO Auto-generated catch block
-	        e.printStackTrace();
+	    	throw new caliException("Extern class '" + this.externClassName + "' not found.");
 	    } catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new caliException("Extern class security exception: " + e.getMessage());
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new caliException("Extern class illegal argument excetpion: " + e.getMessage());
 		}
 	}
 
@@ -402,7 +395,7 @@ public class astClass extends astNode implements astNodeInt {
 		return externClassName;
 	}
 
-	public void setExternClassName(String externClass) {
+	public void setExternClassName(String externClass) throws caliException {
 		this.externClassName = externClass;
 		this.loadExternClass();
 	}

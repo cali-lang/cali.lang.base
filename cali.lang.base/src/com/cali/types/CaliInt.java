@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import com.cali.Universe;
 import com.cali.ast.caliException;
+import com.cali.stdlib.console;
 
 public class CaliInt extends CaliObject implements CaliTypeInt {
 	private long value = 0L;
@@ -32,8 +33,7 @@ public class CaliInt extends CaliObject implements CaliTypeInt {
 		try {
 			this.setClassDef(Universe.get().getClassDef("int"));
 		} catch (caliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			console.get().err("CaliInt(): Unexpected exception getting class definition: " + e.getMessage());
 		}
 	}
 	

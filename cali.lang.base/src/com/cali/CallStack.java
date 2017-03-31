@@ -91,9 +91,9 @@ public class CallStack {
 	public String getStackTrace() {
 		String rstr = "";
 		if (!this.className.equals("") && !this.functionName.equals("")) {
-			rstr += "\t[" + this.className + "." + this.functionName + "():" + this.lineNumber + "] ";
+			rstr += "\t[" + this.fileName + ":" + this.lineNumber + "] ";
 			rstr += this.text;
-			rstr += " (" + this.fileName + ")";
+			rstr += " { " + this.className + "." + this.functionName + "() }";
 			rstr += "\n";
 			if(parent != null) {
 				rstr += this.parent.getStackTrace();

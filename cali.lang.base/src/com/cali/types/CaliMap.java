@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.cali.Universe;
 import com.cali.ast.caliException;
+import com.cali.stdlib.console;
 
 public class CaliMap extends CaliObject implements CaliTypeInt {
 	private ConcurrentHashMap<String, CaliType> value = new ConcurrentHashMap<String, CaliType>();
@@ -38,8 +39,7 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 			try {
 				this.setClassDef(Universe.get().getClassDef("map"));
 			} catch (caliException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				console.get().err("CaliMap(): Unexpected exception getting class definition: " + e.getMessage());
 			}
 		}
 	}

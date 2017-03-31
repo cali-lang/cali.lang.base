@@ -60,17 +60,13 @@ public class Universe {
 	 * Initializes the Universe object with the provided Engine. This function will use 
 	 * the provided engine to Parse the Lang.langSrc code if not already initialized.
 	 * @param eng is an Engine object.
+	 * @throws Exception 
 	 */
-	public void init(Engine eng) {
+	public void init(Engine eng) throws Exception {
 		if (!this.initialized) {
 			// Load native class definitions here!
-			try {
-				eng.parseString("lang.ca", Lang.langSrc);
-				this.classes = eng.getClasses();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			eng.parseString("lang.ca", Lang.langSrc);
+			this.classes = eng.getClasses();
 			this.initialized = true;
 		}
 	}

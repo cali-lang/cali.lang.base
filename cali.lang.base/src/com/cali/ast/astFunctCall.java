@@ -86,7 +86,7 @@ public class astFunctCall extends astNode implements astNodeInt {
 				  cls = ((CaliObject)env.getCurObj()).getClassDef();
 			  }
 			  if(cls != null) {
-				  CallStack cst = new CallStack(this.getFileName(), this.getLineNum(), env.getClassInstance().getClassDef().getName(), this.getName(), "Function called.");
+				  CallStack cst = new CallStack(this.getFileName(), this.getLineNum(), ((CaliObject)env.getCurObj()).getClassDef().getName(), this.getName(), "Function called.");
 				  cst.setParent(env.getCallStack());
 				  
 				  Environment tenv = env.clone(env.getCurObj());

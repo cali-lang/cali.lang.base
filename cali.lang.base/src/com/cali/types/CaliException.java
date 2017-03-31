@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import com.cali.Universe;
 import com.cali.ast.caliException;
+import com.cali.stdlib.console;
 
 public class CaliException extends CaliObject implements CaliTypeInt {
 	public enum exType {
@@ -43,8 +44,7 @@ public class CaliException extends CaliObject implements CaliTypeInt {
 		try {
 			this.setClassDef(Universe.get().getClassDef("exception"));
 		} catch (caliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			console.get().err("CaliException(): Unexpected exception getting class definition: " + e.getMessage());
 		}
 	}
 	

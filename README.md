@@ -25,6 +25,5 @@ Cali is licensed under the Apache 2.0 license. See accompanying LICENSE file for
 
 ## TODO:
 Probably quite a bit. Here's the current list.
-* Test/Fix java exception printing.
 * Implement security model.
 * Implement/test concurrency.

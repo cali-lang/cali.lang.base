@@ -18,6 +18,7 @@ package com.cali.types;
 
 import com.cali.Universe;
 import com.cali.ast.caliException;
+import com.cali.stdlib.console;
 
 public class CaliNull extends CaliObject implements CaliTypeInt {
 	public CaliNull() {
@@ -28,8 +29,7 @@ public class CaliNull extends CaliObject implements CaliTypeInt {
 		try {
 			this.setClassDef(Universe.get().getClassDef("cnull"));
 		} catch (caliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			console.get().err("CaliNull(): Unexpected exception getting class definition: " + e.getMessage());
 		}
 	}
 

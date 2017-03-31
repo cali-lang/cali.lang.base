@@ -22,6 +22,7 @@ import java.util.Collections;
 import com.cali.Universe;
 import com.cali.Util;
 import com.cali.ast.caliException;
+import com.cali.stdlib.console;
 import com.cali.types.CaliListComparator.SortOrder;
 
 public class CaliList extends CaliObject implements CaliTypeInt {
@@ -40,8 +41,7 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 			try {
 				this.setClassDef(Universe.get().getClassDef("list"));
 			} catch (caliException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				console.get().err("CaliList(): Unexpected exception getting class definition: " + e.getMessage());
 			}
 		}
 	}

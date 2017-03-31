@@ -37,8 +37,7 @@ public class CaliCallback extends CaliObject implements CaliTypeInt {
 		try {
 			this.setClassDef(Universe.get().getClassDef("callback"));
 		} catch (caliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			console.get().err("CaliCallback(): Unexpected exception getting class definition: " + e.getMessage());
 		}
 	}
 	

@@ -27,8 +27,7 @@ import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class CSys {
-	public static String getSysInfo()
-	{
+	public static String getSysInfo() throws Exception {
 		String ret = "";
 		
 		ArrayList<CaliType> args = new ArrayList<CaliType>();
@@ -65,50 +64,48 @@ public class CSys {
 	/*
 	 * Environment functions
 	 */
-	public static CaliType getSysInfo(ArrayList<CaliType> args)
-	{
+	public static CaliType getSysInfo(ArrayList<CaliType> args) throws Exception {
 		String ret = CSys.getSysInfo();
 		return new CaliString(ret);
 	}
 	
-	public static String _getAssembly() {
+	@SuppressWarnings("deprecation")
+	public static String _getAssembly() throws Exception {
 		String path = "";
 		try {
 			path = (new File(URLDecoder.decode(Universe.class.getProtectionDomain().getCodeSource().getLocation().getPath())).getAbsolutePath());
 		} catch(Exception e) {
 			/*
-			if(runtime.getInstance().getOsType() == osType.MOBILE)
-			{
+			if(runtime.getInstance().getOsType() == osType.MOBILE) {
 				path = android.getInstance().getAssemblyPath();
 			}
 			*/
-			e.printStackTrace();
+			throw e;
 		}
 		return path;
 	}
 	
-	public static String _getAssemblyPath()
-	{
+	@SuppressWarnings("deprecation")
+	public static String _getAssemblyPath() throws Exception {
 		String path = "";
 		try {
 			path = (new File(URLDecoder.decode(Universe.class.getProtectionDomain().getCodeSource().getLocation().getPath())).getParent()) + System.getProperty("file.separator");
 		} catch(Exception e) {
 			/*
-			if(runtime.getInstance().getOsType() == osType.MOBILE)
-			{
+			if(runtime.getInstance().getOsType() == osType.MOBILE) {
 				path = android.getInstance().getAssemblyPath();
 			}
 			*/
-			e.printStackTrace();
+			throw e;
 		}
 		return path;
 	}
 	
-	public static CaliType getAssembly(ArrayList<CaliType> args) {
+	public static CaliType getAssembly(ArrayList<CaliType> args) throws Exception {
 		return new CaliString(_getAssembly());
 	}
 	
-	public static CaliType getAssemblyPath(ArrayList<CaliType> args) {
+	public static CaliType getAssemblyPath(ArrayList<CaliType> args) throws Exception {
 		return new CaliString(_getAssemblyPath());
 	}
 	
@@ -184,14 +181,9 @@ public class CSys {
 		return new CaliInt(System.currentTimeMillis());
 	}
 	
-	public static CaliType _sleep(ArrayList<CaliType> args) {
+	public static CaliType _sleep(ArrayList<CaliType> args) throws InterruptedException {
 		CaliType ret = new CaliNull();
-		try {
-			Thread.sleep(((CaliInt)args.get(0)).getValue());
-		} catch (InterruptedException e) {
-			// TODO Return exception object.
-			e.printStackTrace();
-		}
+		Thread.sleep(((CaliInt)args.get(0)).getValue());
 		return ret;
 	}
 }
