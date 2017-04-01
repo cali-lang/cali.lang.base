@@ -56,7 +56,9 @@ public class CallStack {
 	 * @return A parent CallStack object or null if it doesn't exist.
 	 */
 	public CallStack getParent() {
-		return this.parent;
+		synchronized(this) {
+			return this.parent;
+		}
 	}
 	
 	/**
@@ -64,7 +66,9 @@ public class CallStack {
 	 * @param parent is a CallStack object to set as the parent.
 	 */
 	public void setParent(CallStack parent) {
-		this.parent = parent;
+		synchronized(this) {
+			this.parent = parent;
+		}
 	}
 	
 	/**
@@ -72,7 +76,9 @@ public class CallStack {
 	 * @return A String with the text value.
 	 */
 	public String getText() {
-		return this.text;
+		synchronized(this) {
+			return this.text;
+		}
 	}
 	
 	/**
@@ -80,7 +86,9 @@ public class CallStack {
 	 * @param str is a String with the text value.
 	 */
 	public void setText(String str) {
-		this.text = str;
+		synchronized(this) {
+			this.text = str;
+		}
 	}
 	
 	/**
@@ -89,17 +97,19 @@ public class CallStack {
 	 * @return A String with the call stack trace.
 	 */
 	public String getStackTrace() {
-		String rstr = "";
-		if (!this.className.equals("") && !this.functionName.equals("")) {
-			rstr += "\t[" + this.fileName + ":" + this.lineNumber + "] ";
-			rstr += this.text;
-			rstr += " { " + this.className + "." + this.functionName + "() }";
-			rstr += "\n";
-			if(parent != null) {
-				rstr += this.parent.getStackTrace();
+		synchronized(this) {
+			String rstr = "";
+			if (!this.className.equals("") && !this.functionName.equals("")) {
+				rstr += "\t[" + this.fileName + ":" + this.lineNumber + "] ";
+				rstr += this.text;
+				rstr += " { " + this.className + "." + this.functionName + "() }";
+				rstr += "\n";
+				if(parent != null) {
+					rstr += this.parent.getStackTrace();
+				}
 			}
+			return rstr;
 		}
-		return rstr;
 	}
 	
 	/**

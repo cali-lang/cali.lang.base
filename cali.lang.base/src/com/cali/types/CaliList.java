@@ -51,24 +51,24 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		this.value = Value;
 	}
 
-	public void add(CaliType Val) {
+	public synchronized void add(CaliType Val) {
 		this.value.add(Val);
 	}
 	
-	public int size() {
+	public synchronized int size() {
 		return this.value.size();
 	}
 	
-	public ArrayList<CaliType> getValue() {
+	public synchronized ArrayList<CaliType> getValue() {
 		return value;
 	}
 
-	public void setValue(ArrayList<CaliType> value) {
+	public synchronized void setValue(ArrayList<CaliType> value) {
 		this.value = value;
 	}
 
 	@Override
-	public String toString(int Level) {
+	public synchronized String toString(int Level) {
 		String rstr = "";
 
 		rstr += CaliType.getTabs(Level) + "{\n";
@@ -85,11 +85,11 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 
 	@Override
-	public String str() {
+	public synchronized String str() {
 		return this.str(0);
 	}
 	
-	public String str(int Level) {
+	public synchronized String str(int Level) {
 		if (this.value.size() > 0) {
 			String rstr = "[\n";
 			int count = 0;
@@ -108,34 +108,34 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType add(ArrayList<CaliType> args) {
+	public synchronized CaliType add(ArrayList<CaliType> args) {
 		this.value.add(args.get(0));
 		return this;
 	}
 	
-	public CaliType addAll(ArrayList<CaliType> args) {
+	public synchronized CaliType addAll(ArrayList<CaliType> args) {
 		this.value.addAll(((CaliList)args.get(0)).getValue());
 		return this;
 	}
 	
-	public CaliType addAllAt(ArrayList<CaliType> args) {
+	public synchronized CaliType addAllAt(ArrayList<CaliType> args) {
 		this.value.addAll((int)((CaliInt)args.get(1)).getValue(), ((CaliList)args.get(0)).getValue());
 		return this;
 	}
 	
-	public CaliType clear(ArrayList<CaliType> args) {
+	public synchronized CaliType clear(ArrayList<CaliType> args) {
 		this.value.clear();
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CaliType clone(ArrayList<CaliType> args) {
+	public synchronized CaliType clone(ArrayList<CaliType> args) {
 		CaliList nl = new CaliList();
 		nl.setValue((ArrayList<CaliType>) this.value.clone());
 		return nl;
 	}
 	
-	public CaliType contains(ArrayList<CaliType> args) {
+	public synchronized CaliType contains(ArrayList<CaliType> args) {
 		CaliType mn = args.get(0);
 		
 		for(CaliType n : this.value) {
@@ -169,11 +169,11 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		return new CaliBool(false);
 	}
 	
-	public CaliType containsObjRef(ArrayList<CaliType> args) {
+	public synchronized CaliType containsObjRef(ArrayList<CaliType> args) {
 		return new CaliBool(this.value.contains(args.get(0)));
 	}
 	
-	public CaliType get(ArrayList<CaliType> args) {
+	public synchronized CaliType get(ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return this.value.get(index);
@@ -182,20 +182,20 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType indexOf(ArrayList<CaliType> args) {
+	public synchronized CaliType indexOf(ArrayList<CaliType> args) {
 		return new CaliInt(this.value.indexOf(args.get(0)));
 	}
 	
-	public CaliType isEmpty(ArrayList<CaliType> args) {
+	public synchronized CaliType isEmpty(ArrayList<CaliType> args) {
 		return new CaliBool(this.value.isEmpty());
 	}
 	
-	public CaliType remove(ArrayList<CaliType> args) {
+	public synchronized CaliType remove(ArrayList<CaliType> args) {
 		this.value.remove(args.get(0));
 		return this;
 	}
 	
-	public CaliType removeAt(ArrayList<CaliType> args) {
+	public synchronized CaliType removeAt(ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return (CaliType)this.value.remove(index);
@@ -204,15 +204,15 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType removeAll(ArrayList<CaliType> args) {
+	public synchronized CaliType removeAll(ArrayList<CaliType> args) {
 		return new CaliBool(this.value.removeAll(((CaliList)args.get(0)).getValue()));
 	}
 	
-	public CaliType retainAll(ArrayList<CaliType> args) {
+	public synchronized CaliType retainAll(ArrayList<CaliType> args) {
 		return new CaliBool(this.value.retainAll(((CaliList)args.get(0)).getValue()));
 	}
 	
-	public CaliType set(ArrayList<CaliType> args) {
+	public synchronized CaliType set(ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return this.value.set(index, args.get(1));
@@ -221,11 +221,11 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType size(ArrayList<CaliType> args) {
+	public synchronized CaliType size(ArrayList<CaliType> args) {
 		return new CaliInt(this.value.size());
 	}
 	
-	public CaliType subList(ArrayList<CaliType> args) {
+	public synchronized CaliType subList(ArrayList<CaliType> args) {
 		int bindex = (int)((CaliInt)args.get(0)).getValue();
 		int eindex = (int)((CaliInt)args.get(1)).getValue();
 		if(eindex >= bindex && bindex >= 0 && eindex <= this.value.size()) {
@@ -238,21 +238,21 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CaliType sort(ArrayList<CaliType> args) {
+	public synchronized CaliType sort(ArrayList<CaliType> args) {
 		CaliListComparator lc = new CaliListComparator();
 		Collections.sort(this.value, lc);
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CaliType sortAsc(ArrayList<CaliType> args) {
+	public synchronized CaliType sortAsc(ArrayList<CaliType> args) {
 		CaliListComparator lc = new CaliListComparator();
 		lc.setSortOrder(SortOrder.ASCENDING);
 		Collections.sort(this.value, lc);
 		return this;
 	}
 	
-	public CaliType join(ArrayList<CaliType> args) {
+	public synchronized CaliType join(ArrayList<CaliType> args) {
 		String glue = ((CaliString)args.get(0)).getValue();
 		ArrayList<String> parts = new ArrayList<String>();
 		
@@ -263,7 +263,7 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CaliType sortCustom(ArrayList<CaliType> args) {
+	public synchronized CaliType sortCustom(ArrayList<CaliType> args) {
 		CaliCallback onCompare = (CaliCallback)args.get(0);
 		
 		CaliListComparator lc = new CaliListComparator();

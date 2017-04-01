@@ -75,8 +75,7 @@ public class astFunctCall extends astNode implements astNodeInt {
 		  if(this.args != null) {
 			  Environment tenv = env.clone(null);
 			  cargs = this.args.eval(tenv, getRef);
-		  }
-		  else {
+		  } else {
 			  cargs = new CaliList();
 		  }
 
@@ -86,8 +85,11 @@ public class astFunctCall extends astNode implements astNodeInt {
 				  cls = ((CaliObject)env.getCurObj()).getClassDef();
 			  }
 			  if(cls != null) {
-				  CallStack cst = new CallStack(this.getFileName(), this.getLineNum(), ((CaliObject)env.getCurObj()).getClassDef().getName(), this.getName(), "Function called.");
-				  cst.setParent(env.getCallStack());
+				  CallStack cst;
+				  synchronized(env.getCallStack()) {
+					  cst = new CallStack(this.getFileName(), this.getLineNum(), ((CaliObject)env.getCurObj()).getClassDef().getName(), this.getName(), "Function called.");
+					  cst.setParent(env.getCallStack());
+				  }
 				  
 				  Environment tenv = env.clone(env.getCurObj());
 				  tenv.setEnvironment(env.getClassInstance(), env.getLocals(), cst);
@@ -98,8 +100,7 @@ public class astFunctCall extends astNode implements astNodeInt {
 				  e.setException(this.getLineNum(), "CLASS_DEF_NOT_FOUND", "Class '" + env.getClassInstance().getClassDef().getName() + "' has no function definition '" + getName() + "'.", "Class '" + env.getClassInstance().getClassDef().getName() + "' has no function definition '" + this.getName() + "'.", env.getCallStack().getStackTrace());
 				  ret = e;
 			  }
-		  }
-		  else {
+		  } else {
 			  ret = cargs;
 		  }
 		} else {

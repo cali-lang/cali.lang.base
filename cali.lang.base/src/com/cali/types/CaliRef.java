@@ -74,11 +74,15 @@ public class CaliRef extends CaliType implements CaliTypeInt {
 		}
 	}
 	
-	public void assign(CaliType Value) {
+	public synchronized void assign(CaliType Value) {
 		if (this.isMap) {
-			this.mobj.put(this.mkey, Value);
+			synchronized(this.mobj) {
+				this.mobj.put(this.mkey, Value);
+			}
 		} else {
-			this.lobj.set(this.lkey, Value);
+			synchronized(this.lobj) {
+				this.lobj.set(this.lkey, Value);
+			}
 		}
 	}
 

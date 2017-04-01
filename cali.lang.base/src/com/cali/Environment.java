@@ -168,8 +168,10 @@ public class Environment {
 	 * Removes the last StackTrace object from the chain.
 	 */
 	public void removeLastTrace() {
-		if (this.st.getParent() != null) {
-			this.st = this.st.getParent();
+		synchronized(this) {
+			if (this.st.getParent() != null) {
+				this.st = this.st.getParent();
+			}
 		}
 	}
 }
