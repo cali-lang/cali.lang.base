@@ -298,6 +298,16 @@ classDefExpr ::=
 		((astClass)ac).setExternClassName(((astInclude)i).getExternClass());
 		RESULT = ac;
 	:}
+|	isStatic:is EXTERN CLASSDEF IDENT:className COLON externClassRef:i COMMA extendClassList:cl classSection:ac
+	{:
+		ac.setName(className);
+		ac.setParserInfo(this.parser.fileName, classNameleft, classNameright);
+		((astClass)ac).setStatic((boolean)is);
+		((astClass)ac).setExtern(true);
+		((astClass)ac).setExternClassName(((astInclude)i).getExternClass());
+		((astClass)ac).setExtendedClasses(cl);
+		RESULT = ac;
+	:}
 |	ENUM IDENT:enumName LBRACKET enumBlocks:eb RBRACKET
 	{:
 		eb.setName(enumName);

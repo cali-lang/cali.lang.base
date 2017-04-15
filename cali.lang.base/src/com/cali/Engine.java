@@ -220,7 +220,7 @@ public class Engine {
 	}
 	
 	/**
-	 * Gets the static class definition with the provided name.
+	 * Gets the static class object instance with the provided name.
 	 * @param Name is a string with the class definition to get.
 	 * @return An astClass definition for the class or null if not found.
 	 */
