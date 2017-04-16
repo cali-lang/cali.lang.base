@@ -125,10 +125,10 @@ public class Engine {
 	 * @throws Exception
 	 */
 	public void addInclude(String Include) throws Exception {
-		if (Lang.langIncludes.containsKey(Include)) {
+		if (Lang.get().langIncludes.containsKey(Include)) {
 			if (!this.includes.contains(Include)) {
 				this.includes.add(Include);
-				this.parseString(Include, Lang.langIncludes.get(Include));
+				this.parseString(Include, Lang.get().langIncludes.get(Include));
 			}
 		} else {
 			for (String pth : this.includePaths) {

@@ -16,11 +16,32 @@
 
 package com.cali.stdlib;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Lang{
+	/**
+	 * The single Lang instance.
+	 */
+	private static Lang instance = null;
+	
+	/**
+	 * Default constructor set to private to defeat instantiation. See get to get an 
+	 * instance of the object.
+	 */
+	private Lang() {
+		this.init();
+	}
+	
+	/**
+	 * Gets a handle of the Universe object.
+	 * @return
+	 */
+	public static Lang get() {
+		if(instance == null) instance = new Lang();
+		return instance;
+	}
+	
 	public static final String langSrc = 
 		"extern class bool : com.cali.types.CaliBool {\n"
 	    + "public extern toInt();\n"
@@ -357,10 +378,12 @@ public class Lang{
 	    + "\n"
 	;
 	
-	public static final Map<String, String> langIncludes;
-    static {
-        Map<String, String> iMap = new ConcurrentHashMap<String, String>();
-        iMap.put("sys.ca",
+	public Map<String, String> langIncludes = new ConcurrentHashMap<String, String>();
+	
+	
+	
+	private void init() {
+		langIncludes.put("sys.ca",
         	"// sys\n"
         	+ "static extern class sys : com.cali.stdlib.CSys {\n"
         	+ "public extern getSysInfo();\n"
@@ -387,7 +410,7 @@ public class Lang{
         	+ "}\n"
         	+ "\n"
         );
-        iMap.put("reflect.ca", 
+		langIncludes.put("reflect.ca", 
         	"// reflect\n"
 			+ "static extern class reflect : com.cali.stdlib.CReflect {\n"
 		    + "// Reflection functions.\n"
@@ -421,7 +444,7 @@ public class Lang{
 		    + "}\n"
 		    + "\n"
         );
-        iMap.put("cunit.ca", 
+		langIncludes.put("cunit.ca", 
         	"include reflect;\n"
         	+ "\n"
         	+ "class test {\n"
@@ -531,7 +554,7 @@ public class Lang{
         	+ "}\n"
         	+ "\n"
         );
-        iMap.put("math.ca", 
+		langIncludes.put("math.ca", 
         	"// math\n"
         	+ "static extern class math : com.cali.stdlib.CMath {\n"
         	+ "public extern e();\n"
@@ -575,6 +598,5 @@ public class Lang{
         	+ "}\n"
         	+ "\n"
         );
-        langIncludes = Collections.unmodifiableMap(iMap);
-    }
+	}
 }
