@@ -2,6 +2,10 @@
 
 This is a base interpreter implementation of the Cali language. You can run the interpreter from the command line, but this package was built to be embedded.
 
+## [Wiki/Docs](https://github.com/cali-lang/cali.lang.base/wiki)
+This README.md is just the high level of building/embedding. For details on building and Cali lang itself [checkout the Wiki](https://github.com/cali-lang/cali.lang.base/wiki).
+
+
 ## Building
 Requires ANT and a recent JDK. (1.6 or newer)
 
