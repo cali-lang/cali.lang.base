@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.types.CaliInt;
 import com.cali.types.CaliNull;
@@ -27,34 +28,34 @@ import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class CSys {
-	public static String getSysInfo() throws Exception {
+	public static String getSysInfo(Environment env) throws Exception {
 		String ret = "";
 		
 		ArrayList<CaliType> args = new ArrayList<CaliType>();
 		ret += "OS Information\n";
-		ret += "\tOS Arch: " + ((CaliString)getOsArch(args)).getValueString() + "\n";
-		ret += "\tOS Name: " + ((CaliString)getOsName(args)).getValueString() + "\n";
-		ret += "\tOS Version: " + ((CaliString)getOsVersion(args)).getValueString() + "\n";
-		ret += "\tOS File Separator: " + ((CaliString)getFileSeparator(args)).getValueString() + "\n";
+		ret += "\tOS Arch: " + ((CaliString)getOsArch(env, args)).getValueString() + "\n";
+		ret += "\tOS Name: " + ((CaliString)getOsName(env, args)).getValueString() + "\n";
+		ret += "\tOS Version: " + ((CaliString)getOsVersion(env, args)).getValueString() + "\n";
+		ret += "\tOS File Separator: " + ((CaliString)getFileSeparator(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "Java Information\n";
-		ret += "\tJava Version: " + ((CaliString)getJavaVersion(args)).getValueString() + "\n";
-		ret += "\tJava Vendor: " + ((CaliString)getJavaVendor(args)).getValueString() + "\n";
-		ret += "\tJava Vendor Url: " + ((CaliString)getJavaVendorUrl(args)).getValueString() + "\n";
-		ret += "\tJava Class Path: " + ((CaliString)getJavaClassPath(args)).getValueString() + "\n";
+		ret += "\tJava Version: " + ((CaliString)getJavaVersion(env, args)).getValueString() + "\n";
+		ret += "\tJava Vendor: " + ((CaliString)getJavaVendor(env, args)).getValueString() + "\n";
+		ret += "\tJava Vendor Url: " + ((CaliString)getJavaVendorUrl(env, args)).getValueString() + "\n";
+		ret += "\tJava Class Path: " + ((CaliString)getJavaClassPath(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "Cali Information\n";
-		ret += "\tCali Version: " + ((CaliString)getCaliVersion(args)).getValueString() + "\n";
-		ret += "\tCali Assembly: " + ((CaliString)getAssembly(args)).getValueString() + "\n";
-		ret += "\tCali Assembly Path: " + ((CaliString)getAssemblyPath(args)).getValueString() + "\n";
+		ret += "\tCali Version: " + ((CaliString)getCaliVersion(env, args)).getValueString() + "\n";
+		ret += "\tCali Assembly: " + ((CaliString)getAssembly(env, args)).getValueString() + "\n";
+		ret += "\tCali Assembly Path: " + ((CaliString)getAssemblyPath(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "User Information\n";
-		ret += "\tCurrent Path: " + ((CaliString)getCurrentPath(args)).getValueString() + "\n";
-		ret += "\tHome Path: " + ((CaliString)getHomePath(args)).getValueString() + "\n";
-		ret += "\tUser Name: " + ((CaliString)getUserName(args)).getValueString() + "\n";
+		ret += "\tCurrent Path: " + ((CaliString)getCurrentPath(env, args)).getValueString() + "\n";
+		ret += "\tHome Path: " + ((CaliString)getHomePath(env, args)).getValueString() + "\n";
+		ret += "\tUser Name: " + ((CaliString)getUserName(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		
@@ -64,8 +65,8 @@ public class CSys {
 	/*
 	 * Environment functions
 	 */
-	public static CaliType getSysInfo(ArrayList<CaliType> args) throws Exception {
-		String ret = CSys.getSysInfo();
+	public static CaliType getSysInfo(Environment env, ArrayList<CaliType> args) throws Exception {
+		String ret = CSys.getSysInfo(env);
 		return new CaliString(ret);
 	}
 	
@@ -101,20 +102,20 @@ public class CSys {
 		return path;
 	}
 	
-	public static CaliType getAssembly(ArrayList<CaliType> args) throws Exception {
+	public static CaliType getAssembly(Environment env, ArrayList<CaliType> args) throws Exception {
 		return new CaliString(_getAssembly());
 	}
 	
-	public static CaliType getAssemblyPath(ArrayList<CaliType> args) throws Exception {
+	public static CaliType getAssemblyPath(Environment env, ArrayList<CaliType> args) throws Exception {
 		return new CaliString(_getAssemblyPath());
 	}
 	
-	public static CaliType getCurrentPath(ArrayList<CaliType> args) {
+	public static CaliType getCurrentPath(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("user.dir"));
 	}
 	
 	/*
-	public static CaliType getMainFilePath(ArrayList<CaliType> args) {
+	public static CaliType getMainFilePath(Environment env, ArrayList<CaliType> args) {
 		if(runtime.getInstance().getOsType() == osType.MOBILE)
 			return new CaliString(runtime.getInstance().getMobilePath());
 		else
@@ -122,66 +123,66 @@ public class CSys {
 	}
 	*/
 	
-	public static CaliType getHomePath(ArrayList<CaliType> args) {
+	public static CaliType getHomePath(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("user.home"));
 	}
 	
-	public static CaliType getUserName(ArrayList<CaliType> args) {
+	public static CaliType getUserName(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("user.name"));
 	}
 	
-	public static CaliType getOsArch(ArrayList<CaliType> args) {
+	public static CaliType getOsArch(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("os.arch"));
 	}
 	
-	public static CaliType getOsName(ArrayList<CaliType> args) {
+	public static CaliType getOsName(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("os.name"));
 	}
 	
-	public static CaliType getOsVersion(ArrayList<CaliType> args) {
+	public static CaliType getOsVersion(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("os.version"));
 	}
 	
-	public static CaliType getJavaVersion(ArrayList<CaliType> args) {
+	public static CaliType getJavaVersion(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("java.version"));
 	}
 	
-	public static CaliType getJavaVendor(ArrayList<CaliType> args) {
+	public static CaliType getJavaVendor(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("java.vendor"));
 	}
 	
-	public static CaliType getJavaVendorUrl(ArrayList<CaliType> args) {
+	public static CaliType getJavaVendorUrl(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("java.vendor.url"));
 	}
 	
-	public static CaliType getFileSeparator(ArrayList<CaliType> args) {
+	public static CaliType getFileSeparator(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("file.separator"));
 	}
 	
-	public static CaliType getLineSeparator(ArrayList<CaliType> args) {
+	public static CaliType getLineSeparator(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("line.separator"));
 	}
 	
-	public static CaliType getJavaClassPath(ArrayList<CaliType> args) {
+	public static CaliType getJavaClassPath(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getProperty("java.class.path"));
 	}
 	
-	public static CaliType getCaliVersion(ArrayList<CaliType> args) {
+	public static CaliType getCaliVersion(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(Universe.getCaliVersion());
 	}
 	
-	public static CaliType getJavaHome(ArrayList<CaliType> args) {
+	public static CaliType getJavaHome(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(System.getenv("JAVA_HOME"));
 	}
 	
 	/*
 	 * Time functions
 	 */
-	public static CaliType getMills(ArrayList<CaliType> args) {
+	public static CaliType getMills(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(System.currentTimeMillis());
 	}
 	
-	public static CaliType _sleep(ArrayList<CaliType> args) throws InterruptedException {
+	public static CaliType _sleep(Environment env, ArrayList<CaliType> args) throws InterruptedException {
 		CaliType ret = new CaliNull();
 		Thread.sleep(((CaliInt)args.get(0)).getValue());
 		return ret;

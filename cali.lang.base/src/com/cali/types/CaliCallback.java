@@ -48,9 +48,9 @@ public class CaliCallback extends CaliObject implements CaliTypeInt {
 		this.functName = FunctName;
 	}
 	
-	public CaliType call(CaliList args) {
-		return this.call(this.tenv, args);
-	}
+	//public CaliType call(CaliList args) {
+	//	return this.call(this.tenv, args);
+	//}
 	
 	public CaliType call(Environment env, CaliList args) {
 		CaliType ret = new CaliNull();
@@ -106,7 +106,7 @@ public class CaliCallback extends CaliObject implements CaliTypeInt {
 		this.tenv = env;
 	}
 	
-	public CaliType _call(ArrayList<CaliType> args) {
-		return this.call((CaliList)args.get(0));
+	public CaliType _call(Environment env, ArrayList<CaliType> args) {
+		return this.call(env, (CaliList)args.get(0));
 	}
 }

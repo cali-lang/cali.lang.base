@@ -18,6 +18,7 @@ package com.cali.types;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
@@ -175,27 +176,27 @@ public class CaliException extends CaliObject implements CaliTypeInt {
 		return this.str();
 	}
 	
-	public CaliType getLineNumber(ArrayList<CaliType> args) {
+	public CaliType getLineNumber(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.lineNumber);
 	}
 	
-	public CaliType getExceptionType(ArrayList<CaliType> args) {
+	public CaliType getExceptionType(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.et.name());
 	}
 	
-	public CaliType getId(ArrayList<CaliType> args) {
+	public CaliType getId(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.id);
 	}
 	
-	public CaliType getText(ArrayList<CaliType> args) {
+	public CaliType getText(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.text);
 	}
 	
-	public CaliType getDetails(ArrayList<CaliType> args) {
+	public CaliType getDetails(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.details);
 	}
 	
-	public CaliType getStackTrace(ArrayList<CaliType> args) {
+	public CaliType getStackTrace(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.stackTrace);
 	}
 }

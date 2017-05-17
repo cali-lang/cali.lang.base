@@ -18,13 +18,14 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.types.CaliObject;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 import com.cali.types.cType;
 
 public class CLang {
-	public static CaliType type(ArrayList<CaliType> args) {
+	public static CaliType type(Environment env, ArrayList<CaliType> args) {
 		CaliType ct = args.get(0);
 		if (ct.getType() == cType.cObject) {
 			return new CaliString(((CaliObject)ct).getClassDef().getName());

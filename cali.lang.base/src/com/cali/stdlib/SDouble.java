@@ -18,6 +18,7 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.types.CaliDouble;
 import com.cali.types.CaliException;
 import com.cali.types.CaliInt;
@@ -25,43 +26,43 @@ import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class SDouble {
-	public static CaliType maxExp(ArrayList<CaliType> args) {
+	public static CaliType maxExp(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Double.MAX_EXPONENT);
 	}
 	
-	public static CaliType maxVal(ArrayList<CaliType> args) {
+	public static CaliType maxVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.MAX_VALUE);
 	}
 	
-	public static CaliType minExp(ArrayList<CaliType> args) {
+	public static CaliType minExp(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Double.MIN_EXPONENT);
 	}
 	
-	public static CaliType minNormal(ArrayList<CaliType> args) {
+	public static CaliType minNormal(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.MIN_NORMAL);
 	}
 	
-	public static CaliType minVal(ArrayList<CaliType> args) {
+	public static CaliType minVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.MIN_VALUE);
 	}
 	
-	public static CaliType nanVal(ArrayList<CaliType> args) {
+	public static CaliType nanVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.NaN);
 	}
 	
-	public static CaliType negInfinity(ArrayList<CaliType> args) {
+	public static CaliType negInfinity(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.NEGATIVE_INFINITY);
 	}
 	
-	public static CaliType posInfinity(ArrayList<CaliType> args) {
+	public static CaliType posInfinity(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Double.POSITIVE_INFINITY);
 	}
 	
-	public static CaliType size(ArrayList<CaliType> args) {
+	public static CaliType size(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Double.SIZE);
 	}
 	
-	public static CaliType parse(ArrayList<CaliType> args) {
+	public static CaliType parse(Environment env, ArrayList<CaliType> args) {
 		try {
 			return new CaliDouble(Double.parseDouble(((CaliString)args.get(0)).getValue()));
 		} catch(Exception e) {

@@ -19,6 +19,7 @@ package com.cali.types;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.Util;
 import com.cali.ast.caliException;
@@ -108,34 +109,34 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public synchronized CaliType add(ArrayList<CaliType> args) {
+	public synchronized CaliType add(Environment env, ArrayList<CaliType> args) {
 		this.value.add(args.get(0));
 		return this;
 	}
 	
-	public synchronized CaliType addAll(ArrayList<CaliType> args) {
+	public synchronized CaliType addAll(Environment env, ArrayList<CaliType> args) {
 		this.value.addAll(((CaliList)args.get(0)).getValue());
 		return this;
 	}
 	
-	public synchronized CaliType addAllAt(ArrayList<CaliType> args) {
+	public synchronized CaliType addAllAt(Environment env, ArrayList<CaliType> args) {
 		this.value.addAll((int)((CaliInt)args.get(1)).getValue(), ((CaliList)args.get(0)).getValue());
 		return this;
 	}
 	
-	public synchronized CaliType clear(ArrayList<CaliType> args) {
+	public synchronized CaliType clear(Environment env, ArrayList<CaliType> args) {
 		this.value.clear();
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized CaliType clone(ArrayList<CaliType> args) {
+	public synchronized CaliType clone(Environment env, ArrayList<CaliType> args) {
 		CaliList nl = new CaliList();
 		nl.setValue((ArrayList<CaliType>) this.value.clone());
 		return nl;
 	}
 	
-	public synchronized CaliType contains(ArrayList<CaliType> args) {
+	public synchronized CaliType contains(Environment env, ArrayList<CaliType> args) {
 		CaliType mn = args.get(0);
 		
 		for(CaliType n : this.value) {
@@ -169,11 +170,11 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		return new CaliBool(false);
 	}
 	
-	public synchronized CaliType containsObjRef(ArrayList<CaliType> args) {
+	public synchronized CaliType containsObjRef(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.contains(args.get(0)));
 	}
 	
-	public synchronized CaliType get(ArrayList<CaliType> args) {
+	public synchronized CaliType get(Environment env, ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return this.value.get(index);
@@ -182,20 +183,20 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public synchronized CaliType indexOf(ArrayList<CaliType> args) {
+	public synchronized CaliType indexOf(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.indexOf(args.get(0)));
 	}
 	
-	public synchronized CaliType isEmpty(ArrayList<CaliType> args) {
+	public synchronized CaliType isEmpty(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.isEmpty());
 	}
 	
-	public synchronized CaliType remove(ArrayList<CaliType> args) {
+	public synchronized CaliType remove(Environment env, ArrayList<CaliType> args) {
 		this.value.remove(args.get(0));
 		return this;
 	}
 	
-	public synchronized CaliType removeAt(ArrayList<CaliType> args) {
+	public synchronized CaliType removeAt(Environment env, ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return (CaliType)this.value.remove(index);
@@ -204,15 +205,15 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public synchronized CaliType removeAll(ArrayList<CaliType> args) {
+	public synchronized CaliType removeAll(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.removeAll(((CaliList)args.get(0)).getValue()));
 	}
 	
-	public synchronized CaliType retainAll(ArrayList<CaliType> args) {
+	public synchronized CaliType retainAll(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.retainAll(((CaliList)args.get(0)).getValue()));
 	}
 	
-	public synchronized CaliType set(ArrayList<CaliType> args) {
+	public synchronized CaliType set(Environment env, ArrayList<CaliType> args) {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if(index >= 0 && index < this.value.size()) {
 			return this.value.set(index, args.get(1));
@@ -221,11 +222,11 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public synchronized CaliType size(ArrayList<CaliType> args) {
+	public synchronized CaliType size(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.size());
 	}
 	
-	public synchronized CaliType subList(ArrayList<CaliType> args) {
+	public synchronized CaliType subList(Environment env, ArrayList<CaliType> args) {
 		int bindex = (int)((CaliInt)args.get(0)).getValue();
 		int eindex = (int)((CaliInt)args.get(1)).getValue();
 		if(eindex >= bindex && bindex >= 0 && eindex <= this.value.size()) {
@@ -238,21 +239,21 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized CaliType sort(ArrayList<CaliType> args) {
+	public synchronized CaliType sort(Environment env, ArrayList<CaliType> args) {
 		CaliListComparator lc = new CaliListComparator();
 		Collections.sort(this.value, lc);
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized CaliType sortAsc(ArrayList<CaliType> args) {
+	public synchronized CaliType sortAsc(Environment env, ArrayList<CaliType> args) {
 		CaliListComparator lc = new CaliListComparator();
 		lc.setSortOrder(SortOrder.ASCENDING);
 		Collections.sort(this.value, lc);
 		return this;
 	}
 	
-	public synchronized CaliType join(ArrayList<CaliType> args) {
+	public synchronized CaliType join(Environment env, ArrayList<CaliType> args) {
 		String glue = ((CaliString)args.get(0)).getValue();
 		ArrayList<String> parts = new ArrayList<String>();
 		
@@ -263,7 +264,7 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized CaliType sortCustom(ArrayList<CaliType> args) {
+	public synchronized CaliType sortCustom(Environment env, ArrayList<CaliType> args) {
 		CaliCallback onCompare = (CaliCallback)args.get(0);
 		
 		CaliListComparator lc = new CaliListComparator();

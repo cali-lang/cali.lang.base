@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.cali.Environment;
 import com.cali.ast.caliException;
 import com.cali.types.CaliType;
 import com.cali.types.CaliNull;
@@ -51,18 +52,18 @@ public class CBuffer {
 	public byte[] getBuffer() { return this.buff; }
 	public void setBuffer(byte[] Buff) { this.buff = Buff; }
 	
-	public CaliType newBuffer(ArrayList<CaliType> args) {
+	public CaliType newBuffer(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			this.buff = new byte[(int)((CaliInt)args.get(0)).getValue()];
 			return new CaliNull();
 		}
 	}
 	
-	public CaliType size(ArrayList<CaliType> args) {
+	public CaliType size(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.buff.length);
 	}
 	
-	public CaliType _clear(ArrayList<CaliType> args) {
+	public CaliType _clear(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			byte b = 0;
 			Arrays.fill(this.buff, b);
@@ -72,7 +73,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _writeSeek(ArrayList<CaliType> args) {
+	public CaliType _writeSeek(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			if((index >= 0)&&(index < buff.length)) {
@@ -84,7 +85,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _readSeek(ArrayList<CaliType> args) {
+	public CaliType _readSeek(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			if((index >= 0)&&(index < buff.length)) {
@@ -96,7 +97,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addString(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addString(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			String str = ((CaliString)args.get(0)).getValueString();
 			String cset = ((CaliString)args.get(1)).getValueString();
@@ -106,7 +107,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			int ival = (int)((CaliInt)args.get(0)).getValue();
@@ -115,7 +116,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addUByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addUByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			int ival = (int)((CaliInt)args.get(0)).getValue();
@@ -124,7 +125,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			short ival = (short)((CaliInt)args.get(0)).getValue();
@@ -134,7 +135,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addUShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addUShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			int ival = (short)((CaliInt)args.get(0)).getValue();
@@ -144,7 +145,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			int ival = (int)((CaliInt)args.get(0)).getValue();
@@ -154,7 +155,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addUInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addUInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			long ival = ((CaliInt)args.get(0)).getValue();
@@ -164,7 +165,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addLong(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addLong(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			long ival = ((CaliInt)args.get(0)).getValue();
@@ -174,7 +175,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addFloat(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addFloat(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			double tval = ((CaliDouble)args.get(0)).getValue();
@@ -184,7 +185,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _addDouble(ArrayList<CaliType> args) throws caliException {
+	public CaliType _addDouble(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = this.writeCursor;
 			double tval = ((CaliDouble)args.get(0)).getValue();
@@ -194,19 +195,19 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType getWriteCursor(ArrayList<CaliType> args) {
+	public CaliType getWriteCursor(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.writeCursor);
 	}
 	
-	public CaliType getReadCursor(ArrayList<CaliType> args) {
+	public CaliType getReadCursor(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.readCursor);
 	}
 	
-	public CaliType getString(ArrayList<CaliType> args) throws caliException {
+	public CaliType getString(Environment env, ArrayList<CaliType> args) throws caliException {
 		return new CaliString(this._getString(((CaliString)args.get(0)).getValueString()));
 	}
 	
-	public CaliType getStringAt(ArrayList<CaliType> args) throws caliException {
+	public CaliType getStringAt(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int) ((CaliInt)args.get(1)).getValue();
 		int length = (int) ((CaliInt)args.get(0)).getValue();
 		String cset = ((CaliString)args.get(2)).getValueString();
@@ -217,7 +218,7 @@ public class CBuffer {
 		return new CaliString(val);
 	}
 	
-	public CaliType getByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType getByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		boolean increment = false;
 		if(index < 0) { index = this.readCursor; increment = true; }
@@ -226,7 +227,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getUByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType getUByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		boolean increment = false;
 		if(index < 0) { index = this.readCursor; increment = true; }
@@ -235,7 +236,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType getShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -245,7 +246,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getUShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType getUShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -255,7 +256,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType getInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -265,7 +266,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getUInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType getUInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -275,7 +276,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getLong(ArrayList<CaliType> args) throws caliException {
+	public CaliType getLong(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -285,7 +286,7 @@ public class CBuffer {
 		return new CaliInt(val);
 	}
 	
-	public CaliType getFloat(ArrayList<CaliType> args) throws caliException {
+	public CaliType getFloat(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -295,7 +296,7 @@ public class CBuffer {
 		return new CaliDouble(val);
 	}
 	
-	public CaliType getDouble(ArrayList<CaliType> args) throws caliException {
+	public CaliType getDouble(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		boolean increment = false;
@@ -305,7 +306,7 @@ public class CBuffer {
 		return new CaliDouble(val);
 	}
 	
-	public CaliType setString(ArrayList<CaliType> args) throws caliException {
+	public CaliType setString(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			String str = ((CaliString)args.get(0)).getValueString();
 			String cset = ((CaliString)args.get(1)).getValueString();
@@ -313,7 +314,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType setStringAt(ArrayList<CaliType> args) throws caliException {
+	public CaliType setStringAt(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int) ((CaliInt)args.get(0)).getValue();
 			String str = ((CaliString)args.get(1)).getValueString();
@@ -322,7 +323,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			int ival = (int)((CaliInt)args.get(1)).getValue();
@@ -331,7 +332,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setUByte(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setUByte(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			int ival = (int)((CaliInt)args.get(1)).getValue();
@@ -340,7 +341,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			short ival = (short)((CaliInt)args.get(1)).getValue();
@@ -350,7 +351,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setUShort(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setUShort(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			int ival = (short)((CaliInt)args.get(1)).getValue();
@@ -360,7 +361,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			int ival = (int)((CaliInt)args.get(1)).getValue();
@@ -370,7 +371,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setUInt(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setUInt(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			long ival = ((CaliInt)args.get(1)).getValue();
@@ -380,7 +381,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setLong(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setLong(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			long ival = ((CaliInt)args.get(1)).getValue();
@@ -390,7 +391,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setFloat(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setFloat(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			double tval = ((CaliDouble)args.get(1)).getValue();
@@ -400,7 +401,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _setDouble(ArrayList<CaliType> args) throws caliException {
+	public CaliType _setDouble(Environment env, ArrayList<CaliType> args) throws caliException {
 		synchronized(this) {
 			int index = (int)((CaliInt)args.get(0)).getValue();
 			double tval = ((CaliDouble)args.get(1)).getValue();
@@ -410,7 +411,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType byteToBinary(ArrayList<CaliType> args) {
+	public CaliType byteToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		if((index >= 0)&&(index < buff.length)) {
 			String bin = Integer.toBinaryString((this.buff[index] + 256) % 256);
@@ -421,7 +422,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType shortToBinary(ArrayList<CaliType> args) {
+	public CaliType shortToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		
@@ -441,7 +442,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType intToBinary(ArrayList<CaliType> args) {
+	public CaliType intToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		
@@ -465,7 +466,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType longToBinary(ArrayList<CaliType> args) {
+	public CaliType longToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		
@@ -513,7 +514,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType floatToBinary(ArrayList<CaliType> args) {
+	public CaliType floatToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		
@@ -545,7 +546,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType doubleToBinary(ArrayList<CaliType> args) {
+	public CaliType doubleToBinary(Environment env, ArrayList<CaliType> args) {
 		int index = (int)((CaliInt)args.get(0)).getValue();
 		byteOrder bo = this.getByteOrder(((CaliString)args.get(1)).getValueString());
 		
@@ -593,7 +594,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _copyFrom(ArrayList<CaliType> args) {
+	public CaliType _copyFrom(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			int dindex = (int)((CaliInt)args.get(0)).getValue();
 			CaliObject obj = (CaliObject)args.get(1);
@@ -621,7 +622,7 @@ public class CBuffer {
 		}
 	}
 	
-	public CaliType _copyTo(ArrayList<CaliType> args) {
+	public CaliType _copyTo(Environment env, ArrayList<CaliType> args) {
 		synchronized(this) {
 			int sindex = (int)((CaliInt)args.get(0)).getValue();
 			CaliObject obj = (CaliObject)args.get(1);

@@ -18,6 +18,7 @@ package com.cali.types;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
@@ -73,26 +74,26 @@ public class CaliBool extends CaliObject implements CaliTypeInt {
 		return this.str();
 	}
 	
-	public CaliType toInt(ArrayList<CaliType> args) {
+	public CaliType toInt(Environment env, ArrayList<CaliType> args) {
 		if (this.value) return new CaliInt(1);
 		return new CaliInt(0);
 	}
 	
-	public CaliType toDouble(ArrayList<CaliType> args) {
+	public CaliType toDouble(Environment env, ArrayList<CaliType> args) {
 		if (this.value) return new CaliDouble(1.0);
 		return new CaliDouble(0.0);
 	}
 	
-	public CaliType toString(ArrayList<CaliType> args) {
+	public CaliType toString(Environment env, ArrayList<CaliType> args) {
 		if (this.value) return new CaliString("true");
 		return new CaliString("false");
 	}
 	
-	public CaliType compare(ArrayList<CaliType> args) {
+	public CaliType compare(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Boolean.compare(this.value, ((CaliBool)args.get(0)).getValue()));
 	}
 	
-	public CaliType parse(ArrayList<CaliType> args) {
+	public CaliType parse(Environment env, ArrayList<CaliType> args) {
 		this.value = Boolean.parseBoolean(((CaliString)args.get(0)).getValue());
 		return this;
 	}

@@ -18,12 +18,13 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.types.CaliBool;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class SBool {
-	public static CaliType parse(ArrayList<CaliType> args) {
+	public static CaliType parse(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(Boolean.parseBoolean(((CaliString)args.get(0)).getValue()));
 	}
 }

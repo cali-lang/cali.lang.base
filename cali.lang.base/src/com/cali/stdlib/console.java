@@ -18,6 +18,7 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.types.CaliNull;
 import com.cali.types.CaliType;
 import com.cali.types.CaliTypeInt;
@@ -51,33 +52,33 @@ public class console {
 	
 	public console println(String Text) { this.print(Text + "\n"); return this; }
 	
-	public CaliType _log(ArrayList<CaliType> args) {
+	public CaliType _log(Environment env, ArrayList<CaliType> args) {
 		this.log(((CaliTypeInt)args.get(0)).str());
 		return new CaliNull();
 	}
 	
-	public CaliType _info(ArrayList<CaliType> args) {
+	public CaliType _info(Environment env, ArrayList<CaliType> args) {
 		this.info(((CaliTypeInt)args.get(0)).str());
 		return new CaliNull();
 	}
 	
-	public CaliType _warn(ArrayList<CaliType> args) {
+	public CaliType _warn(Environment env, ArrayList<CaliType> args) {
 		this.warn(((CaliTypeInt)args.get(0)).str());
 		return new CaliNull();
 	}
 	
-	public CaliType _err(ArrayList<CaliType> args) {
+	public CaliType _err(Environment env, ArrayList<CaliType> args) {
 		this.err(((CaliTypeInt)args.get(0)).str());
 		return new CaliNull();
 	}
 	
-	public CaliType _print(ArrayList<CaliType> args) {
+	public CaliType _print(Environment env, ArrayList<CaliType> args) {
 		this.print(((CaliTypeInt)args.get(0)).str());
 		return new CaliNull();
 	}
 	
-	public CaliType _println(ArrayList<CaliType> args) {
-		CaliType ret = this._print(args);
+	public CaliType _println(Environment env, ArrayList<CaliType> args) {
+		CaliType ret = this._print(env, args);
 		System.out.println();
 		return ret;
 	}

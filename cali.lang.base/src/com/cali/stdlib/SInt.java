@@ -18,13 +18,14 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.types.CaliException;
 import com.cali.types.CaliInt;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class SInt {
-	public static CaliType parse(ArrayList<CaliType> args) {
+	public static CaliType parse(Environment env, ArrayList<CaliType> args) {
 		try {
 			if(args.get(1).isNull()) {
 				return new CaliInt(Long.parseLong(((CaliString)args.get(0)).getValue()));
@@ -36,11 +37,11 @@ public class SInt {
 		}
 	}
 	
-	public static CaliType maxVal(ArrayList<CaliType> args) {
+	public static CaliType maxVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Long.MAX_VALUE);
 	}
 	
-	public static CaliType minVal(ArrayList<CaliType> args) {
+	public static CaliType minVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Long.MIN_VALUE);
 	}
 }

@@ -106,7 +106,7 @@ public class CaliListComparator implements Comparator {
 			CaliList args = new CaliList();
 			args.add(one);
 			args.add(two);
-			CaliType retInt = this.onCompare.call(args);
+			CaliType retInt = this.onCompare.call(this.onCompare.getEnv(), args);
 			if(retInt instanceof CaliInt)
 				ret = (int) ((CaliInt)retInt).getValue();
 			else

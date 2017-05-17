@@ -27,7 +27,7 @@ import java.util.Date;
 import com.cali.types.CaliNull;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
-
+import com.cali.Environment;
 import com.cali.types.CaliBool;
 import com.cali.types.CaliException;
 import com.cali.types.CaliInt;
@@ -45,7 +45,7 @@ public class CDate extends Date {
 		return new Date(Ld.toEpochDay());
 	}
 	
-	public CaliType newDate(ArrayList<CaliType> args) {
+	public CaliType newDate(Environment env, ArrayList<CaliType> args) {
 		if(!args.get(0).isNull()) {
 			this.setTime(((CaliInt)args.get(0)).getValue());
 		}
@@ -53,52 +53,52 @@ public class CDate extends Date {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType getHours(ArrayList<CaliType> args) {
+	public CaliType getHours(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.getHours());
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType getMinutes(ArrayList<CaliType> args) {
+	public CaliType getMinutes(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.getMinutes());
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType getSeconds(ArrayList<CaliType> args) {
+	public CaliType getSeconds(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.getSeconds());
 	}
 	
-	public CaliType getTime(ArrayList<CaliType> args) {
+	public CaliType getTime(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.getTime());
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType _setHours(ArrayList<CaliType> args) {
+	public CaliType _setHours(Environment env, ArrayList<CaliType> args) {
 		this.setHours((int)((CaliInt)args.get(0)).getValue());
 		return new CaliNull();
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType _setMinutes(ArrayList<CaliType> args) {
+	public CaliType _setMinutes(Environment env, ArrayList<CaliType> args) {
 		this.setMinutes((int)((CaliInt)args.get(0)).getValue());
 		return new CaliNull();
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CaliType _setSeconds(ArrayList<CaliType> args) {
+	public CaliType _setSeconds(Environment env, ArrayList<CaliType> args) {
 		this.setSeconds((int)((CaliInt)args.get(0)).getValue());
 		return new CaliNull();
 	}
 	
-	public CaliType _setTime(ArrayList<CaliType> args) {
+	public CaliType _setTime(Environment env, ArrayList<CaliType> args) {
 		this.setTime(((CaliInt)args.get(0)).getValue());
 		return new CaliNull();
 	}
 	
-	public CaliType toString(ArrayList<CaliType> args) {
+	public CaliType toString(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.toString());
 	}
 	
-	public CaliType parse(ArrayList<CaliType> args) {
+	public CaliType parse(Environment env, ArrayList<CaliType> args) {
 		SimpleDateFormat sdf = new SimpleDateFormat(((CaliString)args.get(1)).getValueString());
 		try {
 			Date td = sdf.parse(((CaliString)args.get(0)).getValueString());
@@ -109,12 +109,12 @@ public class CDate extends Date {
 		}
 	}
 	
-	public CaliType format(ArrayList<CaliType> args) {
+	public CaliType format(Environment env, ArrayList<CaliType> args) {
 		SimpleDateFormat sdf = new SimpleDateFormat(((CaliString)args.get(0)).getValueString());
 		return new CaliString(sdf.format(this));
 	}
 
-	public CaliType isEpoch(ArrayList<CaliType> args) {
+	public CaliType isEpoch(Environment env, ArrayList<CaliType> args) {
 		if(this.getTime() == 0) {
 			return new CaliBool(true);
 		}

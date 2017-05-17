@@ -227,21 +227,15 @@ public class astFunctDef extends astNode implements astNodeInt {
 			ArrayList<CaliType> fargs = this.getExternArgs(env, args);
 			try {
 				Class<?> aclass = callingObj.getClassDef().getExternClass();
-				Method meth = aclass.getMethod(this.getName(), ArrayList.class);
-				CaliType tmp = (CaliType)meth.invoke(o,fargs);
+				Method meth = aclass.getMethod(this.getName(), Environment.class, ArrayList.class);
+				CaliType tmp = (CaliType)meth.invoke(o, env, fargs);
 				if((tmp != null)&&(tmp instanceof CaliType)) ret = tmp;
 				else
 					throw new caliException(this, "Return value found from calling '" + this.getName() + "' is null or not of type CaliType.", env.stackTraceToString());
 			} catch (NoSuchMethodException e) {
-				// Attempt to call the second flavor with env info.
-				CaliType tmp = this.callExternEnv(env, args);
-				if(tmp != null) ret = tmp;
-				
-				if(tmp == null){
-					CaliException ex = new CaliException(exType.exRuntime);
-					ex.setException(this.getLineNum(), "EXTERN_NO_SUCH_METHOD", "External call, no such method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
-					return ex;
-				}
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(this.getLineNum(), "EXTERN_NO_SUCH_METHOD", "External call, no such method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
+				return ex;
 			} catch (SecurityException e) {
 				CaliException ex = new CaliException(exType.exRuntime);
 				ex.setException(this.getLineNum(), "EXTERN_SECURITY_EXCEPTION", "External call, security exception for method '" + this.getName() + "'.", env.getCallStack().getStackTrace());
@@ -340,41 +334,5 @@ public class astFunctDef extends astNode implements astNodeInt {
 		}
 		
 		return args;
-	}
-	
-	private CaliType callExternEnv(Environment env, CaliList args) throws caliException {
-		CaliType ret = new CaliNull();
-		
-		CaliObject callingObj = env.getClassInstance();
-		Object o = callingObj.getExternObject();
-		if(o != null) {
-			ArrayList<CaliType> fargs = this.getExternArgs(env, args);
-			try {
-				Class<?> aclass = callingObj.getClassDef().getExternClass();
-				Method meth = aclass.getMethod(this.getName(), Environment.class, ArrayList.class);
-				CaliType tmp = (CaliType)meth.invoke(o, env, fargs);
-				if(tmp != null) ret = tmp;
-			} catch (NoSuchMethodException e) {
-				throw new caliException(this, "External call, no such method '" + this.getName() + "'.", env.stackTraceToString());
-			} catch (SecurityException e) {
-				throw new caliException(this, "External call, security exception for method '" + this.getName() + "'.", env.stackTraceToString());
-			} catch (IllegalAccessException e) {
-				throw new caliException(this, "External call, illegal access exception for method '" + this.getName() + "'.", env.stackTraceToString());
-			} catch (IllegalArgumentException e) {
-				throw new caliException(this, "External call, illegal argument exception for method '" + this.getName() + "'.", env.stackTraceToString());
-			} catch (InvocationTargetException e) {
-				throw new caliException(this, "External call, invocation target exception for method '" + this.getName() + "', the external method threw an uncaught exception.", env.stackTraceToString());
-			}
-		} else {
-			throw new caliException(this, "External object not found when calling '" + this.getName() + "'.", env.stackTraceToString());
-		}
-		
-		if(ret.getType() == cType.cException) {
-			CaliException ae = (CaliException)ret;
-			ret = new CaliNull();
-			throw new caliException(this, ae.getText(), env.stackTraceToString());
-		}
-		
-		return ret;
 	}
 }

@@ -18,6 +18,7 @@ package com.cali.types;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
@@ -69,7 +70,7 @@ public class CaliString extends CaliObject implements CaliTypeInt {
 		return "\"" + this.str() + "\"";
 	}
 	
-	public CaliType charAt(ArrayList<CaliType> args) throws caliException {
+	public CaliType charAt(Environment env, ArrayList<CaliType> args) throws caliException {
 		int index = (int) ((CaliInt)args.get(0)).getValue();
 		if (index >= 0 && index < this.value.length()) {
 			return new CaliString("" + this.value.charAt(index));
@@ -78,76 +79,76 @@ public class CaliString extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType compare(ArrayList<CaliType> args) {
+	public CaliType compare(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.compareTo(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType compareICase(ArrayList<CaliType> args) {
+	public CaliType compareICase(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.compareToIgnoreCase(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType concat(ArrayList<CaliType> args) {
+	public CaliType concat(Environment env, ArrayList<CaliType> args) {
 		this.value += ((CaliString)args.get(0)).getValue();
 		return this;
 	}
 	
-	public CaliType contains(ArrayList<CaliType> args) {
+	public CaliType contains(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.contains(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType endsWith(ArrayList<CaliType> args) {
+	public CaliType endsWith(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.endsWith(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType equals(ArrayList<CaliType> args) {
+	public CaliType equals(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.equals(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType equalsICase(ArrayList<CaliType> args) {
+	public CaliType equalsICase(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.equalsIgnoreCase(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType indexOf(ArrayList<CaliType> args) {
+	public CaliType indexOf(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.indexOf(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType indexOfStart(ArrayList<CaliType> args) {
+	public CaliType indexOfStart(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.indexOf(((CaliString)args.get(0)).getValue(), (int)((CaliInt)args.get(1)).getValue()));
 	}
 	
-	public CaliType isEmpty(ArrayList<CaliType> args) {
+	public CaliType isEmpty(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.isEmpty());
 	}
 	
-	public CaliType lastIndexOf(ArrayList<CaliType> args) {
+	public CaliType lastIndexOf(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.lastIndexOf(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType lastIndexOfStart(ArrayList<CaliType> args) {
+	public CaliType lastIndexOfStart(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.lastIndexOf(((CaliString)args.get(0)).getValue(), (int)((CaliInt)args.get(1)).getValue()));
 	}
 	
-	public CaliType length(ArrayList<CaliType> args) {
+	public CaliType length(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.length());
 	}
 	
-	public CaliType matches(ArrayList<CaliType> args) {
+	public CaliType matches(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.matches(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType replace(ArrayList<CaliType> args) {
+	public CaliType replace(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.replace(((CaliString)args.get(0)).getValue(), ((CaliString)args.get(1)).getValue()));
 	}
 	
-	public CaliType replaceFirstRegex(ArrayList<CaliType> args) {
+	public CaliType replaceFirstRegex(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.replaceFirst(((CaliString)args.get(0)).getValue(), ((CaliString)args.get(1)).getValue()));
 	}
 	
-	public CaliType replaceRegex(ArrayList<CaliType> args) {
+	public CaliType replaceRegex(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.replaceAll(((CaliString)args.get(0)).getValue(), ((CaliString)args.get(1)).getValue()));
 	}
 	
-	public CaliType split(ArrayList<CaliType> args) {
+	public CaliType split(Environment env, ArrayList<CaliType> args) {
 		CaliList ret = new CaliList();
 		boolean allowBlanks = ((CaliBool)args.get(1)).getValue();
 		String parts[] = this.value.split(((CaliString)args.get(0)).getValue());
@@ -159,7 +160,7 @@ public class CaliString extends CaliObject implements CaliTypeInt {
 		return ret;
 	}
 	
-	public CaliType startsWith(ArrayList<CaliType> args) {
+	public CaliType startsWith(Environment env, ArrayList<CaliType> args) {
 		if (args.size() > 1) {
 			return new CaliBool(this.value.startsWith(((CaliString)args.get(0)).getValue(), (int)((CaliInt)args.get(1)).getValue()));
 		} else {
@@ -167,7 +168,7 @@ public class CaliString extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType substr(ArrayList<CaliType> args) {
+	public CaliType substr(Environment env, ArrayList<CaliType> args) {
 		if (args.get(1).isNull()) {
 			return new CaliString(this.value.substring((int)((CaliInt)args.get(0)).getValue()));
 		} else {
@@ -175,15 +176,15 @@ public class CaliString extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType toLower(ArrayList<CaliType> args) {
+	public CaliType toLower(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.toLowerCase());
 	}
 	
-	public CaliType toUpper(ArrayList<CaliType> args) {
+	public CaliType toUpper(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.toUpperCase());
 	}
 	
-	public CaliType trim(ArrayList<CaliType> args) {
+	public CaliType trim(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.value.trim());
 	}
 }

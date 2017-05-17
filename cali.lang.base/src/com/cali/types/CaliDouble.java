@@ -18,6 +18,7 @@ package com.cali.types;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
@@ -69,34 +70,34 @@ public class CaliDouble extends CaliObject implements CaliTypeInt {
 		return this.str();
 	}
 	
-	public CaliType toInt(ArrayList<CaliType> args) {
+	public CaliType toInt(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt((int)this.value);
 	}
 	
-	public CaliType toBool(ArrayList<CaliType> args) {
+	public CaliType toBool(Environment env, ArrayList<CaliType> args) {
 		if (this.value == 0.0) {
 			return new CaliBool(false);
 		}
 		return new CaliBool(true);
 	}
 	
-	public CaliType toString(ArrayList<CaliType> args) {
+	public CaliType toString(Environment env, ArrayList<CaliType> args) {
 		return new CaliString("" + this.value);
 	}
 	
-	public CaliType compare(ArrayList<CaliType> args) {
+	public CaliType compare(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(Double.compare(this.value, ((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public CaliType isInfinite(ArrayList<CaliType> args) {
+	public CaliType isInfinite(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(Double.isInfinite(this.value));
 	}
 	
-	public CaliType isNan(ArrayList<CaliType> args) {
+	public CaliType isNan(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(Double.isNaN(this.value));
 	}
 	
-	public CaliType parse(ArrayList<CaliType> args) {
+	public CaliType parse(Environment env, ArrayList<CaliType> args) {
 		try {
 			return new CaliDouble(Double.parseDouble(((CaliString)args.get(0)).getValue()));
 		} catch(Exception e) {
@@ -104,7 +105,7 @@ public class CaliDouble extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType toHex(ArrayList<CaliType> args) {
+	public CaliType toHex(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(Double.toHexString(this.value));
 	}
 }

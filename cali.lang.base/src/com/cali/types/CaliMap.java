@@ -19,6 +19,7 @@ package com.cali.types;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
@@ -113,28 +114,28 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType clear(ArrayList<CaliType> args) {
+	public CaliType clear(Environment env, ArrayList<CaliType> args) {
 		this.value.clear();
 		return this;
 	}
 	
-	public CaliType containsKey(ArrayList<CaliType> args) {
+	public CaliType containsKey(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.containsKey(((CaliString)args.get(0)).getValue()));
 	}
 	
-	public CaliType containsVal(ArrayList<CaliType> args) {
+	public CaliType containsVal(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.containsValue(args.get(0)));
 	}
 	
-	public CaliType get(ArrayList<CaliType> args) {
+	public CaliType get(Environment env, ArrayList<CaliType> args) {
 		return this.value.get(((CaliString)args.get(0)).getValue());
 	}
 	
-	public CaliType isEmpty(ArrayList<CaliType> args) {
+	public CaliType isEmpty(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.value.isEmpty());
 	}
 	
-	public CaliType keySet(ArrayList<CaliType> args) {
+	public CaliType keySet(Environment env, ArrayList<CaliType> args) {
 		CaliList lst = new CaliList();
 		for (String str : this.value.keySet()) {
 			lst.add(new CaliString(str));
@@ -142,23 +143,23 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 		return lst;
 	}
 	
-	public CaliType put(ArrayList<CaliType> args) {
+	public CaliType put(Environment env, ArrayList<CaliType> args) {
 		this.value.put(((CaliString)args.get(0)).getValue(), args.get(1));
 		return this;
 	}
 	
-	public CaliType putAll(ArrayList<CaliType> args) {
+	public CaliType putAll(Environment env, ArrayList<CaliType> args) {
 		CaliMap mp = (CaliMap)args.get(0);
 		this.value.putAll(mp.getValue());
 		return this;
 	}
 	
-	public CaliType putIfAbsent(ArrayList<CaliType> args) {
+	public CaliType putIfAbsent(Environment env, ArrayList<CaliType> args) {
 		this.value.putIfAbsent(((CaliString)args.get(0)).getValue(), args.get(1));
 		return this;
 	}
 	
-	public CaliType remove(ArrayList<CaliType> args) {
+	public CaliType remove(Environment env, ArrayList<CaliType> args) {
 		Object ret = this.value.remove(((CaliString)args.get(0)).getValue());
 		if (ret == null) {
 			return new CaliNull();
@@ -167,11 +168,11 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 		}
 	}
 	
-	public CaliType size(ArrayList<CaliType> args) {
+	public CaliType size(Environment env, ArrayList<CaliType> args) {
 		return new CaliInt(this.value.size());
 	}
 	
-	public CaliType values(ArrayList<CaliType> args) {
+	public CaliType values(Environment env, ArrayList<CaliType> args) {
 		CaliList lst = new CaliList();
 		for (String str : this.value.keySet()) {
 			lst.add(this.value.get(str));

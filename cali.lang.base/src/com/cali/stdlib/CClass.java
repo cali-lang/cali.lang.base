@@ -39,23 +39,23 @@ public class CClass {
 	
 	public void setClass(astClass ClassDef) { this.classDef = ClassDef; }
 	
-	public CaliType getName(ArrayList<CaliType> args) {
+	public CaliType getName(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.classDef.getName());
 	}
 	
-	public CaliType isStatic(ArrayList<CaliType> args) {
+	public CaliType isStatic(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.classDef.getStatic());
 	}
 	
-	public CaliType isExtern(ArrayList<CaliType> args) {
+	public CaliType isExtern(Environment env, ArrayList<CaliType> args) {
 		return new CaliBool(this.classDef.getExtern());
 	}
 	
-	public CaliType getExternClassName(ArrayList<CaliType> args) {
+	public CaliType getExternClassName(Environment env, ArrayList<CaliType> args) {
 		return new CaliString(this.classDef.getExternClassName());
 	}
 	
-	public CaliType getMembers(ArrayList<CaliType> args) {
+	public CaliType getMembers(Environment env, ArrayList<CaliType> args) {
 		CaliMap mp = new CaliMap();
 		
 		for(String mname : this.classDef.getMembers().keySet()) {

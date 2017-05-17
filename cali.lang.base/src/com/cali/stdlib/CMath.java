@@ -18,6 +18,7 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Environment;
 import com.cali.ast.caliException;
 import com.cali.types.CaliDouble;
 import com.cali.types.CaliException;
@@ -26,15 +27,15 @@ import com.cali.types.CaliType;
 import com.cali.types.cType;
 
 public class CMath {
-	public static CaliType e(ArrayList<CaliType> args) {
+	public static CaliType e(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.E);
 	}
 	
-	public static CaliType pi(ArrayList<CaliType> args) {
+	public static CaliType pi(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.PI);
 	}
 	
-	public static CaliType abs(ArrayList<CaliType> args) {
+	public static CaliType abs(Environment env, ArrayList<CaliType> args) {
 		CaliType ret = new CaliInt(0);
 		CaliType arg = args.get(0);
 		if(arg.getType() == cType.cBool);
@@ -44,75 +45,75 @@ public class CMath {
 		return ret;
 	}
 	
-	public static CaliType acos(ArrayList<CaliType> args) {
+	public static CaliType acos(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.acos(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType asin(ArrayList<CaliType> args) {
+	public static CaliType asin(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.asin(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType atan(ArrayList<CaliType> args) {
+	public static CaliType atan(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.atan(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType cbrt(ArrayList<CaliType> args) {
+	public static CaliType cbrt(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.cbrt(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType ceil(ArrayList<CaliType> args) {
+	public static CaliType ceil(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.ceil(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType copySign(ArrayList<CaliType> args) {
+	public static CaliType copySign(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.copySign(((CaliDouble)args.get(0)).getValue(), ((CaliDouble)args.get(1)).getValue()));
 	}
 	
-	public static CaliType cos(ArrayList<CaliType> args) {
+	public static CaliType cos(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.cos(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType cosh(ArrayList<CaliType> args) {
+	public static CaliType cosh(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.cosh(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType exp(ArrayList<CaliType> args) {
+	public static CaliType exp(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.exp(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType expm1(ArrayList<CaliType> args) {
+	public static CaliType expm1(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.expm1(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType floor(ArrayList<CaliType> args) {
+	public static CaliType floor(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.floor(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType getExponent(ArrayList<CaliType> args) {
+	public static CaliType getExponent(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.getExponent(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType hypot(ArrayList<CaliType> args) {
+	public static CaliType hypot(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.hypot(((CaliDouble)args.get(0)).getValue(), ((CaliDouble)args.get(1)).getValue()));
 	}
 	
-	public static CaliType IEEEremainder(ArrayList<CaliType> args) {
+	public static CaliType IEEEremainder(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.IEEEremainder(((CaliDouble)args.get(0)).getValue(), ((CaliDouble)args.get(1)).getValue()));
 	}
 	
-	public static CaliType log(ArrayList<CaliType> args) {
+	public static CaliType log(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.log(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType log10(ArrayList<CaliType> args) {
+	public static CaliType log10(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.log10(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType log1p(ArrayList<CaliType> args) {
+	public static CaliType log1p(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.log1p(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType max(ArrayList<CaliType> args) throws caliException {
+	public static CaliType max(Environment env, ArrayList<CaliType> args) throws caliException {
 		CaliType ret = new CaliInt(0);
 		CaliType arg = args.get(0);
 		CaliType arg2 = args.get(1);
@@ -121,7 +122,7 @@ public class CMath {
 		return ret;
 	}
 	
-	public static CaliType min(ArrayList<CaliType> args) throws caliException {
+	public static CaliType min(Environment env, ArrayList<CaliType> args) throws caliException {
 		CaliType ret = new CaliInt(0);
 		CaliType arg = args.get(0);
 		CaliType arg2 = args.get(1);
@@ -130,67 +131,67 @@ public class CMath {
 		return ret;
 	}
 	
-	public static CaliType nextAfter(ArrayList<CaliType> args) {
+	public static CaliType nextAfter(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.nextAfter(((CaliDouble)args.get(0)).getValue(), ((CaliDouble)args.get(1)).getValue()));
 	}
 	
-	public static CaliType nextUp(ArrayList<CaliType> args) {
+	public static CaliType nextUp(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.nextUp(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType pow(ArrayList<CaliType> args) {
+	public static CaliType pow(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.pow(((CaliDouble)args.get(0)).getValue(), ((CaliDouble)args.get(1)).getValue()));
 	}
 	
-	public static CaliType rand(ArrayList<CaliType> args) {
+	public static CaliType rand(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.random());
 	}
 	
-	public static CaliType rint(ArrayList<CaliType> args) {
+	public static CaliType rint(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.rint(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType round(ArrayList<CaliType> args) {
+	public static CaliType round(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.round(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType scalb(ArrayList<CaliType> args) {
+	public static CaliType scalb(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.scalb(((CaliDouble)args.get(0)).getValue(), (int)((CaliInt)args.get(1)).getValue()));
 	}
 	
-	public static CaliType signum(ArrayList<CaliType> args) {
+	public static CaliType signum(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.signum(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType sin(ArrayList<CaliType> args) {
+	public static CaliType sin(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.sin(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType sinh(ArrayList<CaliType> args) {
+	public static CaliType sinh(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.sinh(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType sqrt(ArrayList<CaliType> args) {
+	public static CaliType sqrt(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.sqrt(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType tan(ArrayList<CaliType> args) {
+	public static CaliType tan(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.tan(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType tanh(ArrayList<CaliType> args) {
+	public static CaliType tanh(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.tanh(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType toDeg(ArrayList<CaliType> args) {
+	public static CaliType toDeg(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.toDegrees(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType toRad(ArrayList<CaliType> args) {
+	public static CaliType toRad(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.toRadians(((CaliDouble)args.get(0)).getValue()));
 	}
 	
-	public static CaliType ulp(ArrayList<CaliType> args) {
+	public static CaliType ulp(Environment env, ArrayList<CaliType> args) {
 		return new CaliDouble(Math.ulp(((CaliDouble)args.get(0)).getValue()));
 	}
 }
