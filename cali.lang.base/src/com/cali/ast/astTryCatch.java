@@ -19,11 +19,7 @@ package com.cali.ast;
 import com.cali.Environment;
 import com.cali.types.CaliException;
 import com.cali.types.CaliException.exType;
-import com.cali.types.CaliInt;
-import com.cali.types.CaliList;
 import com.cali.types.CaliNull;
-import com.cali.types.CaliObject;
-import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 public class astTryCatch extends astNode implements astNodeInt
@@ -79,22 +75,25 @@ public class astTryCatch extends astNode implements astNodeInt
 			}
 		}
 		
-		if(!except.isNull()) {
-			CaliType tnode = this.initArgs(env, getRef, (CaliException)except);
-			if(tnode.isEx()) {
-				ret = tnode;
-			} else {
-				env.getLocals().add(this.getName(), tnode);
-				for(int i = 0; (i < this.catchInstList.getStatements().size())&&(!ret.isEx()); i++) {
-					astNode statement = this.catchInstList.getStatements().get(i);
-					CaliType tmp = statement.eval(env, getRef);
-					if(tmp.isBreak() || tmp.isReturn()) {
-						ret = tmp;
-						break;
-					} else if(tmp.isEx()) {
-						ret = tmp;
-						break;
-					}
+		if(!except.isNull()){
+			CaliType tnode = null;
+			try {
+				tnode = this.initArgs(env, getRef, (CaliException)except);
+			} catch (caliException e) {
+				CaliException ex = new CaliException(exType.exRuntime);
+				ex.setException(getLineNum(), "MALFORMED_CATCH_DEFINITION", "Malformed catch definition.", "Malformed catch definition.", env.getCallStack().getStackTrace());
+				return ex;
+			}
+			env.getLocals().add(this.getName(), tnode);
+			for(int i = 0; (i < this.catchInstList.getStatements().size())&&(!ret.isEx()); i++) {
+				astNode statement = this.catchInstList.getStatements().get(i);
+				CaliType tmp = statement.eval(env, getRef);
+				if(tmp.isBreak() || tmp.isReturn()) {
+					ret = tmp;
+					break;
+				} else if(tmp.isEx()) {
+					ret = tmp;
+					break;
 				}
 			}
 		}
@@ -106,28 +105,9 @@ public class astTryCatch extends astNode implements astNodeInt
 		CaliType ret = new CaliNull();
 
 		if(this.getName().equals("")) {
-			CaliException e = new CaliException(exType.exRuntime);
-			e.setException(getLineNum(), "MALFORMED_CATCH_DEFINITION", "Malformed catch definition.", "Malformed catch definition.", env.getCallStack().getStackTrace());
-			ret = e;
+			throw new caliException("Malformed catch definition");
 		} else {
-			 // Instantiate a new exception object and return it.
-			 
-			 if(env.getEngine().containsClass("exception")) {
-				 astClass exClass = env.getEngine().getClassByName("exception");
-				 ret = exClass.instantiate(env, getRef, new CaliList());
-				 
-				 CaliObject aci = (CaliObject)ret;
-				 aci.addMember("lineNumber", new CaliInt(ae.getLineNumber()));
-				 aci.addMember("exceptionType", new CaliString(ae.getExceptionTypeString()));
-				 aci.addMember("id", new CaliString(ae.getId()));
-				 aci.addMember("text", new CaliString(ae.getText()));
-				 aci.addMember("details", new CaliString(ae.getDetails()));
-				 aci.addMember("stackTrace", new CaliString(ae.getStackTrace()));
-			 } else {
-				 CaliException e = new CaliException(exType.exRuntime);
-				 e.setException(getLineNum(), "EXCEPTION_CLASS_NOT_FOUND", "Exception class definition not found.", "Exception class definition not found.", env.getCallStack().getStackTrace());
-				 ret = e;
-			 }
+			ret = ae;
 		}	
 
 		return ret;

@@ -76,12 +76,14 @@ public class astIfElse extends astNode implements astNodeInt {
 	public CaliType evalImpl(Environment env, boolean getref) throws caliException {
 		CaliType ret = new CaliNull();
 		CaliType etmp = this.ifCondition.getExpression().eval(env, getref);
+		if(astNode.isBreakReturnExcept(etmp)) { return etmp; }
 		CaliBool tmp = etmp.evalExpressionBool();
 		if(!tmp.getValue()) {
 			// Else If Blocks
 			for(int i = 0; (i < this.ifElseConditions.size())&&(!tmp.getValue()); i++) {
 				astConditionBlock acb = (astConditionBlock)this.ifElseConditions.get(i);
 				etmp = acb.getExpression().eval(env, getref);
+				if(astNode.isBreakReturnExcept(etmp)) { return etmp; }
 				tmp = etmp.evalExpressionBool();
 				if(tmp.getValue()) {
 					ret = acb.eval(env, getref);
@@ -92,12 +94,10 @@ public class astIfElse extends astNode implements astNodeInt {
 			if(!tmp.getValue()) {
 				for(astNode inst : this.elseInstructionList.getStatements()) {
 					ret = inst.eval(env, getref);
-					if(astNode.isBreakReturnEvent(ret))
-						break;
+					if(astNode.isBreakReturnExcept(ret)) { return ret; }
 				}
 			}
-		}
-		else {
+		} else {
 			ret = this.ifCondition.eval(env, getref);
 		}
 		
