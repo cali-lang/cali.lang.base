@@ -223,10 +223,14 @@ public class astFunctDef extends astNode implements astNodeInt {
 		
 		CaliObject callingObj = env.getClassInstance();
 		Object o = callingObj.getExternObject();
+		
 		if(o != null) {
 			ArrayList<CaliType> fargs = this.getExternArgs(env, args);
 			try {
 				Class<?> aclass = callingObj.getClassDef().getExternClass();
+				if (aclass == null) {
+					System.out.println("aclass null");
+				}
 				Method meth = aclass.getMethod(this.getName(), Environment.class, ArrayList.class);
 				CaliType tmp = (CaliType)meth.invoke(o, env, fargs);
 				if((tmp != null)&&(tmp instanceof CaliType)) ret = tmp;
@@ -260,6 +264,8 @@ public class astFunctDef extends astNode implements astNodeInt {
 				CaliException ex = new CaliException(exType.exRuntime);
 				ex.setException(this.getLineNum(), "EXTERN_EXCEPTION", e.getMessage(), env.getCallStack().getStackTrace());
 				return ex;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		} else {
 			CaliException ex = new CaliException(exType.exRuntime);

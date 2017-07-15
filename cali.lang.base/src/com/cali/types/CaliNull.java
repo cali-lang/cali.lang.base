@@ -16,11 +16,15 @@
 
 package com.cali.types;
 
+import java.util.ArrayList;
+
+import com.cali.Environment;
 import com.cali.Universe;
+import com.cali.Util;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
 
-public class CaliNull extends CaliObject implements CaliTypeInt {
+public class CaliNull extends CaliObject implements CaliTypeInt, CaliTypeObjectInt {
 	public CaliNull() {
 		this.setType(cType.cNull);
 		
@@ -50,5 +54,18 @@ public class CaliNull extends CaliObject implements CaliTypeInt {
 	
 	public String str(int Level) {
 		return this.str();
+	}
+	
+	@Override
+	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
+		return new CaliString("null");
+	}
+	
+	@Override
+	public CaliType pack(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		parts.add("\"type\":\"" + this.getClassDef().getName() + "\"");
+		parts.add("\"value\":null");
+		return new CaliString("{" + Util.join(parts, ",") + "}");
 	}
 }

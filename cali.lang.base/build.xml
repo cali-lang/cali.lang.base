@@ -30,6 +30,7 @@
 	
 	<path id="libraries">
 	    <files includes="${linklib}/java-cup-11b-runtime.jar" />
+	    <files includes="${linklib}/json-simple-1.1.1.jar" />
 	</path>
 	
 	<target name="parser" depends="clean, makedir, compile-parser" />
@@ -63,6 +64,7 @@
 				<attribute name="Main-Class" value="com.cali.Main" />
 				<attribute name="Class-Path" value="${jar.classpath}" />
 			</manifest>
+			<zipgroupfileset dir="${linklib}" includes="*.jar"/>
 		</jar>
 	</target>
 	

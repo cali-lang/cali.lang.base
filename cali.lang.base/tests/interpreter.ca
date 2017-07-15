@@ -342,6 +342,7 @@ class interpreterTests : test {
 			.add("(lang int) Int to binary.", ::intToBinary)
 			.add("(lang int) Int to hex.", ::intToHex)
 			.add("(lang int) Int to octal.", ::intToOctal)
+			.add("(lang int) Int to JSON.", ::intToJson)
 		;
 		
 		// bool tests
@@ -351,6 +352,7 @@ class interpreterTests : test {
 			.add("(lang bool) Bool to string.", ::boolToString)
 			.add("(lang bool) Bool compare.", ::boolCompare)
 			.add("(lang bool) Bool parse.", ::boolParse)
+			.add("(lang bool) Bool to JSON.", ::boolToJson)
 		;
 		
 		// double tests
@@ -372,6 +374,7 @@ class interpreterTests : test {
 			.add("(lang double) Double is NaN.", ::doubleIsNaN)
 			.add("(lang double) Double parse.", ::doubleParse)
 			.add("(lang double) Double to hex.", ::doubleToHex)
+			.add("(lang double) Double to JSON.", ::doubleToJson)
 		;
 		
 		// string tests
@@ -400,6 +403,7 @@ class interpreterTests : test {
 			.add("(lang string) String to lower case.", ::stringToLower)
 			.add("(lang string) String to upper case.", ::stringToUpper)
 			.add("(lang string) String trim.", ::stringTrim)
+			.add("(lang string) String to JSON.", ::stringToJson)
 		;
 		
 		// list tests
@@ -425,6 +429,7 @@ class interpreterTests : test {
 			.add("(lang list) List sort ascending.", ::listSortAsc)
 			.add("(lang list) List sort custom.", ::listSortCustom)
 			.add("(lang list) List clear.", ::listClear)
+			.add("(lang list) List to JSON.", ::listToJson)
 		;
 		
 		// map tests
@@ -442,6 +447,19 @@ class interpreterTests : test {
 			.add("(lang map) Map size.", ::mapSize)
 			.add("(lang map) Map values.", ::mapValues)
 			.add("(lang map) Map clear.", ::mapClear)
+			.add("(lang map) Map to JSON.", ::mapToJson)
+		;
+		
+		// object tests
+		this
+			.add("(lang object) Object to JSON.", ::objectToJson)
+			.add("(lang object) Object pack.", ::objectPack)
+		;
+		
+		// json tests
+		this
+			.add("(lang json) JSON parse string.", ::jsonParseString)
+			.add("(lang json) JSON unpack object.", ::jsonUnpack)
 		;
 		
 		// buffer tests
@@ -782,6 +800,7 @@ class interpreterTests : test {
 	public intToBinary() { return this.expect((32).toBinary(), '100000'); }
 	public intToHex() { return this.expect((32).toHex(), '20'); }
 	public intToOctal() { return this.expect((32).toOctal(), '40'); }
+	public intToJson() { return this.expect((95678).toJson(), '95678'); }
 	
 	/**********************************************************************
 	 * bool tests
@@ -791,6 +810,7 @@ class interpreterTests : test {
 	public boolToString() { return this.expect((true).toString(), 'true'); }
 	public boolCompare() { return this.expect((true).compare(false), 1); }
 	public boolParse() { return this.expect(Bool.parse('true'), true); }
+	public boolToJson() { return this.expect((true).toJson(), 'true'); }
 	
 	/**********************************************************************
 	 * double tests
@@ -812,6 +832,7 @@ class interpreterTests : test {
 	public doubleIsNaN() { return this.expect(Double.nanVal().isNan(), true); }
 	public doubleParse() { return this.expect(Double.parse('3.1415'), 3.1415); }
 	public doubleToHex() { return this.expect((3.1415).toHex(), '0x1.921cac083126fp1'); }
+	public doubleToJson() { return this.expect((3.1415).toJson(), '3.1415'); }
 	
 	/**********************************************************************
 	 * string tests
@@ -840,6 +861,7 @@ class interpreterTests : test {
 	public stringToLower() { return this.expect("Tyler".toLower(), "tyler"); }
 	public stringToUpper() { return this.expect("Tyler".toUpper(), "TYLER"); }
 	public stringTrim() { return this.expect(" Tyler ".trim(), "Tyler"); }
+	public stringToJson() { return this.expect("Tyler Durdon".toJson(), "\"Tyler Durdon\""); }
 	
 	/**********************************************************************
 	 * list tests
@@ -874,6 +896,7 @@ class interpreterTests : test {
 	}
 	public customComparator(object d1, object d2) { return d1.breed.compare(d2.breed); }
 	public listClear() { this.tlist.clear(); return this.expect(#this.tlist, 0); }
+	public listToJson() { tmp = [ 1, 'dog', true ]; return this.expect(tmp.toJson(), """[1,"dog",true]"""); }
 	
 	/**********************************************************************
 	 * map tests
@@ -891,6 +914,77 @@ class interpreterTests : test {
 	public mapSize() { return this.expect(this.tmap.size(), #this.tmap); }
 	public mapValues() { mp = {}; mp['name'] = 'Tyler'; return this.expect(mp.values()[0], 'Tyler'); }
 	public mapClear() { this.tmap.clear(); return this.expect(#this.tmap, 0); }
+	public mapToJson() { tmp = { name: "Tyler", age: 35 }; return this.expect(tmp.toJson(), """{"name":"Tyler","age":35}"""); }
+	
+	/**********************************************************************
+	 * object tests
+	 *********************************************************************/
+	public objectToJson() { 
+		try {
+			u = new user();
+			u.setName("Tyler", "Durden");
+			return this.expect(u.toJson(), """{"firstName":"Tyler","lastName":"Durden","emailAddress":{"address":""}}""");
+		} catch (e) { c.err(e); }
+	}
+	public objectPack() {
+		try {
+			u = new user();
+			u.setName("Tyler", "Durden");
+			return this.expect(u.pack(), """{"type":"user","members":{"firstName":{"type":"string","value":"Tyler"},"lastName":{"type":"string","value":"Durden"},"emailAddress":{"type":"email","members":{"address":{"type":"string","value":""}}}}}""");
+		} catch (e) { c.err(e); }
+	}
+	
+	/**********************************************************************
+	 * json tests
+	 *********************************************************************/
+	public jsonParseString() {
+		jstr = """
+		{
+			"firstName": "Tyler",
+			"lastName": "Durden",
+			"age": 35,
+			"pi": 3.1415,
+			"vet": true,
+			"nextHouse": null,
+			"months": ["November", "December", "January"],
+			"loc": {
+				"latitude": 38.7521,
+				"longitude": -121.2880
+			}
+		}
+		""";
+		jobj = json.parse(jstr);
+		return this.expect(jobj instanceof 'map', true);
+	}
+	public jsonUnpack() {
+		jstr = """
+			{
+				"type":"user",
+				"members":{
+					"firstName":{
+						"type":"string",
+						"value":"Tyler"
+					},
+					"lastName":{
+						"type":"string",
+						"value":"Durden"
+					},
+					"emailAddress":{
+						"type":"email",
+						"members":{
+							"address":{
+								"type":"string",
+								"value":""
+							}
+						}
+					}
+				}
+			}
+		""";
+		u = json.unpack(jstr);
+		return this.expect(u instanceof 'user', true);
+	}
+	
 	
 	/**********************************************************************
 	 * buffer tests

@@ -49,6 +49,8 @@ public class Lang{
 	    + "public extern toString();\n"
 	    + "public extern compare(bool Val);\n"
 	    + "public extern parse(string Val);\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "static extern class Bool : com.cali.stdlib.SBool {\n"
@@ -71,6 +73,8 @@ public class Lang{
 	    + "public extern toHex();\n"
 	    + "public extern toOctal();\n"
 	    + "public extern parse(string Str, int Radix = null);\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "static extern class Int : com.cali.stdlib.SInt {\n"
@@ -88,6 +92,8 @@ public class Lang{
 	    + "public extern isNan();\n"
 	    + "public extern parse(string Val);\n"
 	    + "public extern toHex();\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "static extern class Double : com.cali.stdlib.SDouble {\n"
@@ -128,6 +134,8 @@ public class Lang{
 	    + "public extern toLower();\n"
 	    + "public extern toUpper();\n"
 	    + "public extern trim();\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "extern class list : com.cali.types.CaliList {\n"
@@ -152,6 +160,8 @@ public class Lang{
 	    + "public extern sortAsc();\n"
 	    + "public extern join(string Glue);\n"
 	    + "public extern sortCustom(callback OnCompare);\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "extern class map : com.cali.types.CaliMap {\n"
@@ -167,6 +177,13 @@ public class Lang{
 	    + "public extern remove(string Key);\n"
 	    + "public extern size();\n"
 	    + "public extern values();\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
+	    + "}\n"
+	    + "\n"
+	    + "extern class object : com.cali.types.CaliObject {\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    + "extern class callback : com.cali.types.CaliCallback {\n"
@@ -175,13 +192,15 @@ public class Lang{
 	    + "}\n"
 	    + "\n"
 	    + "extern class cnull : com.cali.types.CaliNull {\n"
+	    + "public extern toJson();\n"
+	    + "public extern pack();\n"
 	    + "}\n"
 	    + "\n"
 	    
 	    /*
 	     * exception
 	     */
-	    + "class exception {\n"
+	    + "extern class exception : com.cali.types.CaliException {\n"
 	    + "// Getters\n"
 	    + "public extern getLineNumber();\n"
 	    + "public extern getExceptionType();\n"
@@ -199,6 +218,7 @@ public class Lang{
 	    + "}\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * console
 	     */
@@ -220,6 +240,7 @@ public class Lang{
 	    + "private extern _println(Content);\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * date
 	     */
@@ -253,6 +274,7 @@ public class Lang{
 	    + "private extern _setTime(int TimeMills);\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * charset
 	     */
@@ -265,6 +287,7 @@ public class Lang{
 	    + "utf_16;\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * byte order
 	     */
@@ -273,6 +296,7 @@ public class Lang{
 	    + "little;\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * buffer
 	     */
@@ -369,11 +393,21 @@ public class Lang{
 	    + "private extern _copyTo(int SrcIndex, object Buffer, int DestIndex = -1, int Length = -1);\n"
 	    + "}\n"
 	    + "\n"
+	    
 	    /*
 	     * lang
 	     */
 	    + "static extern class lang : com.cali.stdlib.CLang {\n"
 	    + "public extern type(DataType);\n"
+	    + "}\n"
+	    + "\n"
+	    
+	    /*
+	     * json
+	     */
+	    + "static extern class json : com.cali.stdlib.CJson {\n"
+	    + "public extern parse(string JsonString);\n"
+	    + "public extern unpack(string JsonString);\n"
 	    + "}\n"
 	    + "\n"
 	;
@@ -501,7 +535,7 @@ public class Lang{
         	+ "this.failed++;\n"
         	+ "if(!this.silent) {\n"
         	+ "c.println(\"FAILED\")\n"
-        	+ ".err(e.getMessage() + \"\n\" + e.getTrace())\n"
+        	+ ".err(e.getText() + \"\n\" + e.getStackTrace())\n"
         	+ ";\n"
         	+ "if(t['dieOnFail']) { break; }\n"
         	+ "}\n"

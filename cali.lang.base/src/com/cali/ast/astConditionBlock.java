@@ -67,7 +67,7 @@ public class astConditionBlock extends astNode implements astNodeInt {
 		
 		for(astNode inst : this.instructionList.getStatements()) {
 			tmp = inst.eval(env, getref);
-			if(astNode.isBreakReturnEvent(tmp)) {
+			if(astNode.isBreakReturnExcept(tmp)) {
 				ret = tmp;
 				break;
 			}

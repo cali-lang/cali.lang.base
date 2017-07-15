@@ -26,7 +26,7 @@ import com.cali.ast.caliException;
 import com.cali.stdlib.console;
 import com.cali.types.CaliListComparator.SortOrder;
 
-public class CaliList extends CaliObject implements CaliTypeInt {
+public class CaliList extends CaliObject implements CaliTypeInt, CaliTypeObjectInt {
 	private ArrayList<CaliType> value = new ArrayList<CaliType>();
 	
 	public CaliList() {
@@ -34,6 +34,10 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 	}
 	
 	public CaliList(boolean LinkClass) {
+		// Call parent CaliObject constructor with passed LinkClass arg or end up with 
+		// Universe freaking out because it can't find object class reference.
+		super(LinkClass);
+		
 		this.setType(cType.cList);
 		
 		if (LinkClass) {
@@ -278,5 +282,56 @@ public class CaliList extends CaliObject implements CaliTypeInt {
 		}
 		
 		return this;
+	}
+	
+	@Override
+	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		for (CaliType ct : this.value) {
+			if (
+					ct instanceof CaliBool
+					|| ct instanceof CaliNull
+					|| ct instanceof CaliInt
+					|| ct instanceof CaliDouble
+					|| ct instanceof CaliString
+					|| ct instanceof CaliList
+					|| ct instanceof CaliMap
+					|| ct instanceof CaliObject
+				) {
+				parts.add(((CaliTypeObjectInt)ct).toJson(env, new ArrayList<CaliType>()).getValueString());
+			} else {
+				return new CaliException("Unexpected type found '" + ct.getType().name() + "' when converting to JSON.");
+			}
+		}
+		return new CaliString("[" + Util.join(parts, ",") + "]");
+	}
+	
+	@Override
+	public CaliType pack(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		
+		// Object metadata.
+		parts.add("\"type\":\"" + this.getClassDef().getName() + "\"");
+		
+		ArrayList<String> mparts = new ArrayList<String>();
+		for (CaliType ct : this.value) {
+			if (
+					ct instanceof CaliBool
+					|| ct instanceof CaliNull
+					|| ct instanceof CaliInt
+					|| ct instanceof CaliDouble
+					|| ct instanceof CaliString
+					|| ct instanceof CaliList
+					|| ct instanceof CaliMap
+					|| ct instanceof CaliObject
+				) {
+				mparts.add(((CaliTypeObjectInt)ct).toJson(env, new ArrayList<CaliType>()).getValueString());
+			} else {
+				return new CaliException("Unexpected type found '" + ct.getType().name() + "' when converting to JSON.");
+			}
+		}
+		parts.add("\"value\":[" + Util.join(mparts, ",") + "]");
+		
+		return new CaliString("{" + Util.join(parts, ",") + "}");
 	}
 }

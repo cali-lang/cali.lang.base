@@ -38,6 +38,9 @@ import com.cali.types.CaliType;
 import com.cali.types.Members;
 
 public class astClass extends astNode implements astNodeInt {
+	// Has the class init ran yet? Init does things like link to 
+	// extended classes ...
+	private boolean initRan = false;
 	
 	// Is the class static.
 	private boolean isStatic = false;
@@ -117,6 +120,43 @@ public class astClass extends astNode implements astNodeInt {
 		return this.functDefs.get(Name);
 	}
 	
+	public void init(Environment env) throws caliException {
+		if (!this.initRan) {
+			this.initRan = true;
+			
+			boolean foundExtern = false;
+			if (this.isExtern) { foundExtern = true; }
+			
+			for(String className : this.extendedClasses) {
+				astClass ac = env.getClassByName(className);
+				
+				if(ac != null) {
+					if(ac.getExtern()) {
+						if (ac.getName().equals("object")) {
+							// Set object extern stuff to begin with if not set already.
+							if (this.externClass == null) {
+								this.isExtern = true;
+								this.externClassName = ac.getExternClassName();
+								this.externClass = ac.getExternClass();
+							}
+						} else {
+							if(foundExtern) {
+								throw new caliException(this, "Cannot inherit from two external classes. First is '" + this.externClassName + "' and second is '" + className + "'.", env.stackTraceToString());
+							}
+							
+							foundExtern = true;
+							this.isExtern = true;
+							this.externClassName = ac.getExternClassName();
+							this.externClass = ac.getExternClass();
+						}
+					}					
+				} else {
+					throw new caliException(this, "Extended class '" + className + "' not found.", env.stackTraceToString());
+				}
+			}
+		}
+	}
+	
 	/*
 	 * Run functions
 	 */
@@ -125,6 +165,9 @@ public class astClass extends astNode implements astNodeInt {
 	}
 	
 	public CaliType instantiate(Environment env, boolean getRef, CaliList args) throws caliException {
+		// Fisrt run init if it hasn't been ran for the class.
+		this.init(env);
+		
 		CaliObject ci;
 		if (this.isExtern) {
 			ci = (CaliObject) instantiateExtern();
@@ -232,26 +275,18 @@ public class astClass extends astNode implements astNodeInt {
 	}
 	
 	private void instantiateInheritedClasses(Environment env, CaliObject cobj) throws caliException {
-		boolean foundExtern = false;
-		
 		for(String className : this.extendedClasses) {
 			astClass ac = env.getClassByName(className);
+			
 			if(ac != null) {
 				if(ac.getExtern()) {
-					if(foundExtern) {
-						throw new caliException(this, "Cannot inherit from two external classes.", env.stackTraceToString());
-					}
-					
-					foundExtern = true;
-					this.isExtern = true;
-					this.externClassName = ac.getExternClassName();
-					this.externClass = ac.getExternClass();
-					
-					CaliObject ao = (CaliObject) ac.instantiate(env);
-					if(ao != null) {
-						cobj.setExternObject(ao.getExternObject());
-					} else {
-						throw new caliException(this, "Failed to instantiate class '" + className + "', object is null.", env.stackTraceToString());
+					if (!ac.getName().equals("object")) {
+						CaliObject ao = (CaliObject) ac.instantiate(env);
+						if(ao != null) {
+							cobj.setExternObject(ao.getExternObject());
+						} else {
+							throw new caliException(this, "Failed to instantiate class '" + className + "', object is null.", env.stackTraceToString());
+						}
 					}
 				}
 			
@@ -269,7 +304,6 @@ public class astClass extends astNode implements astNodeInt {
 				throw new caliException(this, "Extended class '" + className + "' not found.", env.stackTraceToString());
 			}
 		}
-
 	}
 	
 	private CaliType instantiateExtern() throws caliException {
@@ -295,8 +329,7 @@ public class astClass extends astNode implements astNodeInt {
 		}
 		
 		obj.setClassDef(this);
-		
-		if (primType) {
+		if (primType || this.externClass.getName().equals("com.cali.types.CaliObject")) {
 			obj.setExternObject(obj);
 		} else {
 			try {
@@ -440,5 +473,15 @@ public class astClass extends astNode implements astNodeInt {
 	
 	public Map<String, astNode> getFuncts() {
 		return this.functDefs;
+	}
+	
+	@Override
+	public void setName(String Name) {
+		// Don't add object as extend class to object.
+		if (!Name.equals("object") && !this.extendedClasses.contains("object")) {
+			this.extendedClasses.add("object");
+		}
+		// Actually set the name.
+		super.setName(Name);
 	}
 }

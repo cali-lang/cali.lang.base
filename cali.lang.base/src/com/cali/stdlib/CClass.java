@@ -27,6 +27,7 @@ import com.cali.ast.caliException;
 import com.cali.types.CaliBool;
 import com.cali.types.CaliList;
 import com.cali.types.CaliMap;
+import com.cali.types.CaliObject;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 import com.cali.types.CaliTypeInt;

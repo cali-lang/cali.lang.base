@@ -21,10 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.cali.Environment;
 import com.cali.Universe;
+import com.cali.Util;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
 
-public class CaliMap extends CaliObject implements CaliTypeInt {
+public class CaliMap extends CaliObject implements CaliTypeInt, CaliTypeObjectInt {
 	private ConcurrentHashMap<String, CaliType> value = new ConcurrentHashMap<String, CaliType>();
 	
 	public CaliMap() {
@@ -32,6 +33,10 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 	}
 	
 	public CaliMap(boolean LinkClass) {
+		// Call parent CaliObject constructor with passed LinkClass arg or end up with 
+		// Universe freaking out because it can't find object class reference.
+		super(LinkClass);
+		
 		this.setType(cType.cMap);
 		
 		if (LinkClass) {
@@ -178,5 +183,60 @@ public class CaliMap extends CaliObject implements CaliTypeInt {
 			lst.add(this.value.get(str));
 		}
 		return lst;
+	}
+	
+	@Override
+	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		for (String key : this.value.keySet()) {
+			CaliType ct = this.value.get(key);
+			if (
+					ct instanceof CaliBool
+					|| ct instanceof CaliNull
+					|| ct instanceof CaliInt
+					|| ct instanceof CaliDouble
+					|| ct instanceof CaliString
+					|| ct instanceof CaliList
+					|| ct instanceof CaliMap
+					|| ct instanceof CaliObject
+				) {
+				parts.add("\"" + key + "\":" + ((CaliTypeObjectInt)ct).toJson(env, new ArrayList<CaliType>()).getValueString());
+				
+			} else {
+				return new CaliException("Unexpected type found '" + ct.getType().name() + "' when converting to JSON.");
+			}
+		}
+		return new CaliString("{" + Util.join(parts, ",") + "}");
+	}
+	
+	@Override
+	public CaliType pack(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		
+		// Object metadata.
+		parts.add("\"type\":\"" + this.getClassDef().getName() + "\"");
+		
+		ArrayList<String> mparts = new ArrayList<String>();
+		for (String key : this.value.keySet()) {
+			CaliType ct = this.value.get(key);
+			if (
+					ct instanceof CaliBool
+					|| ct instanceof CaliNull
+					|| ct instanceof CaliInt
+					|| ct instanceof CaliDouble
+					|| ct instanceof CaliString
+					|| ct instanceof CaliList
+					|| ct instanceof CaliMap
+					|| ct instanceof CaliObject
+				) {
+				mparts.add("\"" + key + "\":" + ((CaliTypeObjectInt)ct).pack(env, new ArrayList<CaliType>()).getValueString());
+				
+			} else {
+				return new CaliException("Unexpected type found '" + ct.getType().name() + "' when packing map.");
+			}
+		}
+		parts.add("\"value\":{" + Util.join(mparts, ",") + "}");
+		
+		return new CaliString("{" + Util.join(parts, ",") + "}");
 	}
 }

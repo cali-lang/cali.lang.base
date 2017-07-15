@@ -20,10 +20,11 @@ import java.util.ArrayList;
 
 import com.cali.Environment;
 import com.cali.Universe;
+import com.cali.Util;
 import com.cali.ast.caliException;
 import com.cali.stdlib.console;
 
-public class CaliBool extends CaliObject implements CaliTypeInt {
+public class CaliBool extends CaliObject implements CaliTypeInt, CaliTypeObjectInt {
 	private boolean value = false;
 	
 	public CaliBool() {
@@ -96,5 +97,18 @@ public class CaliBool extends CaliObject implements CaliTypeInt {
 	public CaliType parse(Environment env, ArrayList<CaliType> args) {
 		this.value = Boolean.parseBoolean(((CaliString)args.get(0)).getValue());
 		return this;
+	}
+	
+	@Override
+	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
+		return this.toString(env, args);
+	}
+	
+	@Override
+	public CaliType pack(Environment env, ArrayList<CaliType> args) {
+		ArrayList<String> parts = new ArrayList<String>();
+		parts.add("\"type\":\"" + this.getClassDef().getName() + "\"");
+		parts.add("\"value\":" + this.toString(env, args) + "");
+		return new CaliString("{" + Util.join(parts, ",") + "}");
 	}
 }
