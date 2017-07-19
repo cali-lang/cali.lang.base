@@ -44,6 +44,11 @@ import com.cali.types.Members;
  */
 public class Engine {
 	/**
+	 * The security manager instance for this engine.
+	 */
+	private SecurityManagerImpl secman = null;
+	
+	/**
 	 * Flag for printing debug statements to standard out.
 	 */
 	private boolean debug = false;
@@ -105,6 +110,18 @@ public class Engine {
 	 * @throws Exception 
 	 */
 	public Engine () throws Exception {
+		this(new SecurityManagerImpl());
+	}
+	
+	/**
+	 * Default constructor. When called this gets an instance of the Universe object 
+	 * and initializes it if not already done. It loads universe classes and instantiates 
+	 * static classes. Finally it sets the initComplete flag to true.
+	 * @throws Exception 
+	 */
+	public Engine(SecurityManagerImpl SecMan) throws Exception {
+		this.secman = SecMan;
+		
 		Universe u = Universe.get();
 		u.init(this);
 		
@@ -115,6 +132,14 @@ public class Engine {
 		this.instantiateStaticClasses();
 		
 		this.initComplete = true;
+	}
+	
+	/**
+	 * Gets the instance of the security manager for this Engine.
+	 * @return A SecurityManagerImpl object of the security manager.
+	 */
+	public SecurityManagerImpl getSecurityManager() {
+		return this.secman;
 	}
 	
 	/**

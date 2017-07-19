@@ -410,6 +410,15 @@ public class Lang{
 	    + "public extern unpack(string JsonString);\n"
 	    + "}\n"
 	    + "\n"
+	    
+	    /*
+	     * secman - Security manager.
+	     */
+	    + "static extern class secman : com.cali.stdlib.CSecurityManager {\n"
+	    + "public extern setProp(string PropName, Value);\n"
+	    + "public extern getProp(string PropName);\n"
+	    + "}\n"
+	    + "\n"
 	;
 	
 	public Map<String, String> langIncludes = new ConcurrentHashMap<String, String>();

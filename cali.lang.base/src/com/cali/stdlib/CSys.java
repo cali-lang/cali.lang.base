@@ -33,29 +33,30 @@ public class CSys {
 		
 		ArrayList<CaliType> args = new ArrayList<CaliType>();
 		ret += "OS Information\n";
-		ret += "\tOS Arch: " + ((CaliString)getOsArch(env, args)).getValueString() + "\n";
-		ret += "\tOS Name: " + ((CaliString)getOsName(env, args)).getValueString() + "\n";
-		ret += "\tOS Version: " + ((CaliString)getOsVersion(env, args)).getValueString() + "\n";
-		ret += "\tOS File Separator: " + ((CaliString)getFileSeparator(env, args)).getValueString() + "\n";
+		ret += "\tOS Arch: " + (getOsArch(env, args)).getValueString() + "\n";
+		ret += "\tOS Name: " + (getOsName(env, args)).getValueString() + "\n";
+		ret += "\tOS Version: " + (getOsVersion(env, args)).getValueString() + "\n";
+		ret += "\tOS File Separator: " + (getFileSeparator(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "Java Information\n";
-		ret += "\tJava Version: " + ((CaliString)getJavaVersion(env, args)).getValueString() + "\n";
-		ret += "\tJava Vendor: " + ((CaliString)getJavaVendor(env, args)).getValueString() + "\n";
-		ret += "\tJava Vendor Url: " + ((CaliString)getJavaVendorUrl(env, args)).getValueString() + "\n";
-		ret += "\tJava Class Path: " + ((CaliString)getJavaClassPath(env, args)).getValueString() + "\n";
+		ret += "\tJava Version: " + (getJavaVersion(env, args)).getValueString() + "\n";
+		ret += "\tJava Vendor: " + (getJavaVendor(env, args)).getValueString() + "\n";
+		ret += "\tJava Vendor Url: " + (getJavaVendorUrl(env, args)).getValueString() + "\n";
+		ret += "\tJava Class Path: " + (getJavaClassPath(env, args)).getValueString() + "\n";
+		ret += "\tJava Home: " + (getJavaHome(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "Cali Information\n";
-		ret += "\tCali Version: " + ((CaliString)getCaliVersion(env, args)).getValueString() + "\n";
-		ret += "\tCali Assembly: " + ((CaliString)getAssembly(env, args)).getValueString() + "\n";
-		ret += "\tCali Assembly Path: " + ((CaliString)getAssemblyPath(env, args)).getValueString() + "\n";
+		ret += "\tCali Version: " + (getCaliVersion(env, args)).getValueString() + "\n";
+		ret += "\tCali Assembly: " + (getAssembly(env, args)).getValueString() + "\n";
+		ret += "\tCali Assembly Path: " + (getAssemblyPath(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		ret += "User Information\n";
-		ret += "\tCurrent Path: " + ((CaliString)getCurrentPath(env, args)).getValueString() + "\n";
-		ret += "\tHome Path: " + ((CaliString)getHomePath(env, args)).getValueString() + "\n";
-		ret += "\tUser Name: " + ((CaliString)getUserName(env, args)).getValueString() + "\n";
+		ret += "\tCurrent Path: " + (getCurrentPath(env, args)).getValueString() + "\n";
+		ret += "\tHome Path: " + (getHomePath(env, args)).getValueString() + "\n";
+		ret += "\tUser Name: " + (getUserName(env, args)).getValueString() + "\n";
 		
 		ret += "\n";
 		
@@ -102,16 +103,116 @@ public class CSys {
 		return path;
 	}
 	
+	public static CaliType getOsArch(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("os.info.view")) {
+			return new CaliString(System.getProperty("os.arch"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getOsName(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("os.info.view")) {
+			return new CaliString(System.getProperty("os.name"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getOsVersion(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("os.info.view")) {
+			return new CaliString(System.getProperty("os.version"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getFileSeparator(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("os.info.view")) {
+			return new CaliString(System.getProperty("file.separator"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getLineSeparator(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("os.info.view")) {
+			return new CaliString(System.getProperty("line.separator"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getJavaVersion(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("java.info.view")) {
+			return new CaliString(System.getProperty("java.version"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getJavaVendor(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("java.info.view")) {
+			return new CaliString(System.getProperty("java.vendor"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getJavaVendorUrl(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("java.info.view")) {
+			return new CaliString(System.getProperty("java.vendor.url"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getJavaClassPath(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("java.classpath.view")) {
+			return new CaliString(System.getProperty("java.class.path"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getJavaHome(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("java.home.view")) {
+			return new CaliString(System.getenv("JAVA_HOME"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getCaliVersion(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("cali.info.view")) {
+			return new CaliString(Universe.getCaliVersion());
+		}
+		return new CaliNull();
+	}
+	
 	public static CaliType getAssembly(Environment env, ArrayList<CaliType> args) throws Exception {
-		return new CaliString(_getAssembly());
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("cali.info.view")) {
+			return new CaliString(_getAssembly());
+		}
+		return new CaliNull();
 	}
 	
 	public static CaliType getAssemblyPath(Environment env, ArrayList<CaliType> args) throws Exception {
-		return new CaliString(_getAssemblyPath());
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("cali.path.view")) {
+			return new CaliString(_getAssemblyPath());
+		}
+		return new CaliNull();
 	}
 	
 	public static CaliType getCurrentPath(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("user.dir"));
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("current.path.view")) {
+			return new CaliString(System.getProperty("user.dir"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getHomePath(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("home.path.view")) {
+			return new CaliString(System.getProperty("user.home"));
+		}
+		return new CaliNull();
+	}
+	
+	public static CaliType getUserName(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("user.name.view")) {
+			return new CaliString(System.getProperty("user.name"));
+		}
+		return new CaliNull();
 	}
 	
 	/*
@@ -122,58 +223,6 @@ public class CSys {
 			return sys.getCurrentPath(args);
 	}
 	*/
-	
-	public static CaliType getHomePath(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("user.home"));
-	}
-	
-	public static CaliType getUserName(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("user.name"));
-	}
-	
-	public static CaliType getOsArch(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("os.arch"));
-	}
-	
-	public static CaliType getOsName(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("os.name"));
-	}
-	
-	public static CaliType getOsVersion(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("os.version"));
-	}
-	
-	public static CaliType getJavaVersion(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("java.version"));
-	}
-	
-	public static CaliType getJavaVendor(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("java.vendor"));
-	}
-	
-	public static CaliType getJavaVendorUrl(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("java.vendor.url"));
-	}
-	
-	public static CaliType getFileSeparator(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("file.separator"));
-	}
-	
-	public static CaliType getLineSeparator(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("line.separator"));
-	}
-	
-	public static CaliType getJavaClassPath(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getProperty("java.class.path"));
-	}
-	
-	public static CaliType getCaliVersion(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(Universe.getCaliVersion());
-	}
-	
-	public static CaliType getJavaHome(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(System.getenv("JAVA_HOME"));
-	}
 	
 	/*
 	 * Time functions
