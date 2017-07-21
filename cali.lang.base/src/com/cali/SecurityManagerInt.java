@@ -33,6 +33,9 @@ public interface SecurityManagerInt {
 	 * Cali set or get property. Either one of these may throw not permitted or 
 	 * not implemented exceptions.
 	 */
-	public CaliType setProp(Environment env, ArrayList<CaliType> args);
 	public CaliType getProp(Environment env, ArrayList<CaliType> args);
+	public CaliType keySet(Environment env, ArrayList<CaliType> args);
+	public CaliType getMap(Environment env, ArrayList<CaliType> args);
+	public CaliType setProp(Environment env, ArrayList<CaliType> args);
+	public CaliType setMap(Environment env, ArrayList<CaliType> args);
 }

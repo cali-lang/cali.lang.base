@@ -516,6 +516,11 @@ class interpreterTests : test {
 		this
 			.add("(lang secman) Security manager get property.", ::secmanGetProp)
 			.add("(lang secman) Security manager set property.", ::secmanSetProp)
+			.add("(lang secman) Security manager get key set.", ::secmanKeySet)
+			.add("(lang secman) Security manager get map of values.", ::secmanGetMap)
+			.add("(lang secman) Security manager instantiate.", ::secmanInstantiate)
+			.add("(lang secman) Security manager set property.", ::secmanSetProp)
+			.add("(lang secman) Security manager set map.", ::secmanSetMap)
 		;
 	}
 	
@@ -1046,5 +1051,19 @@ class interpreterTests : test {
 	 * security manager tests
 	 *********************************************************************/
 	public secmanGetProp() { return this.expect(secman.getProp('os.info.view'), false); }
-	public secmanSetProp() { ex = ''; try { secman.setProp('file.write', true); } catch (e) { ex = e.getText(); } return this.expect(ex, 'secman.setProp(): Setting property not allowed.'); }
+	public secmanSetProp() { ex = ''; try { secman.setProp('file.write', true); } catch (e) { ex = e.getText(); } return this.expect(ex, "securitymanager.getProp(): Security exception, action 'securitymanager.property.set' not permitted."); }
+	public secmanKeySet() { return this.expect(secman.keySet().contains('securitymanager.instantiate'), true); }
+	public secmanGetMap() { return this.expect(secman.getMap().containsKey('securitymanager.instantiate'), true); }
+	public secmanInstantiate() { sman = new securitymanager(); return this.expect(sman instanceof 'securitymanager', true); }
+	public secmanSetProp() { sman = new securitymanager(); sman.setProp('secman.test', true); return this.expect(sman.getProp('secman.test'), true); }
+	public secmanSetMap() {
+		mp = {
+			'test.1': true,
+			'test.2': false,
+			'test.3': 'some text here ...'
+		};
+		sman = new securitymanager();
+		sman.setMap(mp);
+		return this.expect(sman.getProp('test.3') == 'some text here ...', true);
+	}
 }

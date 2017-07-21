@@ -412,11 +412,27 @@ public class Lang{
 	    + "\n"
 	    
 	    /*
-	     * secman - Security manager.
+	     * secman - Security manager of the currently executing engine.
 	     */
-	    + "static extern class secman : com.cali.stdlib.CSecurityManager {\n"
-	    + "public extern setProp(string PropName, Value);\n"
+	    + "static extern class secman : com.cali.stdlib.CSecMan {\n"
 	    + "public extern getProp(string PropName);\n"
+	    + "public extern keySet();\n"
+	    + "public extern getMap();\n"
+	    + "public extern setProp(string PropName, Value);\n"
+	    + "public extern setMap(map PropsToSet);\n"
+	    + "}\n"
+	    + "\n"
+	    
+	    /*
+	     * securitymanager - Security manager object that can be instantiated 
+	     * and provided to an engine within cali.
+	     */
+	    + "static extern class securitymanager : com.cali.stdlib.CSecurityManager {\n"
+	    + "public extern getProp(string PropName);\n"
+	    + "public extern keySet();\n"
+	    + "public extern getMap();\n"
+	    + "public extern setProp(string PropName, Value);\n"
+	    + "public extern setMap(map PropsToSet);\n"
 	    + "}\n"
 	    + "\n"
 	;

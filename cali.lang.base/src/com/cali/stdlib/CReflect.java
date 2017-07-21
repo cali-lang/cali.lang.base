@@ -31,38 +31,50 @@ import com.cali.types.CaliString;
 
 public class CReflect {
 	public static CaliType _evalStr(Environment env, ArrayList<CaliType> args) {
-		String code = ((CaliString)args.get(0)).getValue();
-		String name = ((CaliString)args.get(1)).getValue();
-		try {
-			env.getEngine().parseString(name, code);
-			return new CaliNull();
-		} catch (caliException e) {
-			return new CaliException(e.getMessage());
-		} catch (Exception e) {
-			return new CaliException(e.getMessage());
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("reflect.eval.string")) {
+			String code = ((CaliString)args.get(0)).getValue();
+			String name = ((CaliString)args.get(1)).getValue();
+			try {
+				env.getEngine().parseString(name, code);
+				return new CaliNull();
+			} catch (caliException e) {
+				return new CaliException(e.getMessage());
+			} catch (Exception e) {
+				return new CaliException(e.getMessage());
+			}
+		} else {
+			return new CaliException("reflect.evalStr(): Security exception, action 'reflect.eval.string' not permitted.");
 		}
 	}
 	
 	public static CaliType _evalFile(Environment env, ArrayList<CaliType> args) {
-		String FileName = ((CaliString)args.get(0)).getValue();
-		try {
-			env.getEngine().parseFile(FileName);
-		} catch (Exception e) {
-			return new CaliException(e.getMessage());
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("reflect.eval.file")) {
+			String FileName = ((CaliString)args.get(0)).getValue();
+			try {
+				env.getEngine().parseFile(FileName);
+			} catch (Exception e) {
+				return new CaliException(e.getMessage());
+			}
+			return new CaliNull();
+		} else {
+			return new CaliException("reflect.evalFile(): Security exception, action 'reflect.eval.file' not permitted.");
 		}
-		return new CaliNull();
 	}
 	
 	
 	
 	public static CaliType _includeModule(Environment env, ArrayList<CaliType> args) {
-		String incFile = ((CaliString)args.get(0)).getValue().replace(".", System.getProperty("file.separator")) + ".ca";
-		try {
-			env.getEngine().parseFile(incFile);
-		} catch (Exception e) {
-			return new CaliException(e.getMessage());
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("reflect.include.module")) {
+			String incFile = ((CaliString)args.get(0)).getValue().replace(".", System.getProperty("file.separator")) + ".ca";
+			try {
+				env.getEngine().parseFile(incFile);
+			} catch (Exception e) {
+				return new CaliException(e.getMessage());
+			}
+			return new CaliNull();
+		} else {
+			return new CaliException("reflect.includeModule(): Security exception, action 'reflect.include.module' not permitted.");
 		}
-		return new CaliNull();
 	}
 	
 	public static CaliType loadedModules(Environment env, ArrayList<CaliType> args) {
@@ -88,7 +100,7 @@ public class CReflect {
 	
 	public static CaliType classExists(Environment env, ArrayList<CaliType> args) {
 		CaliString name = (CaliString)args.get(0);
-		return new CaliBool(env.getEngine().getClasses().containsKey(name));
+		return new CaliBool(env.getEngine().getClasses().containsKey(name.getValue()));
 	}
 	
 	public static CaliType getClassDef(Environment env, ArrayList<CaliType> args) {
