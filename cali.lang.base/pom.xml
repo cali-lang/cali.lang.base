@@ -1,0 +1,155 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cali</groupId>
+  <artifactId>cali.lang.base</artifactId>
+  <version>1.0.0</version>
+  
+  <name>cali-lang.jar</name>
+  <description>Base Cali Interpreter. This library implements the basic interpreter and runtime.</description>
+  <url>http://cali-lang.com</url>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <issueManagement>
+	<url>https://github.com/cali-lang/cali.lang.base/issues</url>
+	<system>GitHub Issues</system>
+  </issueManagement>
+  
+  <scm>
+	<url>https://github.com/cali-lang/cali.lang.base</url>
+	<connection>scm:git:git://github.com:cali-lang/cali.lang.base.git</connection>
+	<developerConnection>scm:git:git@github.com:cali-lang/cali.lang.base.git</developerConnection>
+  </scm>
+  
+  <developers>
+	<developer>
+	  <email>lehman.austin@gmail.com</email>
+	  <name>Austin Lehman</name>
+	  <url>https://github.com/rsv-code</url>
+	  <id>rsv-code</id>
+	</developer>
+  </developers>
+
+  <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+  
+	<!-- https://mvnrepository.com/artifact/com.github.vbmacher/java-cup-runtime -->
+	<dependency>
+	  <groupId>com.github.vbmacher</groupId>
+	  <artifactId>java-cup-runtime</artifactId>
+	  <version>11b-20160615</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+	<dependency>
+	    <groupId>com.googlecode.json-simple</groupId>
+	    <artifactId>json-simple</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+	
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    
+    <!-- <pluginManagement> -->
+	    <plugins>
+	    
+	      <plugin>
+	        <artifactId>maven-compiler-plugin</artifactId>
+	        <version>3.6.1</version>
+	        <configuration>
+	          <source>1.6</source>
+	          <target>1.6</target>
+	        </configuration>
+	      </plugin>
+	      
+	      <plugin>
+	        <artifactId>maven-assembly-plugin</artifactId>
+	        <configuration>
+	          <archive>
+	            <manifest>
+	              <addClasspath>true</addClasspath>
+	              <mainClass>com.cali.Main</mainClass>
+	            </manifest>
+	          </archive>
+	          <descriptorRefs>
+	            <descriptorRef>jar-with-dependencies</descriptorRef>
+	          </descriptorRefs>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <id>make-assembly</id> 
+	            <phase>package</phase> 
+	            <goals>
+	              <goal>single</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+	      
+	      <plugin>
+			  <groupId>com.github.vbmacher</groupId>
+			  <artifactId>cup-maven-plugin</artifactId>
+			  <version>11b-20160615</version>
+			  <executions>
+			    <execution>
+			      <goals>
+			        <goal>generate</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			  <configuration>
+			    <className>parser</className>
+			    <symbolsName>sym</symbolsName>
+			    <packageName>com.cali</packageName>
+			    <cupDefinition>src/com/cali/cali.cup</cupDefinition>
+			    <outputDirectory>src</outputDirectory>
+			    <symbolsInterface>false</symbolsInterface>
+			    <locations>false</locations>
+			  </configuration>
+			</plugin>
+	      
+	      <plugin>
+	        <groupId>de.jflex</groupId>
+	        <artifactId>maven-jflex-plugin</artifactId>
+	        <version>1.4.3</version>
+	        
+	        <configuration>
+              <lexDefintions>
+                <lexFile>src/com/cali/Scanner.jflex</lexFile>
+              </lexDefintions>
+              <outputDirectory>src</outputDirectory>
+            </configuration>
+            
+            <executions>
+	          <execution>
+	            <goals>
+	              <goal>generate</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	        
+	      </plugin>
+	      
+	    </plugins>
+	  <!-- </pluginManagement> -->
+  </build>
+</project>
