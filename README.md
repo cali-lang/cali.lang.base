@@ -1,31 +1,66 @@
 ![alt tag](cali.lang.base/docs/img/logo.png)
 
-This is a base interpreter implementation of the Cali language. You can run the interpreter from the command line, but this package was built to be embedded.
+This is a base interpreter implementation of the Cali language. You can run the interpreter from the command line, but this package was built to be embedded and provides only the most common language and standard library functionality.
 
 ## [Wiki/Docs](https://github.com/cali-lang/cali.lang.base/wiki)
 This README.md is just the high level of building/embedding. For details on building and Cali lang itself [checkout the Wiki](https://github.com/cali-lang/cali.lang.base/wiki).
 
 
 ## Building
-Requires ANT and a recent JDK. (1.6 or newer)
+Requires Maven and a recent JDK. (1.6 or newer)
 
 ```
-shell> ant
+> cd cali.lang.base/
+> mvn clean package
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building cali-lang.jar 1.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cali.lang.base ---
+
+...
+
+
+[INFO] --- maven-assembly-plugin:2.4.1:single (make-assembly) @ cali.lang.base ---
+[INFO] Building jar: /home/austin/git/cali.lang.base/cali.lang.base/target/cali.lang.base-1.0.0-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 6.812 s
+[INFO] Finished at: 2017-08-28T17:21:11-07:00
+[INFO] Final Memory: 24M/294M
+[INFO] ------------------------------------------------------------------------
 ```
 
-That's it. In the dist directory, you should now have a .jar and a couple license files.
+That's it. In the target directory, you should now have an executable JAR file
+named cali.lang.base-1.0.0-jar-with-dependencies.jar.
 
-You can run the tests from the dist directory:
+You can run the tests like this:
 ```
-java -jar cali-0.8a.jar tests/interpreter.ca
+> java -jar target/cali.lang.base-1.0.0-jar-with-dependencies.jar tests/interpreter.ca
+Running Test [ Cali-Lang Interpreter ]:
+ *** (local assignment) Assign variable null. ... PASSED
+ *** (local assignment) Assign variable bool. ... PASSED
+ *** (local assignment) Assign variable int. ... PASSED
+
+...
+
+
+*** (lang secman) Security manager get map of values. ... PASSED
+ *** (lang secman) Security manager instantiate. ... PASSED
+ *** (lang secman) Security manager set property. ... PASSED
+ *** (lang secman) Security manager set map. ... PASSED
+
+TOTAL: 319 RAN: 319 PASSED: 319
+Elapsed: 0.293s
 ```
 
 
 ## Embedding
 
 Embedding starts with first cloning and building Cali (See Above). Once you have the Cali .jar, include it in your project like any other .jar.
-
-Alternately you could add the git repo as a git submodule and then trigger the ant build script and including of the built .JAR as you like.
 
 Here are the most basic steps in creating a new Cali Engine object, parsing a source code file, and then running it.
 ```
@@ -91,7 +126,8 @@ Engine eng = new Engine(mySecMan);
 ```
 
 ## License
-Cali is licensed under the Apache 2.0 license. See accompanying LICENSE file for details. Much thanks to the authors of the [CUP Parser Generator](http://www2.cs.tum.edu/projects/cup/install.php) and good people at Georgia Tech. See the java-cup.LICENSE.txt file for open source license details. Cali base interpreter also contains [json-simple - https://code.google.com/archive/p/json-simple/](https://code.google.com/archive/p/json-simple/) library and you can find the license file at cali.lang.base/lib-depends/json-simple-1.1.1.LICENSE.txt.
+Cali is licensed under the Apache 2.0 license. See accompanying LICENSE file for details.
 
-## TODO:
-Probably quite a bit, but nothing documented currently.
+## Credits
+
+Much thanks to the authors of the [CUP Parser Generator](http://www2.cs.tum.edu/projects/cup/install.php) and good people at Georgia Tech. Cali base interpreter also relies upon [json-simple - https://code.google.com/archive/p/json-simple/](https://code.google.com/archive/p/json-simple/).
