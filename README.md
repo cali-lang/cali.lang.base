@@ -6,61 +6,19 @@ This is a base interpreter implementation of the Cali language. You can run the 
 This README.md is just the high level of building/embedding. For details on building and Cali lang itself [checkout the Wiki](https://github.com/cali-lang/cali.lang.base/wiki).
 
 
-## Building
-Requires Maven and a recent JDK. (1.6 or newer)
-
-```
-> cd cali.lang.base/
-> mvn clean package
-[INFO] Scanning for projects...
-[INFO]                                                                         
-[INFO] ------------------------------------------------------------------------
-[INFO] Building cali-lang.jar 1.0.0
-[INFO] ------------------------------------------------------------------------
-[INFO]
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cali.lang.base ---
-
-...
-
-
-[INFO] --- maven-assembly-plugin:2.4.1:single (make-assembly) @ cali.lang.base ---
-[INFO] Building jar: /home/austin/git/cali.lang.base/cali.lang.base/target/cali.lang.base-1.0.0-jar-with-dependencies.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 6.812 s
-[INFO] Finished at: 2017-08-28T17:21:11-07:00
-[INFO] Final Memory: 24M/294M
-[INFO] ------------------------------------------------------------------------
-```
-
-That's it. In the target directory, you should now have an executable JAR file
-named cali.lang.base-1.0.0-jar-with-dependencies.jar.
-
-You can run the tests like this:
-```
-> java -jar target/cali.lang.base-1.0.0-jar-with-dependencies.jar tests/interpreter.ca
-Running Test [ Cali-Lang Interpreter ]:
- *** (local assignment) Assign variable null. ... PASSED
- *** (local assignment) Assign variable bool. ... PASSED
- *** (local assignment) Assign variable int. ... PASSED
-
-...
-
-
-*** (lang secman) Security manager get map of values. ... PASSED
- *** (lang secman) Security manager instantiate. ... PASSED
- *** (lang secman) Security manager set property. ... PASSED
- *** (lang secman) Security manager set map. ... PASSED
-
-TOTAL: 319 RAN: 319 PASSED: 319
-Elapsed: 0.293s
-```
-
-
 ## Embedding
 
-Embedding starts with first cloning and building Cali (See Above). Once you have the Cali .jar, include it in your project like any other .jar.
+The easiest way to embed Cali interpreter is to add it as a Maven dependency. For the most recent version [search for cali-lang in Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ccali-lang).
+
+```
+<dependency>
+    <groupId>com.cali-lang</groupId>
+    <artifactId>cali.lang.base</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Alternately you can just download the JAR from mave or you can [clone this repository and build (See Below)](#building). Once you have the Cali JAR, include it in your project like any other JAR.
 
 Here are the most basic steps in creating a new Cali Engine object, parsing a source code file, and then running it.
 ```
@@ -123,6 +81,57 @@ MySecurityManager mySecMan = new MySecurityManager();
 
 // Create new Cali-Lang Engine with our custom security manager.
 Engine eng = new Engine(mySecMan);
+```
+
+## Building
+Requires Maven and a recent JDK. (1.6 or newer)
+
+```
+> cd cali.lang.base/
+> mvn clean package
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building cali-lang.jar 1.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cali.lang.base ---
+
+...
+
+
+[INFO] --- maven-assembly-plugin:2.4.1:single (make-assembly) @ cali.lang.base ---
+[INFO] Building jar: /home/austin/git/cali.lang.base/cali.lang.base/target/cali.lang.base-1.0.0-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 6.812 s
+[INFO] Finished at: 2017-08-28T17:21:11-07:00
+[INFO] Final Memory: 24M/294M
+[INFO] ------------------------------------------------------------------------
+```
+
+That's it. In the target directory, you should now have an executable JAR file
+named cali.lang.base-1.0.0-jar-with-dependencies.jar.
+
+You can run the tests like this:
+```
+> java -jar target/cali.lang.base-1.0.0-jar-with-dependencies.jar tests/interpreter.ca
+Running Test [ Cali-Lang Interpreter ]:
+ *** (local assignment) Assign variable null. ... PASSED
+ *** (local assignment) Assign variable bool. ... PASSED
+ *** (local assignment) Assign variable int. ... PASSED
+
+...
+
+
+*** (lang secman) Security manager get map of values. ... PASSED
+ *** (lang secman) Security manager instantiate. ... PASSED
+ *** (lang secman) Security manager set property. ... PASSED
+ *** (lang secman) Security manager set map. ... PASSED
+
+TOTAL: 319 RAN: 319 PASSED: 319
+Elapsed: 0.293s
 ```
 
 ## License
