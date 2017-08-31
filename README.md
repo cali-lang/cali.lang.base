@@ -18,7 +18,7 @@ The easiest way to embed Cali interpreter is to add it as a Maven dependency. Fo
 </dependency>
 ```
 
-Alternately you can just download the JAR from mave or you can [clone this repository and build (See Below)](#building). Once you have the Cali JAR, include it in your project like any other JAR.
+Alternately you can just download the JAR from Maven or you can [clone this repository and build (See Below)](#building). Once you have the Cali JAR, include it in your project like any other JAR.
 
 Here are the most basic steps in creating a new Cali Engine object, parsing a source code file, and then running it.
 ```
