@@ -137,7 +137,7 @@ public class Environment {
 	 * Helper that gets a class instance by name 
 	 * from the Engine.
 	 * @param Name is a String with the name of the class definition to get.
-	 * @return
+	 * @return A astClass object for the provided name.
 	 */
 	public astClass getClassByName(String Name) {
 		return this.eng.getClassByName(Name);

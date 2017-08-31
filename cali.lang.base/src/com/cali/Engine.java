@@ -107,7 +107,7 @@ public class Engine {
 	 * Default constructor. When called this gets an instance of the Universe object 
 	 * and initializes it if not already done. It loads universe classes and instantiates 
 	 * static classes. Finally it sets the initComplete flag to true.
-	 * @throws Exception 
+	 * @throws Exception on failure to instantiate SecurityManagerImpl object.
 	 */
 	public Engine () throws Exception {
 		this(new SecurityManagerImpl());
@@ -117,7 +117,8 @@ public class Engine {
 	 * Default constructor. When called this gets an instance of the Universe object 
 	 * and initializes it if not already done. It loads universe classes and instantiates 
 	 * static classes. Finally it sets the initComplete flag to true.
-	 * @throws Exception 
+	 * @param SecMan is a SecurityManagerImpl object for the engine.
+	 * @throws Exception on init failure or failure to instantiate static classes.
 	 */
 	public Engine(SecurityManagerImpl SecMan) throws Exception {
 		this.secman = SecMan;
@@ -147,7 +148,7 @@ public class Engine {
 	 * language include. It can also be a file that exists in one f the includePaths 
 	 * if any are set.
 	 * @param Include is a String with the include to add.
-	 * @throws Exception
+	 * @throws Exception on parse failure.
 	 */
 	public void addInclude(String Include) throws Exception {
 		if (Lang.get().langIncludes.containsKey(Include)) {
@@ -297,7 +298,7 @@ public class Engine {
 	/**
 	 * The interpreter will parse the Cali code file with the provided file name.
 	 * @param FileName is a String with the Cali code file to parse.
-	 * @throws Exception
+	 * @throws Exception on parse failure.
 	 */
 	public void parseFile(String FileName) throws Exception {
 		this.parseString(FileName, Util.read(FileName));
@@ -308,7 +309,7 @@ public class Engine {
 	 * ties that code to the provided file name internally.
 	 * @param FileName is a String with the file name to assign to the provided code.
 	 * @param Contents is a String with the Cali code to parse.
-	 * @throws Exception
+	 * @throws Exception on parse failure.
 	 */
 	public void parseString(String FileName, String Contents) throws Exception {
 		Lexer scanner = new Lexer(new StringReader(Contents));
@@ -321,7 +322,7 @@ public class Engine {
 	 * Runs the Cali engine. This function goes though and identifies 
 	 * the first class with a main function. If not found it will throw an exception. 
 	 * If found it will call the entry point of the application (main function).
-	 * @throws caliException
+	 * @throws caliException on failure to find main class or on parse errors.
 	 */
 	public void run() throws caliException {
 		if (!this.hasParseErrors) {
@@ -454,7 +455,7 @@ public class Engine {
 	 * Instantiates a new object with the provided class name.
 	 * @param Name is a String with the class name to instantiate.
 	 * @return A newly intsantiated CaliObject.
-	 * @throws caliException
+	 * @throws caliException if class not found.
 	 */
 	public CaliObject instantiateObject(String Name) throws caliException {
 		if (this.classes.containsKey(Name)) {

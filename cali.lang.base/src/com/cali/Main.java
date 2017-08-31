@@ -25,7 +25,7 @@ public class Main {
 	/**
 	 * Command line program entry point.
 	 * @param args is an array of Strings with the command line arguments.
-	 * @throws Exception 
+	 * @throws Exception on failure.
 	 */
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {

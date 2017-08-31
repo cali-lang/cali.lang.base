@@ -32,7 +32,7 @@ public class Util {
 	 * a String.
 	 * @param FileName is a String with the file name to read.
 	 * @return A String with the file contents.
-	 * @throws IOException
+	 * @throws IOException on IO exception.
 	 */
 	public static String read(String FileName) throws IOException
 	{	
@@ -62,7 +62,7 @@ public class Util {
 	 * @param FileName is a String with the file name to save.
 	 * @param Data is a String with the text data to write.
 	 * @param Append is a boolean with true for append and false for not.
-	 * @throws IOException
+	 * @throws IOException on IO exception.
 	 */
 	public static void write(String FileName, String Data, boolean Append) throws IOException {
 		BufferedWriter bw = null;

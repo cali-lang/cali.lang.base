@@ -30,7 +30,7 @@ public class CSecurityManager extends SecurityManagerImpl {
 	/**
 	 * Default constructor sets the props for the security manager to 
 	 * true so they can be managed within cali.
-	 * @throws caliException 
+	 * @throws caliException if there's an attempt to instantiate the security manager.
 	 */
 	public CSecurityManager() throws caliException {
 		// Check to see if we are allowed to instantiate to begin with.

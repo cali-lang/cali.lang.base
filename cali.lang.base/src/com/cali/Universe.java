@@ -60,7 +60,7 @@ public class Universe {
 	 * Initializes the Universe object with the provided Engine. This function will use 
 	 * the provided engine to Parse the Lang.langSrc code if not already initialized.
 	 * @param eng is an Engine object.
-	 * @throws Exception 
+	 * @throws Exception on parse error.
 	 */
 	public void init(Engine eng) throws Exception {
 		if (!this.initialized) {
@@ -73,7 +73,7 @@ public class Universe {
 	
 	/**
 	 * Gets a handle of the Universe object.
-	 * @return
+	 * @return An instance of the Universe object.
 	 */
 	public static Universe get() {
 		if(instance == null) instance = new Universe();
@@ -92,7 +92,7 @@ public class Universe {
 	 * Gets the class definition of the provided class name.
 	 * @param Name is a String with the class name to get.
 	 * @return A astClass class definition.
-	 * @throws caliException
+	 * @throws caliException if class not found with the provided name.
 	 */
 	public astClass getClassDef(String Name) throws caliException {
 		if (this.classes.containsKey(Name)) {

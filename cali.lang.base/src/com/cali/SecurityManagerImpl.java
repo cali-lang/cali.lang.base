@@ -19,7 +19,6 @@ package com.cali;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.cali.ast.caliException;
 import com.cali.types.CaliBool;
 import com.cali.types.CaliDouble;
 import com.cali.types.CaliException;
@@ -44,9 +43,8 @@ public class SecurityManagerImpl implements SecurityManagerInt {
 
 	/**
 	 * Default constructor adds the standard properties.
-	 * @throws caliException 
 	 */
-	public SecurityManagerImpl() throws caliException {
+	public SecurityManagerImpl() {
 		/*
 		 * Security manager itself.
 		 */

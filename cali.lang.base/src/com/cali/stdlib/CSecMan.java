@@ -30,6 +30,9 @@ public class CSecMan {
 	/**
 	 * Cali getProperty. This method will get the property, match it to a 
 	 * standard CaliType and return it.
+	 * @param env is the current Environment object.
+	 * @param args is an ArrayList of CaliType objects which are the function arguments.
+	 * @return A CaliType object with the requested property.
 	 */
 	public CaliType getProp(Environment env, ArrayList<CaliType> args) {
 		return env.getEngine().getSecurityManager().getProp(env, args);
@@ -37,6 +40,9 @@ public class CSecMan {
 	
 	/**
 	 * Gets the key set of the properties as a list of strings.
+	 * @param env is the current Environment object.
+	 * @param args is an ArrayList of CaliType objects which are the function arguments.
+	 * @return A CaliType object with the current object.
 	 */
 	public CaliType keySet(Environment env, ArrayList<CaliType> args) {
 		return env.getEngine().getSecurityManager().keySet(env, args);
@@ -44,6 +50,9 @@ public class CSecMan {
 	
 	/**
 	 * Gets a cali map of the security manager properties and their values.
+	 * @param env is the current Environment object.
+	 * @param args is an ArrayList of CaliType objects which are the function arguments.
+	 * @return A CaliType object with the requested map.
 	 */
 	public CaliType getMap(Environment env, ArrayList<CaliType> args) {
 		return env.getEngine().getSecurityManager().getMap(env, args);
@@ -54,6 +63,9 @@ public class CSecMan {
 	 * because we don't normally want the application code modifying the 
 	 * contents of the security manager. This can be overridden if other 
 	 * functionality is desired.
+	 * @param env is the current Environment object.
+	 * @param args is an ArrayList of CaliType objects which are the function arguments.
+	 * @return A CaliType object with the current object.
 	 */
 	public CaliType setProp(Environment env, ArrayList<CaliType> args) {
 		return env.getEngine().getSecurityManager().setProp(env, args);

@@ -35,7 +35,7 @@ public class Lang{
 	
 	/**
 	 * Gets a handle of the Universe object.
-	 * @return
+	 * @return The instance of the Lang object.
 	 */
 	public static Lang get() {
 		if(instance == null) instance = new Lang();
