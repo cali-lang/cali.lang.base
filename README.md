@@ -14,7 +14,7 @@ The easiest way to embed Cali interpreter is to add it as a Maven dependency. Fo
 <dependency>
     <groupId>com.cali-lang</groupId>
     <artifactId>cali.lang.base</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -92,7 +92,7 @@ Requires Maven and a recent JDK. (1.6 or newer)
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building cali-lang.jar 1.0.0
+[INFO] Building cali-lang.jar 1.0.1
 [INFO] ------------------------------------------------------------------------
 [INFO]
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cali.lang.base ---
@@ -101,7 +101,7 @@ Requires Maven and a recent JDK. (1.6 or newer)
 
 
 [INFO] --- maven-assembly-plugin:2.4.1:single (make-assembly) @ cali.lang.base ---
-[INFO] Building jar: /home/austin/git/cali.lang.base/cali.lang.base/target/cali.lang.base-1.0.0-jar-with-dependencies.jar
+[INFO] Building jar: /home/austin/git/cali.lang.base/cali.lang.base/target/cali.lang.base-1.0.1-jar-with-dependencies.jar
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -112,11 +112,11 @@ Requires Maven and a recent JDK. (1.6 or newer)
 ```
 
 That's it. In the target directory, you should now have an executable JAR file
-named cali.lang.base-1.0.0-jar-with-dependencies.jar.
+named cali.lang.base-1.0.1-jar-with-dependencies.jar.
 
 You can run the tests like this:
 ```
-> java -jar target/cali.lang.base-1.0.0-jar-with-dependencies.jar tests/interpreter.ca
+> java -jar target/cali.lang.base-1.0.1-jar-with-dependencies.jar tests/interpreter.ca
 Running Test [ Cali-Lang Interpreter ]:
  *** (local assignment) Assign variable null. ... PASSED
  *** (local assignment) Assign variable bool. ... PASSED
