@@ -1,0 +1,33 @@
+/*
+ * reflect.ca
+ */
+static extern class reflect : com.cali.stdlib.CReflect {
+	// Reflection functions.
+	public evalStr(string CodeStr, string Name = "evalStr") { this._evalStr(CodeStr, Name); return this; }
+	public evalFile(string FileName) { this._evalFile(FileName); return this; }
+	public includeModule(string ModuleName) { this._includeModule(ModuleName); return this; }
+	
+	// Not Chained
+	public extern loadedModules();
+	public extern loadedClasses();
+	public extern isModuleLoaded(string ModuleName);
+	public extern classExists(string ClassName);
+	public extern getClassDef(string ClassName);
+	public extern instantiate(string ClassName);
+	public extern invoke(object Object, string MethodName, ...);
+	
+	// Chained extern functions
+	private extern _evalStr(string CodeStr, string Name = "evalStr");
+	private extern _evalFile(string FileName);
+	private extern _includeModule(string ModuleName);
+}
+	
+extern class rclass : com.cali.stdlib.CClass {
+	// Class object provided by reflection.
+	public extern getName();
+	public extern isStatic();
+	public extern isExtern();
+	public extern getExternClassName();
+	public extern getMembers();
+	public extern getMethods();
+}

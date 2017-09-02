@@ -1,0 +1,43 @@
+/*
+ * math.ca
+ */
+static extern class math : com.cali.stdlib.CMath {
+	public extern e();
+	public extern pi();
+	public extern abs(Val);
+	public extern acos(double AngleRad);
+	public extern asin(double AngleRad);
+	public extern atan(double AngleRad);
+	public extern cbrt(double Val);
+	public extern ceil(double Val);
+	public extern copySign(double Magnitude, double Sign);
+	public extern cos(double AngleRad);
+	public extern cosh(double AngleRad);
+	public extern exp(double Val);
+	public extern expm1(double Val);
+	public extern floor(double Val);
+	public extern getExponent(double Val);
+	public extern hypot(double X, double Y);
+	public extern IEEEremainder(double Double1, double Double2);
+	public extern log(double Val);
+	public extern log10(double Val);
+	public extern log1p(double Val);
+	public extern max(Val1, Val2);
+	public extern min(Val1, Val2);
+	public extern nextAfter(double Double1, double Double2);
+	public extern nextUp(double Val);
+	public extern pow(double Double1, double Double2);
+	public extern rand();
+	public extern rint(double Val);
+	public extern round(double Val);
+	public extern scalb(double DoubleVal, int IntVal);
+	public extern signum(double Val);
+	public extern sin(double Val);
+	public extern sinh(double Val);
+	public extern sqrt(double Val);
+	public extern tan(double Val);
+	public extern tanh(double Val);
+	public extern toDeg(double Val);
+	public extern toRad(double Val);
+	public extern ulp(double Val);
+}

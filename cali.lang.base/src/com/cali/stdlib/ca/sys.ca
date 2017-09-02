@@ -1,0 +1,26 @@
+/*
+ * sys.ca
+ */
+static extern class sys : com.cali.stdlib.CSys {
+	public extern getSysInfo();
+	public extern getAssembly();
+	public extern getAssemblyPath();
+	public extern getCurrentPath();
+	//public extern getMainFilePath();
+	public extern getHomePath();
+	public extern getUserName();
+	public extern getOsArch();
+	public extern getOsName();
+	public extern getOsVersion();
+	public extern getJavaVersion();
+	public extern getJavaVendor();
+	public extern getJavaVendorUrl();
+	public extern getJavaClassPath();
+	public extern getFileSeparator();
+	public extern getLineSeparator();
+	public extern getCaliVersion();
+	public extern getJavaHome();
+	public extern getMills();
+	public sleep(int mills) { this._sleep(mills); return this; }
+	private extern _sleep(int mills);
+}

@@ -1,0 +1,111 @@
+/*
+ * cunit.ca
+ */
+include reflect;
+
+class test {
+	private tests = [];
+	private passed = 0;
+	private failed = 0;
+	
+	public test() { }
+	
+	private name = "";
+	private silent = false;
+	
+	public setName(string Name = "") { this.name = Name; return this; }
+	public setSilent(bool Silent) { this.silent = Silent; return this; }
+	
+	public getName() { return this.name; }
+	public getSlient() { return this.silent; }
+	
+	public add(string TestName, callback ToCall, bool DieOnFail = false) {
+		t = {};
+		t.name = TestName;
+		t.cb = ToCall;
+		t.dieOnFail = DieOnFail;
+		this.tests @= t;
+		return this;
+	}
+	
+	public run() {
+		if(!this.silent) {
+			c.print("Running Test [")
+				.print(" " + this.name + " ")
+				.println("]:")
+			;
+		}
+	
+		for(t : this.tests) {
+			if(!this.silent) {
+				c.print(" ***")
+					.print(" " + t['name'] + " ")
+					.print("... ")
+				;
+			}
+			try {
+				res = t.cb.call();
+				if(res == true) {
+					this.passed++;
+					if(!this.silent) { c.println("PASSED"); }
+				} else {
+					this.failed++;
+					if(!this.silent) { c.println("FAILED"); }
+					if(t['dieOnFail']) { break; }
+				}
+			} catch(e) {
+				this.failed++;
+				if(!this.silent) {
+					c.println("FAILED")
+						.err(e.getText() + "\n" + e.getStackTrace())
+					;
+					if(t['dieOnFail']) { break; }
+				}
+			}
+		}
+		
+		if(!this.silent) { this.printResult(); }
+		return this;
+	}
+	
+	private printResult() {
+		c.println("")
+			.print("TOTAL:")
+			.print(" " + (#this.tests) + " ")
+			.print("RAN:")
+			.print(" " + (this.passed + this.failed) + " ")
+			.print("PASSED:")
+			.print(" " + this.passed + " ")
+		;
+		if(this.failed > 0) {
+			c.print("FAILED:")
+				.print(" " + this.failed + " ")
+			;
+		}
+		c.println("\n");
+		return this;
+	}
+	
+	public getResults() {
+		res = {};
+		res['name'] = this.name;
+		res['total'] = #this.tests;
+		res['ran'] = this.passed + this.failed;
+		res['passed'] = this.passed;
+		res['failed'] = this.failed;
+		return res;
+	}
+	
+	public expect(Item, ToBe) { if(Item == ToBe) { return true; } return false; }
+	public expectNotNull(Item) { if(Item == null) { return false; } return true; }
+	public expectNull(Item) { if(Item == null) { return true; } return false; }
+	public expectString(Item) { if(lang.type(Item) == "string") { return true; } return false; }
+	public expectBool(Item) { if(lang.type(Item) == "bool") { return true; } return false; }
+	public expectInt(Item) { if(lang.type(Item) == "int") { return true; } return false; }
+	public expectDouble(Item) { if(lang.type(Item) == "double") { return true; } return false; }
+	public expectNumber(Item) { if((lang.type(Item) == "int")||(lang.type(Item) == "double")) { return true; } return false; }
+	public expectList(Item) { if(lang.type(Item) == "list") { return true; } return false; }
+	public expectMap(Item) { if(lang.type(Item) == "map") { return true; } return false; }
+	public expectObject(Item, string ClassName) { if(lang.type(Item) == ClassName) { return true; } return false; }
+	public expectCallback(Item) { if(lang.type(Item) == "callback") { return true; } return false; }
+}

@@ -54,7 +54,7 @@ public class Main {
 	 */
 	public static void printUsage() {
 		String rstr = "";
-		rstr += "Cali-Lang Version 1.0\n";
+		rstr += "Cali-Lang Version " + Universe.getCaliVersion()  + "\n";
 		rstr += "Copyright 2017 Austin Lehman\n";
 		rstr += "Apache License Version 2\n";
 		System.out.println(rstr);

@@ -20,6 +20,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -94,5 +96,35 @@ public class Util {
 			sb.append(parts.get(i));
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Loads a file resource with the provided path 
+	 * within the project/jar and returns it as a String.
+	 * @param ResourceName is a String with the resource to get.
+	 * @return A String with the contents of the resource.
+	 */
+	public static String loadResource(String ResourceName) {
+		String ret = "";
+		
+		InputStream in = Util.class.getResourceAsStream(ResourceName); 
+		InputStreamReader rdr = new InputStreamReader(in);
+		try {
+			int len = -1;
+			char[] buff = new char[4096];
+			final StringBuffer buffer = new StringBuffer();
+			while ((len = rdr.read(buff)) > 0) { buffer.append(buff, 0, len); }
+	        
+	        ret = buffer.toString();
+		} catch (IOException e) {
+			System.err.println("Lang.loadResource(): Failed to load resource '" + ResourceName + "'.");
+		} finally {
+			if(rdr != null) {
+		        try { rdr.close(); }
+		        catch (IOException e) { }
+			}
+	    }
+		
+		return ret;
 	}
 }

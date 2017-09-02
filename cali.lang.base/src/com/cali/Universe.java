@@ -42,7 +42,7 @@ public class Universe {
 	/**
 	 * Defines the Cali version.
 	 */
-	private static final String version = "1.0";
+	private static final String version = "1.0.1";
 	
 	/**
 	 * Map of class definitions. This is used to hold the base lang clases. It allows 
@@ -65,7 +65,7 @@ public class Universe {
 	public void init(Engine eng) throws Exception {
 		if (!this.initialized) {
 			// Load native class definitions here!
-			eng.parseString("lang.ca", Lang.langSrc);
+			eng.parseString("lang.ca", Lang.get().langIncludes.get("lang.ca"));
 			this.classes = eng.getClasses();
 			this.initialized = true;
 		}
