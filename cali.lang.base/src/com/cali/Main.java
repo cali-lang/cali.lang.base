@@ -38,6 +38,9 @@ public class Main {
 			// Sets debug output to true.
 			//eng.setDebug(true);
 			
+			// Add resource include path for testing.
+			eng.addResourceIncludePath("/com/cali/stdlib/ca/");
+			
 			// Parse the provided file name.
 			eng.parseFile(args[0]);
 			

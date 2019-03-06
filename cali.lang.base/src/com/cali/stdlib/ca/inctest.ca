@@ -1,0 +1,6 @@
+/**
+ * This class only exists to test the resource loading system.
+ */
+class inctest {
+	public value = "worked";
+}

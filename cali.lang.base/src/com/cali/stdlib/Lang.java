@@ -16,9 +16,20 @@
 
 package com.cali.stdlib;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import com.cali.Engine;
+import com.cali.Main;
 import com.cali.Util;
 
 public class Lang {
@@ -26,6 +37,11 @@ public class Lang {
 	 * The single Lang instance.
 	 */
 	private static Lang instance = null;
+	
+	/**
+	 * Instance of this JAR file.
+	 */
+	private File jarFile = null;
 	
 	/**
 	 * Default constructor set to private to defeat instantiation. See get to get an 
@@ -51,6 +67,8 @@ public class Lang {
 	 * com.cali.stdlib.ca.
 	 */
 	private void init() {
+		this.jarFile =  new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+		
 		langIncludes.put("lang.ca", Util.loadResource("/com/cali/stdlib/ca/lang.ca"));
 		langIncludes.put("sys.ca", Util.loadResource("/com/cali/stdlib/ca/sys.ca"));
 		langIncludes.put("reflect.ca", Util.loadResource("/com/cali/stdlib/ca/reflect.ca"));
@@ -58,5 +76,29 @@ public class Lang {
 		langIncludes.put("math.ca", Util.loadResource("/com/cali/stdlib/ca/math.ca"));
 	}
 	
-	
+	public List<String> listResourceDirectory(String Path) throws IOException, URISyntaxException {
+		List<String> ret = new ArrayList<String>();
+		
+		if(this.jarFile.isFile()) {
+		    JarFile jar = new JarFile(this.jarFile);
+		    Enumeration<JarEntry> entries = jar.entries();
+		    while(entries.hasMoreElements()) {
+		        final String name = entries.nextElement().getName();
+		        if (name.startsWith(Path)) {
+		            ret.add(name);
+		        }
+		    }
+		    jar.close();
+		} else {
+		    URL url = Engine.class.getResource(Path);
+		    if (url != null) {
+	            File entries = new File(url.toURI());
+	            for (File entry : entries.listFiles()) {
+	                ret.add(entry.getPath());
+	            }
+		    }
+		}
+		
+		return ret;
+	}
 }

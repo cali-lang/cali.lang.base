@@ -17,6 +17,7 @@
 include cunit;
 include math;
 include sys;
+include inctest;
 
 enum numName {
 	one;
@@ -521,6 +522,11 @@ class interpreterTests : test {
 			.add("(lang secman) Security manager instantiate.", ::secmanInstantiate)
 			.add("(lang secman) Security manager set property.", ::secmanSetProp)
 			.add("(lang secman) Security manager set map.", ::secmanSetMap)
+		;
+		
+		// resource loading tests
+		this
+			.add("(lang resource include) Include inctest object.", ::resNewInctest)
 		;
 	}
 	
@@ -1066,4 +1072,9 @@ class interpreterTests : test {
 		sman.setMap(mp);
 		return this.expect(sman.getProp('test.3') == 'some text here ...', true);
 	}
+	
+	/**********************************************************************
+	 * resource loading tests
+	 *********************************************************************/
+	public resNewInctest() { tobj = new inctest(); return this.expect(tobj instanceof 'inctest', true); }
 }

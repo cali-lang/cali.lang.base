@@ -88,6 +88,12 @@ public class Engine {
 	private boolean hasParseErrors = false;
 	
 	/**
+	 * Allowed resource include paths. These are includes that are 
+	 * located within the JAR package.
+	 */
+	private List<String> resourceIncludePaths = new ArrayList<String>();
+	
+	/**
 	 * Allowed include paths.
 	 */
 	private List<String> includePaths = new ArrayList<String>();
@@ -157,6 +163,19 @@ public class Engine {
 				this.parseString(Include, Lang.get().langIncludes.get(Include));
 			}
 		} else {
+			for (String pth : this.resourceIncludePaths) {
+				List<String> resDir = Lang.get().listResourceDirectory(pth);
+				String tinc = pth + Include;
+				
+				for (String fname : resDir) {
+					if (fname.contains(tinc)) {
+						this.includes.add(tinc);
+						this.parseString(Include, Util.loadResource(tinc));
+						return;
+					}
+				}
+			}
+			
 			for (String pth : this.includePaths) {
 				String tinc = pth + Include;
 				File f = new File(tinc);
@@ -189,6 +208,27 @@ public class Engine {
 	 */
 	public List<String> getIncludePaths() {
 		return this.includePaths;
+	}
+	
+	/**
+	 * Adds an include path for a resource directory with a JAR file 
+	 * to the list of resource include paths.
+	 * @param Path is a String with the search resource path to add.
+	 */
+	public void addResourceIncludePath(String Path) {
+		String tinc = Path;
+		if (!tinc.endsWith("/")) {
+			tinc += "/";
+		}
+		this.resourceIncludePaths.add(tinc);
+	}
+	
+	/**
+	 * Gets a list of the resource search include paths.
+	 * @return A List of Strings with the resource include paths.
+	 */
+	public List<String> getResourceIncludePath() {
+		return this.resourceIncludePaths;
 	}
 	
 	/**
