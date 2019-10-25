@@ -18,6 +18,8 @@ package com.cali.types;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONValue;
+
 import com.cali.Environment;
 import com.cali.Universe;
 import com.cali.Util;
@@ -191,7 +193,7 @@ public class CaliString extends CaliObject implements CaliTypeInt, CaliTypeObjec
 	
 	@Override
 	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(this.str(0));
+		return new CaliString(JSONValue.escape(this.str(0)));
 	}
 	
 	@Override
