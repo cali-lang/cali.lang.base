@@ -193,7 +193,7 @@ public class CaliString extends CaliObject implements CaliTypeInt, CaliTypeObjec
 	
 	@Override
 	public CaliType toJson(Environment env, ArrayList<CaliType> args) {
-		return new CaliString(JSONValue.escape(this.str(0)));
+		return new CaliString("\"" + JSONValue.escape(this.str()) + "\"");
 	}
 	
 	@Override
