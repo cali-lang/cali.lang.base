@@ -28,6 +28,7 @@ import com.cali.ast.astFunctDef;
 import com.cali.ast.astNode;
 import com.cali.ast.caliException;
 import com.cali.stdlib.Lang;
+import com.cali.stdlib.console;
 import com.cali.types.CaliException;
 import com.cali.types.CaliList;
 import com.cali.types.CaliNull;
@@ -157,18 +158,22 @@ public class Engine {
 	 * @throws Exception on parse failure.
 	 */
 	public void addInclude(String Include) throws Exception {
+		if (this.debug) console.get().info("Engine.addInclude(): Include: " + Include);
 		if (Lang.get().langIncludes.containsKey(Include)) {
 			if (!this.includes.contains(Include)) {
+				if (this.debug) console.get().info("Engine.addInclude(): Adding langInclude: " + Include);
 				this.includes.add(Include);
 				this.parseString(Include, Lang.get().langIncludes.get(Include));
 			}
 		} else {
+			if (this.debug) console.get().info("Engine.addInclude(): Attempting to find in resourceIncludePaths ...");
 			for (String pth : this.resourceIncludePaths) {
 				List<String> resDir = Lang.get().listResourceDirectory(pth);
 				String tinc = pth + Include;
 				
 				for (String fname : resDir) {
 					if (fname.contains(tinc)) {
+						if (this.debug) console.get().info("Engine.addInclude(): Include " + Include + " found in '" + fname + "'");
 						this.includes.add(tinc);
 						this.parseString(Include, Util.loadResource(tinc));
 						return;
@@ -176,17 +181,21 @@ public class Engine {
 				}
 			}
 			
+			if (this.debug) console.get().info("Engine.addInclude(): Attempting to find in includePaths ...");
 			for (String pth : this.includePaths) {
 				String tinc = pth + Include;
 				File f = new File(tinc);
 				if (f.exists()) {
 					if (!this.includes.contains(tinc)) {
+						if (this.debug) console.get().info("Engine.addInclude(): Include " + Include + " found in '" + pth + "'");
 						this.includes.add(tinc);
 						this.parseFile(tinc);
 						break;
 					}
 				}
 			}
+			
+			if (this.debug) console.get().info("Engine.addInclude(): Include '" + Include + "' not found at all.");
 		}
 	}
 	

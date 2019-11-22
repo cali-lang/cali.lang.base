@@ -78,12 +78,13 @@ public class Lang {
 	
 	public List<String> listResourceDirectory(String Path) throws IOException, URISyntaxException {
 		List<String> ret = new ArrayList<String>();
-		
 		if(this.jarFile.isFile()) {
 		    JarFile jar = new JarFile(this.jarFile);
 		    Enumeration<JarEntry> entries = jar.entries();
 		    while(entries.hasMoreElements()) {
-		        final String name = entries.nextElement().getName();
+		        String name = entries.nextElement().getName();
+		        // Make sure name starts with '/'.
+		        if (!name.startsWith("/")) name = "/" + name;
 		        if (name.startsWith(Path)) {
 		            ret.add(name);
 		        }

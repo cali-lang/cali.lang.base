@@ -36,7 +36,7 @@ public class Main {
 			Engine eng = new Engine();
 			
 			// Sets debug output to true.
-			//eng.setDebug(true);
+			// eng.setDebug(true);
 			
 			// Add resource include path for testing.
 			eng.addResourceIncludePath("/com/cali/stdlib/ca/");
