@@ -3,7 +3,7 @@
   
   <groupId>com.cali-lang</groupId>
   <artifactId>cali.lang.base</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <packaging>jar</packaging>
   
   <name>cali.lang.base</name>
@@ -89,8 +89,8 @@
 	        <artifactId>maven-compiler-plugin</artifactId>
 	        <version>3.6.1</version>
 	        <configuration>
-	          <source>1.6</source>
-	          <target>1.6</target>
+	          <source>1.8</source>
+	          <target>1.8</target>
 	        </configuration>
 	      </plugin>
 	      
@@ -193,7 +193,10 @@
 	      <plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-javadoc-plugin</artifactId>
-			  <version>3.0.0-M1</version>
+			  <version>3.1.1</version>
+			  <configuration>
+				  <source>8</source>
+			  </configuration>
 			  <executions>
 			    <execution>
 			      <id>attach-javadocs</id>

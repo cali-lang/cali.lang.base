@@ -29,7 +29,7 @@ public class CallStack {
 	private String className = "";
 	private String functionName = "";
 	private String text = "";
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -70,7 +70,47 @@ public class CallStack {
 			this.parent = parent;
 		}
 	}
-	
+
+	/**
+	 * Gets the source file name as a String.
+	 * @return A String with the source file name.
+	 */
+	public String getFileName() {
+		synchronized (this) {
+			return fileName;
+		}
+	}
+
+	/**
+	 * Gets the source file line number.
+	 * @return An int with the source file line number.
+	 */
+	public int getLineNumber() {
+		synchronized (this) {
+			return lineNumber;
+		}
+	}
+
+	/**
+	 * Gets the class name.
+	 * @return A String with the class name.
+	 */
+	public String getClassName() {
+		synchronized (this) {
+			return className;
+		}
+	}
+
+	/**
+	 * Gets the function name.
+	 * @return A String with the function name.
+	 */
+	public String getFunctionName() {
+		synchronized (this) {
+			return functionName;
+		}
+	}
+
 	/**
 	 * Gets the text value.
 	 * @return A String with the text value.
@@ -90,7 +130,7 @@ public class CallStack {
 			this.text = str;
 		}
 	}
-	
+
 	/**
 	 * Builds the stack trace from the current CallStack object and 
 	 * returns it as a String.

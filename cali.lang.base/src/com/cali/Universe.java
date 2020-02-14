@@ -42,7 +42,7 @@ public class Universe {
 	/**
 	 * Defines the Cali version.
 	 */
-	private static final String version = "1.0.5";
+	private static final String version = "1.0.6";
 	
 	/**
 	 * Map of class definitions. This is used to hold the base lang clases. It allows 
