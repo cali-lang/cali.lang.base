@@ -47,7 +47,7 @@ public class Engine {
 	/**
 	 * The security manager instance for this engine.
 	 */
-	private SecurityManagerImpl secman = null;
+	private SecurityManagerInt secman = null;
 	
 	/**
 	 * Flag for printing debug statements to standard out.
@@ -127,7 +127,7 @@ public class Engine {
 	 * @param SecMan is a SecurityManagerImpl object for the engine.
 	 * @throws Exception on init failure or failure to instantiate static classes.
 	 */
-	public Engine(SecurityManagerImpl SecMan) throws Exception {
+	public Engine(SecurityManagerInt SecMan) throws Exception {
 		this.secman = SecMan;
 		
 		Universe u = Universe.get();
@@ -144,9 +144,9 @@ public class Engine {
 	
 	/**
 	 * Gets the instance of the security manager for this Engine.
-	 * @return A SecurityManagerImpl object of the security manager.
+	 * @return A SecurityManagerInt object of the security manager.
 	 */
-	public SecurityManagerImpl getSecurityManager() {
+	public SecurityManagerInt getSecurityManager() {
 		return this.secman;
 	}
 	
