@@ -33,6 +33,8 @@ public class astNode {
 	protected cType primativeType = cType.cUndef;
 	
 	private astNode child = null;
+
+	private astCaliDoc docNode = null;
 	
 	public void setPrimType(cType PrimType) {
 		this.primativeType = PrimType;
@@ -114,7 +116,15 @@ public class astNode {
 		this.lineNum = LineNum;
 		this.colNum = ColNum;
 	}
-	
+
+	public astCaliDoc getDocNode() {
+		return docNode;
+	}
+
+	public void setDocNode(astCaliDoc docNode) {
+		this.docNode = docNode;
+	}
+
 	public CaliType eval(Environment env) throws caliException {
 		return this.eval(env, false);
 	}
@@ -194,6 +204,9 @@ public class astNode {
 			break;
 		case INCLUDE:
 			ret = ((astInclude)this).evalImpl(env, getref);
+			break;
+		case CALI_DOC:
+			ret = ((astCaliDoc)this).evalImpl(env, getref);
 			break;
 		default:
 			throw new caliException(this, "INTERNAL [astNode.eval] Not implemented, attempting to eval type '" + type.name() + "'.", env.stackTraceToString());

@@ -73,7 +73,7 @@ public class astClass extends astNode implements astNodeInt {
 	// reproduce the AST later.
 	private List<String> inheritedMembers = new ArrayList<String>();
 	private List<String> inheritedFuncts = new ArrayList<String>();
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -459,7 +459,7 @@ public class astClass extends astNode implements astNodeInt {
 	public void setConstructor(astFunctDef constructor) {
 		this.constructor = constructor;
 	}
-	
+
 	public boolean instanceOf(String Name) {
 		if (this.getName().equals(Name)) {
 			return true;

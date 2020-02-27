@@ -61,6 +61,7 @@ identifier		= ({alphanumeric}|{underscore})*
 //var				= "$"+{identifier}
 new_line 		= \r\n;
 
+%state CALI_DOC
 %state C_COMMENT
 %state STRING
 %state STRING_FRMT
@@ -140,6 +141,7 @@ new_line 		= \r\n;
 
 <YYINITIAL>
 {
+    "/**"         			{ string.setLength(0); yybegin(CALI_DOC); }
 	"/*"         			{ yybegin(C_COMMENT); }
 	[\"]{3}					{ string.setLength(0); yybegin(STRING_FRMT); }
 	\"						{ string.setLength(0); yybegin(STRING); }
@@ -220,6 +222,17 @@ new_line 		= \r\n;
 	\\r						{ string.append('\r'); }
 	\\\'					{ string.append('\''); }
 	\\\\					{ string.append("\\"); }
+}
+
+<CALI_DOC>
+{
+	[^*\n]*					{ string.append( yytext() ); }
+	"*"+[^*/\n]*			{ string.append( yytext() ); }
+	"\n"					{ string.append('\n'); }
+	"*"+"/"					{
+	                            yybegin(YYINITIAL);
+	                            return symbol(sym.CALI_DOC, string.toString());
+	                        }
 }
 
 <C_COMMENT>

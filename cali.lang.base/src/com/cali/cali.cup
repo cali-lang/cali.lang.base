@@ -114,6 +114,7 @@ terminal BigInteger		INT;
 terminal BigDecimal		DOUBLE;
 terminal String			STRING;
 terminal String			IDENT;
+terminal String         CALI_DOC;
 //terminal String			VAR;
 
 terminal				EQ;
@@ -142,6 +143,7 @@ terminal				DOT;
 non terminal Engine									input;
 non terminal Engine									block;
 non terminal astNode								include;
+non terminal astNode                                classBlock;
 non terminal astNode								classDefExpr;
 non terminal Boolean								isStatic;
 non terminal astNode								externClassRef;
@@ -151,7 +153,9 @@ non terminal astNode								classBlocks;
 non terminal astNode								enumBlocks;
 non terminal astNode								enumRec;
 non terminal ArrayList<String>						extendClassList;
+non terminal astNode                                memberDefinitionBlock;
 non terminal astNode								memberDefinition;
+non terminal astNode                                functionDefinitionBlock;
 non terminal astNode								functionDefinition;
 non terminal astFunctDefArgsList					functDefArgList;
 non terminal astNode								functDefArg;
@@ -233,12 +237,12 @@ input ::=
 ;
 
 block ::=
-	classDefExpr:c
+	classBlock:c
 	{:
 		this.parser.eng.addClass(c);
 		RESULT = this.parser.eng;
 	:}
-|	block:r classDefExpr:c
+|	block:r classBlock:c
 	{:
 		r.addClass(c);
 		RESULT = r;
@@ -271,6 +275,21 @@ include ::=
 		((astInclude)i).addName(((astVar)name).getName());
 		RESULT = i;
 	:}
+;
+
+classBlock ::=
+    classDefExpr:exp
+    {:
+        RESULT = exp;
+    :}
+|   CALI_DOC:doc classDefExpr:exp
+    {:
+        // Set doc node.
+        astCaliDoc ad = new astCaliDoc(doc);
+        ad.setParserInfo(this.parser.fileName, docleft, docright);
+        exp.setDocNode(ad);
+        RESULT = exp;
+    :}
 ;
 
 classDefExpr ::=
@@ -368,28 +387,43 @@ classSection ::=
 ;
 
 classBlocks ::=
-	memberDefinition:v
+	memberDefinitionBlock:v
 	{:
 		astClass ac = new astClass();
 		ac.addMember(v.getName(), v);
 		RESULT = (astNode)ac;
 	:}
-|	classBlocks:ac memberDefinition:v
+|	classBlocks:ac memberDefinitionBlock:v
 	{:
 		((astClass)ac).addMember(v.getName(), v);
 		RESULT = ac;
 	:}
-|	functionDefinition:f
+|	functionDefinitionBlock:f
 	{:
 		astClass ac = new astClass();
 		ac.addFunction(f.getName(), f);
 		RESULT = (astNode)ac;
 	:}
-|	classBlocks:ac functionDefinition:f
+|	classBlocks:ac functionDefinitionBlock:f
 	{:
 		((astClass)ac).addFunction(f.getName(), f);
 		RESULT = ac;
 	:}
+;
+
+memberDefinitionBlock ::=
+    memberDefinition:md
+    {:
+        RESULT = md;
+    :}
+|   CALI_DOC:doc memberDefinition:md
+    {:
+        // Set doc node.
+        astCaliDoc ad = new astCaliDoc(doc);
+        ad.setParserInfo(this.parser.fileName, docleft, docright);
+        md.setDocNode(ad);
+        RESULT = md;
+    :}
 ;
 
 memberDefinition ::=
@@ -476,7 +510,20 @@ enumRec ::=
 	:}
 ;
 
-
+functionDefinitionBlock ::=
+    functionDefinition:fd
+    {:
+        RESULT = fd;
+    :}
+|   CALI_DOC:doc functionDefinition:fd
+    {:
+        // Set doc node.
+        astCaliDoc ad = new astCaliDoc(doc);
+        ad.setParserInfo(this.parser.fileName, docleft, docright);
+        fd.setDocNode(ad);
+        RESULT = fd;
+    :}
+;
 
 functionDefinition ::=
 	AccessType:am expFunctDef:f LPAREN functDefArgList:al RPAREN LBRACKET instructionList:il RBRACKET

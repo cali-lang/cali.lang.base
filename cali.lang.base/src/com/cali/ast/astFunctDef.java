@@ -71,7 +71,7 @@ public class astFunctDef extends astNode implements astNodeInt {
 	public boolean getExtern() {
 		return this.isExtern;
 	}
-	
+
 	@Override
 	public CaliType evalImpl(Environment env, boolean getref) throws caliException {
 		throw new caliException(this, "INTERNAL [astFunctDef.evalImpl] Not implemented.", env.stackTraceToString());

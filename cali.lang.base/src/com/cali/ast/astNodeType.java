@@ -45,5 +45,6 @@ public enum astNodeType {
 	FOR,
 	BREAK,
 	ETCETERA,
-	CALLBACK
+	CALLBACK,
+	CALI_DOC
 }

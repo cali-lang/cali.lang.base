@@ -32,14 +32,43 @@ class email {
 	public getAddress() { return this.address; }
 }
 
+/**
+ * User class. This class holds the user information.
+ */
 class user {
+    /**
+     * Defines the users first name.
+     */
 	public firstName = "";
+
+	/**
+	 * Defines the users last name.
+	 */
 	public lastName = "";
+
+	/**
+	 * Defines the users email address.
+	 */
 	public emailAddress = null;
-	
+
+	/**
+	 * Default constructor creates a new user object and
+	 * also sets a default email object.
+	 */
 	public user() { this.emailAddress = new email(); }
-	
+
+	/**
+	 * Sets the fist and last name with the provided values.
+	 * @p First is a string with the first name to set.
+	 * @p Last is a string with the last name to set.
+	 * @r This object.
+	 */
 	public setName(string First, string Last) { this.firstName = First; this.lastName = Last; return this; }
+
+	/**
+	 * Gets the first and last name divided by a space.
+	 * @r A string with with the first and last name.
+	 */
 	public getName() { return this.firstName + " " + this.lastName; }
 }
 
