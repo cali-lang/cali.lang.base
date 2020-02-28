@@ -19,20 +19,12 @@ package com.cali.ast;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.cali.CallStack;
 import com.cali.Environment;
-import com.cali.types.CaliBool;
-import com.cali.types.CaliException;
+import com.cali.types.*;
 import com.cali.types.CaliException.exType;
-import com.cali.types.CaliInt;
-import com.cali.types.CaliList;
-import com.cali.types.CaliNull;
-import com.cali.types.CaliType;
-import com.cali.types.CaliReturn;
-import com.cali.types.CaliObject;
-import com.cali.types.CaliDouble;
-import com.cali.types.cType;
 
 public class astFunctDef extends astNode implements astNodeInt {
 	private astFunctDefArgsList argList = new astFunctDefArgsList();
@@ -340,5 +332,45 @@ public class astFunctDef extends astNode implements astNodeInt {
 		}
 		
 		return args;
+	}
+
+	public CaliType getCalidoc() {
+		CaliMap ret = new CaliMap();
+
+		ret.put("name", new CaliString(this.getName()));
+
+		List<astNode> args = this.argList.getArgs();
+		CaliList cargs = new CaliList();
+		for (astNode arg : args) {
+			astNodeInt targ = (astNodeInt)arg;
+			CaliMap am = new CaliMap();
+			am.put("type", new CaliString(targ.getType().name().toLowerCase()));
+			if (targ.getType() != astNodeType.ETCETERA) {
+				am.put("name", new CaliString(targ.getName()));
+				am.put("specifiedType", new CaliString(arg.getPrimType().name().substring(1).toLowerCase()));
+				if (targ.getType() != astNodeType.VAR) {
+					am.put("valueType", new CaliString(arg.getPrimType().name().substring(1).toLowerCase()));
+					if (targ.getType() == astNodeType.STRING) {
+						am.put("value", new CaliString(((astString) arg).getValueString()));
+					} else if (targ.getType() == astNodeType.BOOL) {
+						am.put("value", new CaliBool(((astBool) arg).getValueBool()));
+					} else if (targ.getType() == astNodeType.INT) {
+						am.put("value", new CaliInt(((astInt) arg).getValueInt()));
+					} else if (targ.getType() == astNodeType.STRING) {
+						am.put("value", new CaliDouble(((astDouble) arg).getValueDouble()));
+					} else if (targ.getType() == astNodeType.NULL) {
+						am.put("value", new CaliNull());
+					}
+				}
+			}
+			cargs.add(am);
+		}
+		ret.put("args", cargs);
+
+		if (this.docNode != null) {
+			ret.put("caliDoc", this.docNode.getCalidoc());
+		}
+
+		return ret;
 	}
 }

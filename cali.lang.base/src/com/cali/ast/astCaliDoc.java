@@ -3,6 +3,10 @@ package com.cali.ast;
 import com.cali.Environment;
 import com.cali.ast.doc.docAnnotation;
 import com.cali.ast.doc.docText;
+import com.cali.ast.doc.docType;
+import com.cali.types.CaliList;
+import com.cali.types.CaliMap;
+import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 
 import java.util.ArrayList;
@@ -127,5 +131,27 @@ public class astCaliDoc extends astNode implements astNodeInt {
     @Override
     public CaliType evalImpl(Environment env, boolean getref) throws caliException {
         return null;
+    }
+
+    public CaliType getCalidoc() {
+        CaliMap ret = new CaliMap();
+
+        ret.put("caliDocText", new CaliString(this.caliDocText));
+        CaliList lst = new CaliList();
+        for (docText dt : this.docList) {
+            CaliMap dobj = new CaliMap();
+            dobj.put("type", new CaliString(dt.getType().name()));
+            dobj.put("text", new CaliString(dt.getText()));
+            if (dt.getType() == docType.ANNOTATION) {
+                docAnnotation da = (docAnnotation)dt;
+                dobj.put("tagName", new CaliString(da.getTagName()));
+                dobj.put("tagValue", new CaliString(da.getValue()));
+                dobj.put("tagDescription", new CaliString(da.getDescription()));
+            }
+            lst.add(dobj);
+        }
+        ret.put("docList", lst);
+
+        return ret;
     }
 }

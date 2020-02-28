@@ -81,6 +81,12 @@ public class SecurityManagerImpl implements SecurityManagerInt {
 		this.props.put("reflect.eval.string", false);
 		this.props.put("reflect.eval.file", false);
 		this.props.put("reflect.include.module", false);
+
+		/*
+		 * Calidoc actions. See com.cali.stdlib.CLang.java.
+		 */
+		this.props.put("calidoc.file.getJson", false);
+		this.props.put("calidoc.class.getJson", false);
 	}
 	
 	/**

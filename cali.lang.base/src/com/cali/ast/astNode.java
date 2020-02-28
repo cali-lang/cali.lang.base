@@ -17,6 +17,7 @@
 package com.cali.ast;
 
 import com.cali.Environment;
+import com.cali.types.CaliMap;
 import com.cali.types.CaliType;
 import com.cali.types.cType;
 
@@ -34,7 +35,7 @@ public class astNode {
 	
 	private astNode child = null;
 
-	private astCaliDoc docNode = null;
+	protected astCaliDoc docNode = null;
 	
 	public void setPrimType(cType PrimType) {
 		this.primativeType = PrimType;

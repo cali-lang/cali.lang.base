@@ -556,6 +556,7 @@ class interpreterTests : test {
 		// resource loading tests
 		this
 			.add("(lang resource include) Include inctest object.", ::resNewInctest)
+			.add("(lang class calidoc) Get class calidoc.", ::langClassCalidoc)
 		;
 	}
 	
@@ -1106,4 +1107,8 @@ class interpreterTests : test {
 	 * resource loading tests
 	 *********************************************************************/
 	public resNewInctest() { tobj = new inctest(); return this.expect(tobj instanceof 'inctest', true); }
+	public langClassCalidoc() {
+	    tobj = lang.getClassCalidoc("user");
+	    return this.expect(tobj.className == "user", true);
+	}
 }

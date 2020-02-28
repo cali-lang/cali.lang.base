@@ -357,6 +357,7 @@ extern class buffer : com.cali.stdlib.CBuffer {
  */
 static extern class lang : com.cali.stdlib.CLang {
 	public extern type(DataType);
+	public extern getClassCalidoc(string ClassName);
 }
 
 	    

@@ -36,6 +36,8 @@ import com.cali.types.CaliObject;
 import com.cali.types.CaliString;
 import com.cali.types.CaliType;
 import com.cali.types.Members;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class astClass extends astNode implements astNodeInt {
 	// Has the class init ran yet? Init does things like link to 
@@ -483,5 +485,52 @@ public class astClass extends astNode implements astNodeInt {
 		}
 		// Actually set the name.
 		super.setName(Name);
+	}
+
+	public CaliType getCalidoc() {
+		// Class object
+		CaliMap ret = new CaliMap();
+		ret.put("type", new CaliString("class"));
+		ret.put("className", new CaliString(this.getName()));
+		ret.put("fileName", new CaliString(this.getFileName()));
+		ret.put("lineNumber", new CaliInt(this.getLineNum()));
+		ret.put("colNumber", new CaliInt(this.getColNum()));
+		ret.put("isStatic", new CaliBool(this.isStatic));
+		ret.put("isExtern", new CaliBool(this.isExtern));
+		ret.put("externClassName", new CaliString(this.externClassName));
+		CaliList extClasses = new CaliList();
+		for (String str : this.extendedClasses) {
+			extClasses.add(new CaliString(str));
+		}
+		ret.put("extendedClasses", extClasses);
+
+		if (this.docNode != null) {
+			ret.put("caliDoc", this.docNode.getCalidoc());
+		}
+
+		// Members
+		CaliList mlist = new CaliList();
+		for (String memberName : this.membList) {
+			astNode mbr = this.membDefs.get(memberName);
+			CaliMap mm = new CaliMap();
+			mm.put("name", new CaliString(memberName));
+			if (mbr.docNode == null) {
+				mm.put("value", new CaliNull());
+			} else {
+				mm.put("value", mbr.docNode.getCalidoc());
+			}
+			mlist.add(mm);
+		}
+		ret.put("members", mlist);
+
+		// Functions
+		CaliList flist = new CaliList();
+		for (String functName : this.functList) {
+			astFunctDef fun = (astFunctDef)this.functDefs.get(functName);
+			flist.add(fun.getCalidoc());
+		}
+		ret.put("functions", flist);
+
+		return ret;
 	}
 }

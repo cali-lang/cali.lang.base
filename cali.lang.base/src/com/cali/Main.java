@@ -33,7 +33,7 @@ public class Main {
 			System.out.println("\nError, incorrect number of arguments. Expecting script file name.");
 		} else {
 			// Create a new Cali engine.
-			Engine eng = new Engine();
+			Engine eng = new Engine(new DefaultSecurityManagerImpl());
 			
 			// Sets debug output to true.
 			// eng.setDebug(true);

@@ -18,11 +18,11 @@ package com.cali.stdlib;
 
 import java.util.ArrayList;
 
+import com.cali.Engine;
 import com.cali.Environment;
-import com.cali.types.CaliObject;
-import com.cali.types.CaliString;
-import com.cali.types.CaliType;
-import com.cali.types.cType;
+import com.cali.Universe;
+import com.cali.ast.astClass;
+import com.cali.types.*;
 
 public class CLang {
 	public static CaliType type(Environment env, ArrayList<CaliType> args) {
@@ -32,5 +32,15 @@ public class CLang {
 		} else {
 			return new CaliString(args.get(0).getType().name().toLowerCase().substring(1));
 		}
+	}
+
+	public static CaliType getClassCalidoc(Environment env, ArrayList<CaliType> args) {
+		if ((Boolean)env.getEngine().getSecurityManager().getProperty("calidoc.class.getJson")) {
+			String className = ((CaliString)args.get(0)).getValue();
+			Engine eng = env.getEngine();
+			astClass cls = eng.getClassByName(className);
+			return cls.getCalidoc();
+		}
+		return new CaliNull();
 	}
 }
