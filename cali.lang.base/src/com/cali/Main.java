@@ -59,6 +59,9 @@ public class Main {
 				if (line.getArgList().size() == 1) {
 					String caliFile = line.getArgList().get(0);
 					console.get().info("Now to generate doc for file '" + caliFile + "'.");
+					String outFile = caliFile + ".md";
+					Util.write(outFile, getCalidocMarkdown(caliFile), false);
+					console.get().info("Wrote doc to '" + outFile + "'.");
 				} else if (line.getArgList().size() > 1) {
 					console.get().err("Too many arguments provided, expecting just one script file or none at all.\n");
 					printHelp(options);
@@ -102,6 +105,23 @@ public class Main {
 
 		// Attempt to run the code.
 		eng.run();
+	}
+
+	public static String getCalidocMarkdown(String ScriptFile) throws Exception {
+		// Create a new Cali engine.
+		Engine eng = new Engine(new DefaultSecurityManagerImpl());
+
+		// Sets debug output to true.
+		// eng.setDebug(true);
+
+		// Add resource include path for testing.
+		eng.addResourceIncludePath("/com/cali/stdlib/ca/");
+
+		// Parse the provided file name.
+		eng.parseFile(ScriptFile);
+
+		// Build the doc and return it.
+		return Doc.getCalidocMarkdown(eng, ScriptFile);
 	}
 
 	public static void printHelp(Options options) {

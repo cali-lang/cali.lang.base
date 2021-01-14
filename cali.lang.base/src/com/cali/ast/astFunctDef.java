@@ -356,7 +356,7 @@ public class astFunctDef extends astNode implements astNodeInt {
 						am.put("value", new CaliBool(((astBool) arg).getValueBool()));
 					} else if (targ.getType() == astNodeType.INT) {
 						am.put("value", new CaliInt(((astInt) arg).getValueInt()));
-					} else if (targ.getType() == astNodeType.STRING) {
+					} else if (targ.getType() == astNodeType.DOUBLE) {
 						am.put("value", new CaliDouble(((astDouble) arg).getValueDouble()));
 					} else if (targ.getType() == astNodeType.NULL) {
 						am.put("value", new CaliNull());

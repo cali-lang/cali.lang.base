@@ -560,7 +560,8 @@ class interpreterTests : test {
 		;
 	}
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * Local variable assignments.
 	 *********************************************************************/
 	public assignLocalNull() { var = null; return this.expectNull(var); }
@@ -571,7 +572,8 @@ class interpreterTests : test {
 	public assignLocalList() { var = []; return this.expectList(var); }
 	public assignLocalMap() { var = {}; return this.expectMap(var); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * Member variable assignments.
 	 *********************************************************************/
 	public assignMemberNull() { this.member = null; return this.expectNull(this.member); }
@@ -582,7 +584,8 @@ class interpreterTests : test {
 	public assignMemberList() { this.member = []; return this.expectList(this.member); }
 	public assignMemberMap() { this.member = {}; return this.expectMap(this.member); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * Member variable definitions.
 	 *********************************************************************/
 	public defineMemberBlank() { return this.expectNull(this.mem); }
@@ -596,9 +599,10 @@ class interpreterTests : test {
 	public defineMemberListNested() { return this.expect(this.memNestedList[2]['two'], 2); }
 	public defineMemberMapNested() { return this.expect(this.memNestedMap['three'][2], 2); }
 	 
-	 /**********************************************************************
-	 * Basic operator tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * Basic operator tests
+	  *********************************************************************/
 	 // Numeric +
 	 public operBoolPlusBool() { var = true + true; return this.expect(var, 2); }
 	 public operBoolPlusInt() { var = true + 5; return this.expect(var, 6); }
@@ -665,9 +669,10 @@ class interpreterTests : test {
 	 public operMemberListCount() { return this.expect(#this.memList, 3); }
 	 public operMemberMapCount() { return this.expect(#this.memMap, 3); }
 	 
-	 /**********************************************************************
-	 * List operations.
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * List operations.
+	  *********************************************************************/
 	 public listLocalAppendNull() { tmp = []; tmp @= null; return this.expectNull(tmp[0]); }
 	 public listLocalAppendBool() { tmp = []; tmp @= true; return this.expect(tmp[0], true); }
 	 public listLocalAppendInt() { tmp = []; tmp @= 32; return this.expect(tmp[0], 32); }
@@ -691,9 +696,10 @@ class interpreterTests : test {
 	 	return this.expect(lst[ind], 'two');
 	 }
 	 
-	 /**********************************************************************
-	 * Map operations.
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * Map operations.
+	  *********************************************************************/
 	 public mapMemberSetString() { this.memMap['name'] = "Tyler"; return this.expect(this.memMap['name'], "Tyler"); }
 	 public mapMemberSetLocalVar() {
 	 	var = 'lname';
@@ -729,9 +735,10 @@ class interpreterTests : test {
 	 }
 	 
 	 
-	 /**********************************************************************
-	 * instanceof operator tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * instanceof operator tests
+	  *********************************************************************/
 	 public instanceOfNull() { tmp = null; return this.expect(tmp instanceof 'null', true); }
 	 public instanceOfBool() { tmp = true; return this.expect(tmp instanceof 'bool', true); }
 	 public instanceOfInt() { tmp = 32; return this.expect(tmp instanceof 'int', true); }
@@ -742,9 +749,10 @@ class interpreterTests : test {
 	 public instanceOfCallback() { tmp = ::instanceOfCallback; return this.expect(tmp instanceof 'callback', true); }
 	 public instanceOfObjectUser() { usr = new user(); usr.firstName = "Tyler"; usr.lastName = "Durden"; return this.expect(usr instanceof 'user', true); }
 	 
-	 /**********************************************************************
-	 * object operations tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * object operations tests
+	  *********************************************************************/
 	 public objectInstantiateLocal() { me = new user(); me.setName("Tyler", "Durden"); return this.expect(me.getName(), "Tyler Durden"); }
 	 public objectInstantiateMember() { this.memObj = new user(); this.memObj.setName("Tyler", "Durden"); return this.expect(this.memObj.getName(), "Tyler Durden"); }
 	 public objectLocalSetMember() { me = new user(); me.firstName = "Tyler"; return this.expect(me.getName(), "Tyler "); }
@@ -771,16 +779,18 @@ class interpreterTests : test {
 	 public objectMethAccessMemVarContPub() { ex = false; try { t = this.obj.c.pubMeth(); } catch(e) { ex = true; } return this.expect(ex, false); }
 	 public objectMethAccessMemVarContPri() { ex = false; try { t = this.obj.c.priMeth(); } catch(e) { ex = true; } return this.expect(ex, true); }
 	 
-	 /**********************************************************************
-	 * enum tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+      * enum tests
+      *********************************************************************/
 	 public enumReference() { return this.expect(numName.one, 'one'); }
 	 public enumAssignLocalReference() { tmp = numName.two; return this.expect(tmp, 'two'); }
 	 public enumAssignMemberReference() { this.en = numName.three; return this.expect(this.en, 'three'); }
 	 
-	 /**********************************************************************
-	 * if/else tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * if/else tests
+	  *********************************************************************/
 	 public ifElseIfReturnTrue() { return this.expect(this.ifElseReturnTrue(), true); }
 	 public ifElseElseReturnFalse() { return this.expect(this.ifElseReturnFalse(), false); }
 	 public ifElseReturnTrue() {
@@ -799,9 +809,10 @@ class interpreterTests : test {
 	 	return this.expect(res, true);
 	 }
 	 
-	 /**********************************************************************
-	 * lang tests
-	 *********************************************************************/
+	 /*
+	  **********************************************************************
+	  * lang tests
+	  *********************************************************************/
 	public langLangTypeNull() { return this.expect(lang.type(null), 'null'); }
 	public langLangTypeBool() { return this.expect(lang.type(true), 'bool'); }
 	public langLangTypeInt() { return this.expect(lang.type(32), 'int'); }
@@ -828,7 +839,8 @@ class interpreterTests : test {
 	public toCallWithEtcCnt(string one, ...) { return #etc; }
 	public toCallCheckMemb() { return lang.type(this.cb); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * int tests
 	 *********************************************************************/
 	public intMaxVal() { return this.expect(Int.maxVal(), 9223372036854775807); }
@@ -849,7 +861,8 @@ class interpreterTests : test {
 	public intToOctal() { return this.expect((32).toOctal(), '40'); }
 	public intToJson() { return this.expect((95678).toJson(), '95678'); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * bool tests
 	 *********************************************************************/
 	public boolToInt() { return this.expect((true).toInt(), 1); }
@@ -859,7 +872,8 @@ class interpreterTests : test {
 	public boolParse() { return this.expect(Bool.parse('true'), true); }
 	public boolToJson() { return this.expect((true).toJson(), 'true'); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * double tests
 	 *********************************************************************/
 	public doubleMaxExponent() { return this.expect(Double.maxExp(), 1023.0); }
@@ -881,7 +895,8 @@ class interpreterTests : test {
 	public doubleToHex() { return this.expect((3.1415).toHex(), '0x1.921cac083126fp1'); }
 	public doubleToJson() { return this.expect((3.1415).toJson(), '3.1415'); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * string tests
 	 *********************************************************************/
 	public stringCharAt() { return this.expect("Tyler".charAt(1), 'y'); }
@@ -910,7 +925,8 @@ class interpreterTests : test {
 	public stringTrim() { return this.expect(" Tyler ".trim(), "Tyler"); }
 	public stringToJson() { return this.expect("Tyler Durdon".toJson(), "\"Tyler Durdon\""); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * list tests
 	 *********************************************************************/
 	public listCreate() { this.tlist = new list(); return this.expectList(this.tlist); }
@@ -945,7 +961,8 @@ class interpreterTests : test {
 	public listClear() { this.tlist.clear(); return this.expect(#this.tlist, 0); }
 	public listToJson() { tmp = [ 1, 'dog', true ]; return this.expect(tmp.toJson(), """[1,"dog",true]"""); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * map tests
 	 *********************************************************************/
 	public mapCreate() { this.tmap = new map(); return this.expectMap(this.tmap); }
@@ -963,7 +980,8 @@ class interpreterTests : test {
 	public mapClear() { this.tmap.clear(); return this.expect(#this.tmap, 0); }
 	public mapToJson() { tmp = { name: "Tyler", age: 35 }; return this.expect(tmp.toJson(), """{"name":"Tyler","age":35}"""); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * object tests
 	 *********************************************************************/
 	public objectToJson() { 
@@ -981,7 +999,8 @@ class interpreterTests : test {
 		} catch (e) { c.err(e); }
 	}
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * json tests
 	 *********************************************************************/
 	public jsonParseString() {
@@ -1033,7 +1052,8 @@ class interpreterTests : test {
 	}
 	
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * buffer tests
 	 *********************************************************************/
 	public bufferInstantiate() { this.buff = new buffer(); return this.expectObject(this.buff, 'buffer'); }
@@ -1070,7 +1090,8 @@ class interpreterTests : test {
 	public bufferDoubleToBinary() { return this.expect(this.buff.doubleToBinary(26), '0100000011001000000111001000111111001101001101011010100001011000'); }
 	public bufferClear() { this.buff.clear(); return this.expect(this.buff.getByte(0), 0); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * date tests
 	 *********************************************************************/
 	public dateInstantiate() { this.dt = new date(); return this.expectObject(this.dt, 'date'); }
@@ -1083,7 +1104,8 @@ class interpreterTests : test {
 	public dateFormat() { return this.expect(this.dt.format("yyyy-MM-dd HH:mm:ss"), "2014-12-31 23:59:59"); }
 	public dateIsEpoch() { this.dt = new date(0); return this.expect(this.dt.isEpoch(), true); }
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * security manager tests
 	 *********************************************************************/
 	public secmanGetProp() { return this.expect(secman.getProp('os.info.view'), false); }
@@ -1103,7 +1125,8 @@ class interpreterTests : test {
 		return this.expect(sman.getProp('test.3') == 'some text here ...', true);
 	}
 	
-	/**********************************************************************
+	/*
+	 **********************************************************************
 	 * resource loading tests
 	 *********************************************************************/
 	public resNewInctest() { tobj = new inctest(); return this.expect(tobj instanceof 'inctest', true); }

@@ -2,16 +2,21 @@ package com.cali.ast.doc;
 
 /**
  * Annotations within the text document.
- * @tagName value description
  */
 public class docAnnotation extends docText {
-    // This is the annotation tag name after the '@' symbol.
+    /**
+     * This is the annotation tag name after the '@' symbol.
+     */
     private String tagName = "";
 
-    // The value part after the tag name.
+    /**
+     * The value part after the tag name.
+     */
     private String value = "";
 
-    // The description is any text after the value.
+    /**
+     * The description is any text after the value.
+     */
     private String description = "";
 
     public docAnnotation() {

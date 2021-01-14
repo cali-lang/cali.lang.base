@@ -23,19 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.cali.ast.astClass;
-import com.cali.ast.astFunctDef;
-import com.cali.ast.astNode;
-import com.cali.ast.caliException;
+import com.cali.ast.*;
 import com.cali.stdlib.Lang;
 import com.cali.stdlib.console;
-import com.cali.types.CaliException;
-import com.cali.types.CaliList;
-import com.cali.types.CaliNull;
-import com.cali.types.CaliObject;
-import com.cali.types.CaliType;
-import com.cali.types.CaliTypeInt;
-import com.cali.types.Members;
+import com.cali.types.*;
 
 /**
  * Engine object represents a Cali interpreter instance. Then engine handles 

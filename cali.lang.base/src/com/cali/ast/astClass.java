@@ -529,7 +529,7 @@ public class astClass extends astNode implements astNodeInt {
 			astFunctDef fun = (astFunctDef)this.functDefs.get(functName);
 			flist.add(fun.getCalidoc());
 		}
-		ret.put("functions", flist);
+		ret.put("methods", flist);
 
 		return ret;
 	}
